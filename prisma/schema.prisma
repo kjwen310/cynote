@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -19,36 +19,117 @@ enum ROLE {
   MEMBER
 }
 
-model User {
-  id           String         @id @unique
-  name         String?
-  email        String         @unique
-  image        String?
-  collaborator Collaborator[]
-  workspace    Workspace[]
+enum LOG_ACTION {
+  CREATE
+  UPDATE
+  DELETE
 }
 
-model Collaborator {
-  id           String    @id @unique
-  displayName  String?
-  displayImage String?
-  role         ROLE
-  userId       String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  workspaceId  String
-  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+enum LOG_TYPE {
+  NOTE
+  TASKCARD
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String?
+  avatarImg     String?
+  isDark        Boolean        @default(false)
+  collaborators Collaborator[]
 }
 
 model Workspace {
-  id          String         @id @unique
+  id          String @id @default(uuid())
   title       String
   description String
-  image       String?
-  ownerId     String
-  owner       User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  member      Collaborator[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  image       String
+
+  collaborators Collaborator[]
+  taskBoards TaskBoard[]
+  notes         Note[]
+  historyLogs   HistoryLog[]
+}
+
+model Collaborator {
+  id                  String     @id @default(uuid())
+  displayName         String
+  displayImage        String
+  role                ROLE       @default(MEMBER)
+  createdByTaskCards  TaskCard[] @relation("CreatedByTaskCards")
+  assignedToTaskCards TaskCard[] @relation("AssignedToTaskCards")
+
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspaceId String
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  notes       Note[]
+  historyLogs HistoryLog[]
+}
+
+model TaskBoard {
+  id        String   @id @default(uuid())
+  title String
+  imageId String
+  imageSmUrl  String
+  imageLgUrl String
+
+  workspaceId String
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  taskLists     TaskList[]
+}
+
+model TaskList {
+  id        String   @id @default(uuid())
+  title     String
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  taskBoardId String
+  taskBoard   TaskBoard  @relation(fields: [taskBoardId], references: [id], onDelete: Cascade)
+  taskCards   TaskCard[]
+}
+
+model TaskCard {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  order       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  taskListId   String
+  taskList     TaskList     @relation(fields: [taskListId], references: [id], onDelete: Cascade)
+  createdById  String
+  createdBy    Collaborator @relation("CreatedByTaskCards", fields: [createdById], references: [id], onDelete: Cascade)
+  assignedToId String
+  assignedTo   Collaborator @relation("AssignedToTaskCards", fields: [assignedToId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workspaceId String
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      Collaborator @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model HistoryLog {
+  id        String     @id @default(uuid())
+  title     String
+  action    LOG_ACTION
+  type      LOG_TYPE
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  workspaceId    String
+  workspace      Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  collaboratorId String
+  collaborator   Collaborator @relation(fields: [collaboratorId], references: [id], onDelete: Cascade)
 }
