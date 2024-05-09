@@ -58,8 +58,8 @@ export default function SignInPage() {
     }
   }
 
-  const goRegister = () => {
-    router.push('/register')
+  const goSignUp = () => {
+    router.push('/sign-up')
   };
 
   const signInWithGoogle = async () => {
@@ -83,7 +83,7 @@ export default function SignInPage() {
   }
 
   return (
-    <div className='space-y-4 mx-auto max-w-lg'>
+    <div className='flex-1 space-y-4 mx-auto max-w-lg'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -121,7 +121,7 @@ export default function SignInPage() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="px-2 text-muted-foreground">
             或以第三方登入
           </span>
         </div>
@@ -155,7 +155,7 @@ export default function SignInPage() {
           <div className="flex flex-row justify-center items-center gap-2">
             <div>第一次造訪 Cynote？</div>
             <div
-              onClick={goRegister}
+              onClick={goSignUp}
               className="text-neutral-500 cursor-pointer underline"
             >
               註冊您的帳號

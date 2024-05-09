@@ -27,7 +27,7 @@ const formSchema = z.object({
   password: z.string().min(1, { message: "密碼必填" }),
 })
 
-export default function RegisterPage() {
+export default function SignUpPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +82,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className='space-y-4 mx-auto max-w-lg'>
+    <div className='flex-1 space-y-4 mx-auto max-w-lg'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -125,7 +125,7 @@ export default function RegisterPage() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="px-2 text-muted-foreground">
             或以第三方註冊
           </span>
         </div>

@@ -1,15 +1,15 @@
 import { Footer } from "./_components/footer";
 import { Navbar } from "./_components/navbar";
 
-const MarketingLayout = ({
+const LandingLayout = ({
   children
 }: {
   children: React.ReactNode;
 }) => {
   return (
-    <div>
+    <div className="h-screen bg-slate-200">
       <Navbar />
-      <main>
+      <main className="pt-40 pb-40 bg-slate-200">
         {children}
       </main>
       <Footer />
@@ -17,4 +17,4 @@ const MarketingLayout = ({
   );
 };
 
-export default MarketingLayout;
+export default LandingLayout;

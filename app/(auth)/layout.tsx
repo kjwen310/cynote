@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from'@/actions/auth';
+import { Navbar } from "./_components/navbar";
 
 export default async function AuthLayout({
   children
@@ -10,12 +11,15 @@ export default async function AuthLayout({
   
 
   if (data?.user) {
-    redirect('/');
+    redirect('/workspace');
   }
 
   return (
-    <>
-      {children}
-    </>
+    <div className=" bg-slate-200">
+      <Navbar />
+      <main className="flex justify-center items-center w-full h-screen">
+        {children}
+      </main>
+    </div>
   );
 };

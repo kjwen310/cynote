@@ -12,7 +12,6 @@ export async function signUpWithEmailAndPassword(data: {
     email: data.email,
     password: data.password,
   });
-  console.log('eieieie', result);
   return JSON.stringify(result);
 }
 
