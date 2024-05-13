@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from'@/actions/auth';
 import { db } from '@/lib/db';
 import { Navbar } from "./_components/navbar";
+import { Sidebar } from './_components/sidebar';
 
 export default async function PlatformLayout({
   children
@@ -38,7 +39,7 @@ export default async function PlatformLayout({
       <main className="max-w-6xl mx-auto px-4 pt-20 md:pt-24 xl:max-w-screen-xl">
         <div className="flex gap-x-7">
           <div className="hidden shrink-0 w-64 md:block">
-
+            <Sidebar />
           </div>
           {children}
         </div>
