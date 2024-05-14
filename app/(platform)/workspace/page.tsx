@@ -1,19 +1,11 @@
-import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { CreateWorkspace } from '../_components/create-workspace';
 
 export default function WorkspacePage() {
   return (
-    <div className="w-full flex justify-center items-center">
-      {/* if there is workspace, show welcome UI */}
-      {/* <span>
-        Welcome!
-      </span> */}
-      {/* if there's no workspace, show create button */}
-      <Button
-        size="lg"
-        className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
-      >
-        Create Your Workspace
-      </Button>
+    <div className="w-full flex flex-col justify-center items-center gap-6">
+      <Image src="/explore.svg" height={600} width={600} alt="Explore" />
+      <CreateWorkspace />
     </div>
   );
 }

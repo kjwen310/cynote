@@ -9,8 +9,15 @@ import { useMbSidebar } from '@/hooks/use-mb-sidebar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Sidebar } from './sidebar';
+import { Workspace } from '@prisma/client';
 
-export const MobileSidebar = () => {
+interface MobileSidebarProps {
+  workspaces: Workspace[];
+}
+
+export const MobileSidebar = ({
+  workspaces
+}: MobileSidebarProps) => {
   const isOpen = useMbSidebar((state) => state.isOpen);
   const onOpen = useMbSidebar((state) => state.onOpen);
   const onClose = useMbSidebar((state) => state.onClose);
@@ -39,7 +46,7 @@ export const MobileSidebar = () => {
       </Button>
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent side="left" className="p-2 pt-10">
-          <Sidebar storageKey="cy-sidebar-mb" />
+          <Sidebar storageKey="cy-sidebar-mb" workspaces={workspaces} />
         </SheetContent>
       </Sheet>
     </>

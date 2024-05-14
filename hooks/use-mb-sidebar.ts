@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type MbSidebarStore = {
+interface MbSidebarStore {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;

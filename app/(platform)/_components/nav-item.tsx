@@ -1,5 +1,6 @@
 'use client';
 
+import { Workspace } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { CreditCard, Activity, Layout, Settings } from 'lucide-react';
 import Image from 'next/image';
@@ -10,13 +11,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-
-export type Workspace = {
-  id: string;
-  slug: string;
-  imageUrl: string;
-  name: string;
-};
 
 interface NavItemProps {
   isActive: boolean;
@@ -73,11 +67,11 @@ export const NavItem = ({
           <div className="w-7 h-7 relative">
             <Image
               fill
-              src={workspace.imageUrl}
+              src={workspace.image}
               alt="workspace"
               className="rounded-sm object-cover"
             />
-            <span className="font-medium text-sm">{workspace.name}</span>
+            <span className="font-medium text-sm">{workspace.title}</span>
           </div>
         </div>
       </AccordionTrigger>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Workspace } from '@prisma/client';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -11,9 +12,10 @@ import { NavItem } from './nav-item';
 
 interface SidebarProps {
   storageKey?: string;
+  workspaces: Workspace[];
 }
 
-export const Sidebar = ({ storageKey = 'cy-sidebar' }: SidebarProps) => {
+export const Sidebar = ({ storageKey = 'cy-sidebar', workspaces }: SidebarProps) => {
     const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(storageKey, {});
 
     const defaultAccordionValue: string[] = Object.keys(expanded).reduce((acc: string[], curr: string) => {
@@ -28,12 +30,6 @@ export const Sidebar = ({ storageKey = 'cy-sidebar' }: SidebarProps) => {
       }));
     }
 
-    const workspaceList = [
-      { id: '111', slug: 'sdfsfgdfg', imageUrl: '/sss', name: 'test' },
-      { id: '222', slug: 'sdffadffg', imageUrl: '/sss', name: 'test2' },
-      { id: '333', slug: 'sdfsfgdmm', imageUrl: '/sss', name: 'test3' },
-    ];
-
   return (
     <>
       <div className="flex items-center text-xs font-medium mb-1">
@@ -47,7 +43,7 @@ export const Sidebar = ({ storageKey = 'cy-sidebar' }: SidebarProps) => {
         </Button>
       </div>
       <Accordion type="multiple" defaultValue={defaultAccordionValue} className="space-y-2">
-        {workspaceList.map((workspace) => (
+        {workspaces.map((workspace) => (
             <NavItem
               key={workspace.id}
               isActive={true}
