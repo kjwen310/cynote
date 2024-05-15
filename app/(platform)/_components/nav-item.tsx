@@ -2,7 +2,7 @@
 
 import { Workspace } from '@prisma/client';
 import { cn } from '@/lib/utils';
-import { CreditCard, Activity, Layout, Settings } from 'lucide-react';
+import { CreditCard, Activity, Layout, Settings, Smile } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import {
@@ -64,15 +64,12 @@ export const NavItem = ({
         )}
       >
         <div className="flex items-center gap-x-2">
-          <div className="w-7 h-7 relative">
-            <Image
-              fill
-              src={workspace.image}
-              alt="workspace"
-              className="rounded-sm object-cover"
-            />
-            <span className="font-medium text-sm">{workspace.title}</span>
-          </div>
+          {workspace.image ? (
+            <p className="w-4 h-4">{workspace.image}</p>
+          ) : (
+            <Smile className="w-4 h-4" />
+          )}
+          <p className="font-medium text-sm">{workspace.title}</p>
         </div>
       </AccordionTrigger>
       <AccordionContent className="text-neutral-700 pt-1">

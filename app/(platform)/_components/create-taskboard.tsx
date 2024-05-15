@@ -3,15 +3,14 @@
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { Smile } from 'lucide-react';
-import { createWorkspace } from '@/actions/workspace';
+import { useRouter, useParams } from 'next/navigation';
+import { createTaskBoard } from '@/actions/task';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '../_components/dialog-modal';
-import { IconPicker } from './icon-picker';
+import { DialogModal } from './dialog-modal';
+import { ImagePicker } from './image-picker';
 
 import {
   Form,
@@ -24,34 +23,37 @@ import {
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  image: z.string(),
+  image: z.string().min(1, { message: 'Image is required' }),
 });
 
-export const CreateWorkspace = () => {
+export const CreateTaskBoard = () => {
   const isOpen = useModal((state) => state.isOpen);
   const onOpen = useModal((state) => state.onOpen);
   const onClose = useModal((state) => state.onClose);
 
   const router = useRouter();
+  const params = useParams();
   const { toast } = useToast();
+
+  const { workspaceId } = params;
 
   const form = useForm<FieldValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      description: '',
       image: '',
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const result = await createWorkspace(data as any);
 
-    const workspaceId = JSON.parse(result);
+    const result = await createTaskBoard({...data, workspaceId } as any);
+
+    const taskBoardId = JSON.parse(result);
     onClose();
+    console.log(JSON.parse(result))
 
-    if (!workspaceId) {
+    if (!taskBoardId) {
       toast({
         title: 'ERROR',
         description: 'Something went wrong',
@@ -59,15 +61,28 @@ export const CreateWorkspace = () => {
     } else {
       toast({
         title: 'SUCCESS',
-        description: 'Successfully Create workspace',
+        description: 'Successfully Create task board',
       });
-      router.push(`/workspace/${workspaceId}`);
+
+      router.push(`/workspace/${workspaceId}/task-board/${taskBoardId}`);
     }
   };
 
   const modalBody = (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImagePicker id="image" onChange={field.onChange} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="title"
@@ -76,40 +91,6 @@ export const CreateWorkspace = () => {
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input placeholder="Please fill title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="Please fill description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <IconPicker onChange={field.onChange} asChild>
-                  <Button type="button" variant="outline">
-                    {field.value ? (
-                      <p className="w-4 h-4 mr-2">{field.value}</p>
-                    ) : (
-                      <Smile className="w-4 h-4 mr-2" />
-                    )}
-                    Pick Icon
-                  </Button>
-                </IconPicker>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,12 +107,12 @@ export const CreateWorkspace = () => {
   );
   return (
     <>
-      <Button variant="outline" onClick={onOpen}>
-        Create Your Workspace
-      </Button>
+      <p onClick={onOpen} className="text-sm">
+        Create New Board
+      </p>
       <DialogModal
-        title="Create Workspace"
-        description="Fill the title and description"
+        title="Create TaskBoard"
+        description="Choose cover image and set title"
         body={modalBody}
         isOpen={isOpen}
         onClose={onClose}

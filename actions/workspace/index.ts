@@ -7,6 +7,7 @@ import { getCurrentUser } from '@/actions/auth';
 export async function createWorkspace(data: {
   title: string;
   description: string;
+  image?: string;
 }) {
   const { data: userData } = await getCurrentUser();
   const authUser = userData?.user || null;
@@ -29,7 +30,7 @@ export async function createWorkspace(data: {
     data: {
       title: data.title,
       description: data.description,
-      image: '',
+      image: data.image || '',
     },
   });
 
