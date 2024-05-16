@@ -60,15 +60,87 @@ export async function fetchAllTaskBoards(data: { workspaceId: string }) {
 
   if (!workspaceId) {
     return JSON.stringify({
-      error: 'FETCH_TASK_BOARD_ERROR',
+      error: 'FETCH_TASK_BOARDS_ERROR',
     });
   }
 
   const taskBoardList = await db.taskBoard.findMany({
     where: {
-        workspaceId,
+      workspaceId,
     },
   });
 
   return JSON.stringify(taskBoardList);
+}
+
+export async function fetchBoard(data: { boardId: string }) {
+  const { boardId } = data;
+
+  if (!boardId) {
+    return JSON.stringify({
+      error: 'FETCH_TASK_BOARD_ERROR',
+    });
+  }
+
+  const taskBoard = await db.taskBoard.findUnique({
+    where: {
+      id: boardId,
+    },
+    include: {
+      taskLists: {
+        orderBy: {
+          order: 'asc',
+        },
+        include: {
+          taskCards: {
+            orderBy: {
+              order: 'asc',
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return JSON.stringify(taskBoard);
+}
+
+export async function createTaskList(data: { title: string; boardId: string }) {
+  const { title, boardId } = data;
+
+  const board = db.taskBoard.findUnique({
+    where: {
+      id: boardId,
+    },
+  });
+
+  if (!board) {
+    return JSON.stringify({
+      error: 'CREATE_TASK_LIST_ERROR',
+    });
+  }
+
+  const lastTaskList = await db.taskList.findFirst({
+    where: {
+      taskBoardId: boardId,
+    },
+    orderBy: {
+      order: 'desc',
+    },
+    select: {
+      order: true,
+    },
+  });
+
+  const newOrder = lastTaskList ? lastTaskList.order + 1 : 1;
+
+  const taskList = await db.taskList.create({
+    data: {
+      title,
+      taskBoardId: boardId,
+      order: newOrder,
+    },
+  });
+
+  return JSON.stringify(taskList);
 }
