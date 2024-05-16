@@ -108,7 +108,7 @@ export const CreateTaskBoard = () => {
   return (
     <>
       <p onClick={onOpen} className="text-sm">
-        Create New Board
+        Create Board
       </p>
       <DialogModal
         title="Create TaskBoard"

@@ -13,23 +13,19 @@ export async function createTaskBoard(data: {
     },
   });
 
-  console.log("test", data);
+  console.log('test', data);
 
   if (!workspace) {
     return JSON.stringify({
-        error: "ERROR_CREATE_TASK_BOARD: workspace not found"
+      error: 'ERROR_CREATE_TASK_BOARD: workspace not found',
     });
   }
 
-  const [
-    imageId,
-    imageSmUrl,
-    imageLgUrl
-  ] = data.image.split("|");
+  const [imageId, imageSmUrl, imageLgUrl] = data.image.split('|');
 
   if (!imageId || !imageSmUrl || !imageLgUrl) {
     return JSON.stringify({
-        error: `ERROR_CREATE_TASK_BOARD: image infos error, ${data.image}`
+      error: `ERROR_CREATE_TASK_BOARD: image infos error, ${data.image}`,
     });
   }
 
@@ -57,4 +53,22 @@ export async function createTaskBoard(data: {
   });
 
   return JSON.stringify(taskBoard.id);
+}
+
+export async function fetchAllTaskBoards(data: { workspaceId: string }) {
+  const { workspaceId } = data;
+
+  if (!workspaceId) {
+    return JSON.stringify({
+      error: 'FETCH_TASK_BOARD_ERROR',
+    });
+  }
+
+  const taskBoardList = await db.taskBoard.findMany({
+    where: {
+        workspaceId,
+    },
+  });
+
+  return JSON.stringify(taskBoardList);
 }
