@@ -1,6 +1,8 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
+import { getCurrentUser } from '@/actions/auth';
 
 export async function createTaskBoard(data: {
   workspaceId: string;
@@ -143,4 +145,116 @@ export async function createTaskList(data: { title: string; boardId: string }) {
   });
 
   return JSON.stringify(taskList);
+}
+
+export async function updateTaskList(data: {
+  title: string;
+  boardId: string;
+  taskListId: string;
+}) {
+  const { title, boardId, taskListId } = data;
+
+  const board = db.taskBoard.findUnique({
+    where: {
+      id: boardId,
+    },
+  });
+
+  if (!board) {
+    return JSON.stringify({
+      error: 'UPDATE_TASK_LIST_ERROR',
+    });
+  }
+
+  const taskList = await db.taskList.update({
+    where: {
+      id: taskListId,
+    },
+    data: {
+      title,
+    },
+  });
+
+  return JSON.stringify(taskList);
+}
+
+export async function deleteTaskList(data: {
+  taskListId: string;
+}) {
+  const { taskListId } = data;
+
+  const taskList = await db.taskList.delete({
+    where: {
+      id: taskListId,
+    },
+  });
+
+  return JSON.stringify(taskList);
+}
+
+export async function createTaskCard(data: {
+  title: string;
+  description?: string;
+  workspaceId: string;
+  listId: string;
+}) {
+
+  const { title, listId, workspaceId } = data;
+
+  const { data: userData } = await getCurrentUser();
+  const authUser = userData?.user || null;
+
+  if (!authUser || !authUser.email) {
+    redirect('/sign-in');
+  }
+
+  const user = await db.user.findUnique({
+    where: {
+      id: authUser.id,
+    },
+  });
+
+  if (!user) {
+    redirect('/sign-in');
+  }
+
+  const collaborators = await db.collaborator.findMany({
+    where: {
+      userId: user.id,
+      workspaceId,
+    }
+  });
+
+  if (!collaborators || collaborators.length > 1) {
+    return JSON.stringify({
+      error: 'CREATE_TASK_CARD_ERROR:collaborator error',
+    });
+  }
+
+  const lastTaskCard = await db.taskCard.findFirst({
+    where: {
+      taskListId: listId,
+    },
+    orderBy: {
+      order: 'desc',
+    },
+    select: {
+      order: true,
+    },
+  });
+
+  const newOrder = lastTaskCard ? lastTaskCard.order + 1 : 1;
+
+  const taskCard = await db.taskCard.create({
+    data: {
+      title,
+      description: "",
+      taskListId: listId,
+      order: newOrder,
+      createdById: collaborators[0].id,
+      assignedToId: collaborators[0].id,
+    }
+  });
+
+  return JSON.stringify(taskCard);
 }
