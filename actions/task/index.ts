@@ -2,7 +2,9 @@
 
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
+import { TaskCard, TaskList } from '@prisma/client';
 import { getCurrentUser } from '@/actions/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function createTaskBoard(data: {
   workspaceId: string;
@@ -178,9 +180,7 @@ export async function updateTaskList(data: {
   return JSON.stringify(taskList);
 }
 
-export async function deleteTaskList(data: {
-  taskListId: string;
-}) {
+export async function deleteTaskList(data: { taskListId: string }) {
   const { taskListId } = data;
 
   const taskList = await db.taskList.delete({
@@ -198,7 +198,6 @@ export async function createTaskCard(data: {
   workspaceId: string;
   listId: string;
 }) {
-
   const { title, listId, workspaceId } = data;
 
   const { data: userData } = await getCurrentUser();
@@ -222,7 +221,7 @@ export async function createTaskCard(data: {
     where: {
       userId: user.id,
       workspaceId,
-    }
+    },
   });
 
   if (!collaborators || collaborators.length > 1) {
@@ -248,13 +247,64 @@ export async function createTaskCard(data: {
   const taskCard = await db.taskCard.create({
     data: {
       title,
-      description: "",
+      description: '',
       taskListId: listId,
       order: newOrder,
       createdById: collaborators[0].id,
       assignedToId: collaborators[0].id,
-    }
+    },
   });
 
   return JSON.stringify(taskCard);
+}
+
+export async function updateTaskListOrder(data: {
+  items: TaskList[];
+  boardId: string;
+  workspaceId: string;
+}) {
+  const { items, workspaceId } = data;
+  const transaction = items.map((list) =>
+    db.taskList.update({
+      where: {
+        id: list.id,
+        taskBoard: {
+          workspaceId,
+        },
+      },
+      data: {
+        order: list.order,
+      },
+    })
+  );
+
+  const lists = await db.$transaction(transaction);
+  return JSON.stringify(lists);
+}
+
+export async function updateTaskCardOrder(data: {
+  items: TaskCard[];
+  workspaceId: string;
+}) {
+  const { items, workspaceId } = data;
+  const transaction = items.map((card) =>
+    db.taskCard.update({
+      where: {
+        id: card.id,
+        taskList: {
+          taskBoard: {
+            workspaceId
+          }
+        }
+      },
+      data: {
+        order: card.order,
+        taskListId: card.taskListId,
+      }
+    })
+  );
+
+  const cards = await db.$transaction(transaction);
+
+  return JSON.stringify(cards);
 }
