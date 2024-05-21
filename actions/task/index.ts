@@ -308,3 +308,29 @@ export async function updateTaskCardOrder(data: {
 
   return JSON.stringify(cards);
 }
+
+export async function updateTaskCard(data: {
+  cardId: string;
+  workspaceId: string;
+  title: string;
+  description?: string;
+}) {
+  const { cardId, workspaceId, title, description } = data;
+
+  const card = await db.taskCard.update({
+    where: {
+      id: cardId,
+      taskList: {
+        taskBoard: {
+          workspaceId
+        }
+      }
+    },
+    data: {
+      title,
+      description,
+    }
+  });
+
+  return JSON.stringify(card);
+}
