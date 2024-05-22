@@ -46,7 +46,7 @@ model Workspace {
   image       String
 
   collaborators Collaborator[]
-  taskBoards TaskBoard[]
+  taskBoards    TaskBoard[]
   notes         Note[]
   historyLogs   HistoryLog[]
 }
@@ -68,15 +68,15 @@ model Collaborator {
 }
 
 model TaskBoard {
-  id        String   @id @default(uuid())
-  title String
-  imageId String
-  imageSmUrl  String
+  id         String @id @default(uuid())
+  title      String
+  imageId    String
+  imageSmUrl String
   imageLgUrl String
 
   workspaceId String
-  workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  taskLists     TaskList[]
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  taskLists   TaskList[]
 }
 
 model TaskList {
@@ -121,12 +121,15 @@ model Note {
 }
 
 model HistoryLog {
-  id        String     @id @default(uuid())
-  title     String
-  action    LOG_ACTION
-  type      LOG_TYPE
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id                String     @id @default(uuid())
+  targetId          String
+  title             String
+  action            LOG_ACTION
+  type              LOG_TYPE
+  collaboratorName  String
+  collaboratorImage String
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 
   workspaceId    String
   workspace      Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
