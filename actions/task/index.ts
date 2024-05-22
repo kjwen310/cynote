@@ -312,7 +312,7 @@ export async function updateTaskCardOrder(data: {
 export async function updateTaskCard(data: {
   cardId: string;
   workspaceId: string;
-  title: string;
+  title?: string;
   description?: string;
 }) {
   const { cardId, workspaceId, title, description } = data;
@@ -333,4 +333,81 @@ export async function updateTaskCard(data: {
   });
 
   return JSON.stringify(card);
+}
+
+export async function copyTaskCard(data: {
+  cardId: string;
+  workspaceId: string;
+}) {
+  const { cardId, workspaceId } = data;
+
+  const cardToCopy = await db.taskCard.findUnique({
+    where: {
+      id: cardId,
+      taskList: {
+        taskBoard: {
+          workspaceId,
+        }
+      }
+    },
+  });
+
+  if (!cardToCopy) {
+    return JSON.stringify({
+      error: 'COPY_TASK_CARD_ERROR:card not found',
+    });
+  }
+
+  const lastTaskCard = await db.taskCard.findFirst({
+    where: {
+      taskListId: cardToCopy.taskListId,
+    },
+    orderBy: {
+      order: 'desc',
+    },
+    select: {
+      order: true,
+    },
+  });
+
+  const newOrder = lastTaskCard ? lastTaskCard.order + 1 : 1;
+
+  const taskCard = await db.taskCard.create({
+    data: {
+      title: `${cardToCopy.title} - Copy`,
+      description: cardToCopy.description,
+      order: newOrder,
+      taskListId: cardToCopy.taskListId,
+      createdById: cardToCopy.createdById,
+      assignedToId: cardToCopy.assignedToId,
+    },
+  });
+
+  return JSON.stringify(taskCard);
+}
+
+export async function deleteTaskCard(data: {
+  cardId: string;
+  workspaceId: string;
+}) {
+  const { cardId, workspaceId } = data;
+
+  const cardToDelete = await db.taskCard.delete({
+    where: {
+      id: cardId,
+      taskList: {
+        taskBoard: {
+          workspaceId,
+        }
+      }
+    },
+  });
+
+  if (!cardToDelete) {
+    return JSON.stringify({
+      error: 'DELETE_TASK_CARD_ERROR:card not found',
+    });
+  }
+
+  return JSON.stringify(cardToDelete);
 }

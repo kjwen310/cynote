@@ -7,6 +7,8 @@ import { useCardModal } from '@/hooks/use-card-modal';
 import { TaskCardWithTaskList } from '@/types';
 import { fetcher } from '@/lib/fetcher';
 import { Header } from './header';
+import { Body } from './body';
+import { Action } from './action';
 
 export const CardModal = () => {
   const id = useCardModal((state) => state.id);
@@ -26,6 +28,14 @@ export const CardModal = () => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         {cardData ? <Header card={cardData} /> : <Header.Skeleton />}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+          <div className="col-span-3">
+            <div className="w-full space-y-6">
+              {cardData ? <Body card={cardData} /> : <Body.Skeleton />}
+            </div>
+          </div>
+          {cardData ? <Action card={cardData} /> : <Action.Skeleton />}
+        </div>
       </DialogContent>
     </Dialog>
   );
