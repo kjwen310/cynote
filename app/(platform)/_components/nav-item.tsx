@@ -36,17 +36,17 @@ export const NavItem = ({
     {
       label: 'Activity',
       icon: <Activity className="w-4 h-4 mr-2" />,
-      href: `workspace/${workspace.id}/activity`,
+      href: `/workspace/${workspace.id}/activity`,
     },
     {
       label: 'Settings',
       icon: <Settings className="w-4 h-4 mr-2" />,
-      href: `workspace/${workspace.id}/settings`,
+      href: `/workspace/${workspace.id}/settings`,
     },
     {
       label: 'Billing',
       icon: <CreditCard className="w-4 h-4 mr-2" />,
-      href: `workspace/${workspace.id}/billings`,
+      href: `/workspace/${workspace.id}/billings`,
     },
   ];
 
