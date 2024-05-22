@@ -27,7 +27,7 @@ enum LOG_ACTION {
 
 enum LOG_TYPE {
   NOTE
-  TASKCARD
+  TASK
 }
 
 model User {

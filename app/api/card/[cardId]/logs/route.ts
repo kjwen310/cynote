@@ -4,7 +4,7 @@ import { getCurrentUser } from '@/actions/auth';
 
 export async function GET(
   request: Request,
-  { params }: { params: { cardId: string, workspaceId: string } }
+  { params }: { params: { cardId: string; workspaceId: string } }
 ) {
   const { cardId, workspaceId } = params;
 
@@ -16,25 +16,19 @@ export async function GET(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const taskCard = await db.taskCard.findUnique({
+    const historyLogs = await db.historyLog.findMany({
       where: {
-        id: cardId,
-        taskList: {
-          taskBoard: {
-            workspaceId,
-          },
-        },
+        workspaceId,
+        targetId: cardId,
+        type: 'TASK',
       },
-      include: {
-        taskList: {
-          select: {
-            title: true,
-          }
-        }
-      }
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 3,
     });
 
-    return NextResponse.json(taskCard);
+    return NextResponse.json(historyLogs);
   } catch (error) {
     return new NextResponse('Internal Error', { status: 500 });
   }

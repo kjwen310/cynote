@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { deleteTaskList } from '@/actions/task';
+import { useParams } from 'next/navigation';
 
 interface ListOptionProps {
   list: TaskList;
@@ -17,6 +18,9 @@ interface ListOptionProps {
 }
 
 export const ListOption = ({ list, onAddTaskCard }: ListOptionProps) => {
+  const params = useParams();
+  const { workspaceId } = params;
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -45,7 +49,12 @@ export const ListOption = ({ list, onAddTaskCard }: ListOptionProps) => {
         <Button
           variant="ghost"
           className="w-full h-auto justify-start text-sm p-2 px-5 rounded-none"
-          onClick={() => deleteTaskList({ taskListId: list.id })}
+          onClick={() =>
+            deleteTaskList({
+              workspaceId: workspaceId as string,
+              taskListId: list.id,
+            })
+          }
         >
           Delete List...
         </Button>

@@ -43,6 +43,9 @@ export const Header = ({ card }: HeaderProps) => {
       queryClient.invalidateQueries({
         queryKey: ["card", card.id]
       });
+      queryClient.invalidateQueries({
+        queryKey: ["task-log", card.id]
+      });
       setTitle(title);
 
       toast({

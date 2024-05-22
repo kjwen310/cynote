@@ -34,7 +34,7 @@ export const CreateTaskList = () => {
   const formRef = useRef<ElementRef<'form'>>(null);
   const inputRef = useRef<ElementRef<'input'>>(null);
 
-  const { taskBoardId } = params;
+  const { workspaceId, taskBoardId } = params;
 
   const form = useForm<FieldValues>({
     resolver: zodResolver(formSchema),
@@ -63,6 +63,7 @@ export const CreateTaskList = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const result = await createTaskList({
       ...data,
+      workspaceId,
       boardId: taskBoardId,
     } as any);
 

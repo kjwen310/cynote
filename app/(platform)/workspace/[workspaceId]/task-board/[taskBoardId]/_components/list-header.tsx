@@ -39,7 +39,7 @@ export const ListHeader = ({ list, onAddCard }: ListHeaderProps) => {
   const formRef = useRef<ElementRef<'form'>>(null);
   const inputRef = useRef<ElementRef<'input'>>(null);
 
-  const { taskBoardId } = params;
+  const { workspaceId, taskBoardId } = params;
 
   const form = useForm<FieldValues>({
     resolver: zodResolver(formSchema),
@@ -73,6 +73,7 @@ export const ListHeader = ({ list, onAddCard }: ListHeaderProps) => {
 
     const result = await updateTaskList({
       ...data,
+      workspaceId,
       boardId: taskBoardId,
       taskListId: list.id,
     } as any);

@@ -67,6 +67,10 @@ export const Body = ({ card }: BodyProps) => {
         queryKey: ['card', card.id],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["task-log", card.id]
+      });
+
       toast({
         title: 'SUCCESS',
         description: 'Update description',

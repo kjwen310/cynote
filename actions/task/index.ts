@@ -4,20 +4,20 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { TaskCard, TaskList } from '@prisma/client';
 import { getCurrentUser } from '@/actions/auth';
-import { revalidatePath } from 'next/cache';
+import { createHistoryLog } from '@/lib/create-history-log';
 
 export async function createTaskBoard(data: {
   workspaceId: string;
   title: string;
   image: string;
 }) {
+  const { workspaceId, title, image } = data;
+
   const workspace = await db.workspace.findUnique({
     where: {
-      id: data.workspaceId,
+      id: workspaceId,
     },
   });
-
-  console.log('test', data);
 
   if (!workspace) {
     return JSON.stringify({
@@ -25,22 +25,30 @@ export async function createTaskBoard(data: {
     });
   }
 
-  const [imageId, imageSmUrl, imageLgUrl] = data.image.split('|');
+  const [imageId, imageSmUrl, imageLgUrl] = image.split('|');
 
   if (!imageId || !imageSmUrl || !imageLgUrl) {
     return JSON.stringify({
-      error: `ERROR_CREATE_TASK_BOARD: image infos error, ${data.image}`,
+      error: `ERROR_CREATE_TASK_BOARD: image infos error, ${image}`,
     });
   }
 
   const taskBoard = await db.taskBoard.create({
     data: {
-      workspaceId: workspace.id,
-      title: data.title,
+      workspaceId: workspaceId,
+      title: title,
       imageId,
       imageSmUrl,
       imageLgUrl,
     },
+  });
+
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskBoard.id,
+    title: taskBoard.title,
+    action: "CREATE",
+    type: "TASK",
   });
 
   await db.workspace.update({
@@ -109,8 +117,8 @@ export async function fetchBoard(data: { boardId: string }) {
   return JSON.stringify(taskBoard);
 }
 
-export async function createTaskList(data: { title: string; boardId: string }) {
-  const { title, boardId } = data;
+export async function createTaskList(data: { title: string; workspaceId: string; boardId: string }) {
+  const { title, workspaceId, boardId } = data;
 
   const board = db.taskBoard.findUnique({
     where: {
@@ -146,15 +154,24 @@ export async function createTaskList(data: { title: string; boardId: string }) {
     },
   });
 
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskList.id,
+    title: taskList.title,
+    action: "CREATE",
+    type: "TASK",
+  });
+
   return JSON.stringify(taskList);
 }
 
 export async function updateTaskList(data: {
   title: string;
+  workspaceId: string;
   boardId: string;
   taskListId: string;
 }) {
-  const { title, boardId, taskListId } = data;
+  const { title, workspaceId, boardId, taskListId } = data;
 
   const board = db.taskBoard.findUnique({
     where: {
@@ -177,16 +194,32 @@ export async function updateTaskList(data: {
     },
   });
 
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskList.id,
+    title: taskList.title,
+    action: "UPDATE",
+    type: "TASK",
+  });
+
   return JSON.stringify(taskList);
 }
 
-export async function deleteTaskList(data: { taskListId: string }) {
-  const { taskListId } = data;
+export async function deleteTaskList(data: { taskListId: string, workspaceId: string }) {
+  const { taskListId, workspaceId } = data;
 
   const taskList = await db.taskList.delete({
     where: {
       id: taskListId,
     },
+  });
+
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskList.id,
+    title: taskList.title,
+    action: "DELETE",
+    type: "TASK",
   });
 
   return JSON.stringify(taskList);
@@ -255,6 +288,14 @@ export async function createTaskCard(data: {
     },
   });
 
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskCard.id,
+    title: taskCard.title,
+    action: "CREATE",
+    type: "TASK",
+  });
+
   return JSON.stringify(taskCard);
 }
 
@@ -317,7 +358,7 @@ export async function updateTaskCard(data: {
 }) {
   const { cardId, workspaceId, title, description } = data;
 
-  const card = await db.taskCard.update({
+  const taskCard = await db.taskCard.update({
     where: {
       id: cardId,
       taskList: {
@@ -332,7 +373,15 @@ export async function updateTaskCard(data: {
     }
   });
 
-  return JSON.stringify(card);
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskCard.id,
+    title: taskCard.title,
+    action: "UPDATE",
+    type: "TASK",
+  });
+
+  return JSON.stringify(taskCard);
 }
 
 export async function copyTaskCard(data: {
@@ -383,6 +432,14 @@ export async function copyTaskCard(data: {
     },
   });
 
+  await createHistoryLog({
+    workspaceId,
+    targetId: taskCard.id,
+    title: taskCard.title,
+    action: "CREATE",
+    type: "TASK",
+  });
+
   return JSON.stringify(taskCard);
 }
 
@@ -408,6 +465,14 @@ export async function deleteTaskCard(data: {
       error: 'DELETE_TASK_CARD_ERROR:card not found',
     });
   }
+
+  await createHistoryLog({
+    workspaceId,
+    targetId: cardToDelete.id,
+    title: cardToDelete.title,
+    action: "DELETE",
+    type: "TASK",
+  });
 
   return JSON.stringify(cardToDelete);
 }
