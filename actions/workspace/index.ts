@@ -34,25 +34,20 @@ export async function createWorkspace(data: {
     },
   });
 
-  const collaborator = await db.collaborator.create({
-    data: {
-      displayName: user.name || '',
-      displayImage: user.avatarImg || '',
-      role: 'OWNER',
-      userId: user.id,
-      workspaceId: workspace.id,
-    },
-  });
-
   await db.workspace.update({
     where: {
       id: workspace.id,
     },
     data: {
       collaborators: {
-        connect: {
-          id: collaborator.id,
-        },
+        create: [
+          {
+            displayName: user.name || '',
+            displayImage: user.avatarImg || '',
+            role: 'OWNER',
+            userId: user.id,
+          },
+        ],
       },
     },
   });

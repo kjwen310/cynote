@@ -27,7 +27,7 @@ export const CardModal = () => {
   });
 
   const { data: historyData } = useQuery<HistoryLog[]>({
-    queryKey: ['task-logs', id],
+    queryKey: ['task-log', id],
     queryFn: () => fetcher(`/api/card/${id}/logs`),
   });
 

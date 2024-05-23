@@ -35,7 +35,6 @@ model User {
   email         String         @unique
   name          String?
   avatarImg     String?
-  isDark        Boolean        @default(false)
   collaborators Collaborator[]
 }
 
@@ -44,6 +43,7 @@ model Workspace {
   title       String
   description String
   image       String
+  inviteCode  String @default(uuid()) @unique
 
   collaborators Collaborator[]
   taskBoards    TaskBoard[]
