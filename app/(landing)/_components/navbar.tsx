@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export const Navbar = () => {
   return (
@@ -24,6 +25,7 @@ export const Navbar = () => {
               Get Cynote For Free
             </Link>
           </Button>
+          <ModeToggle />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { siteConfig } from '@/config/site';
@@ -32,9 +33,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>
-          <main>{children}</main>
-          <ModalProvider />
-          <Toaster />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey='cynote-theme'
+          >
+            <main>{children}</main>
+            <ModalProvider />
+            <Toaster />
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>
