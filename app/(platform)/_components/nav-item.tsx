@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { useInviteModal } from '@/hooks/use-invite-modal';
 
 interface NavItemProps {
   isActive: boolean;
@@ -27,6 +28,8 @@ export const NavItem = ({
 }: NavItemProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const onOpen = useInviteModal((state) => state.onOpen);
+
   const routes = [
     {
       label: 'Boards',
@@ -88,6 +91,7 @@ export const NavItem = ({
             {route.label}
           </Button>
         ))}
+        <Button onClick={onOpen}>Invite</Button>
       </AccordionContent>
     </AccordionItem>
   );

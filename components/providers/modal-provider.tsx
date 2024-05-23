@@ -1,14 +1,20 @@
 'use client';
 
 import { CardModal } from '../../app/(platform)/workspace/[workspaceId]/task-board/[taskBoardId]/_components/card-modal';
+import { InviteModal } from '@/app/(platform)/_components/invite-modal';
 import { useIsMounted } from 'usehooks-ts';
 
 export const ModalProvider = () => {
   const isMounted = useIsMounted();
 
-  if (!isMounted) {
+  if (!isMounted()) {
     return null;
   }
 
-  return <CardModal />;
+  return (
+    <>
+      <CardModal />;
+      <InviteModal />
+    </>
+)
 };
