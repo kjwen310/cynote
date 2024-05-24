@@ -9,8 +9,6 @@ export async function GET(
 ) {
   const { workspaceId } = params;
 
-  console.log('ttttttt', workspaceId);
-
   try {
     const { data: userData } = await getCurrentUser();
     const authUser = userData?.user || null;

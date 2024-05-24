@@ -20,15 +20,6 @@ export const Navbar = ({ workspaces }: NavbarProps) => {
               <Logo />
             </div>
           </div>
-          <Button
-            size="sm"
-            className="h-auto rounded-sm hidden px-2 py-1.5 md:block"
-          >
-            Create
-          </Button>
-          <Button size="sm" className="block rounded-sm md:hidden">
-            <Plus />
-          </Button>
         </div>
         <ModeToggle />
       </div>

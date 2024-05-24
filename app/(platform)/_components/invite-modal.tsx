@@ -33,8 +33,6 @@ export const InviteModal = () => {
     queryFn: () => fetcher(`/api/invite/${workspaceId}`),
   });
 
-  console.log('a', workspaceData);
-
   const origin = useOrigin();
   const inviteCode = workspaceData?.inviteCode || '';
   const inviteUrl = `${origin}/invite/${inviteCode}`;
