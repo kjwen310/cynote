@@ -1,25 +1,23 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUser } from'@/actions/auth';
-import { Navbar } from "./_components/navbar";
+import { getCurrentUser } from '@/actions/auth';
 
 export default async function AuthLayout({
-  children
+  children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const { data } = await getCurrentUser();
-  
 
   if (data?.user) {
     redirect('/workspace');
   }
 
   return (
-    <div className=" bg-slate-200">
-      <Navbar />
-      <main className="flex justify-center items-center w-full h-screen">
-        {children}
-      </main>
-    </div>
+    <main
+      className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center"
+      style={{ backgroundImage: 'url(/landing_1.svg)' }}
+    >
+      {children}
+    </main>
   );
-};
+}

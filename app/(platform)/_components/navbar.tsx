@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { Logo } from '@/components/logo';
+import { Logo } from '@/app/(landing)/_components/logo';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { MobileSidebar } from './mobile-sidebar';

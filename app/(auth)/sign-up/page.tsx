@@ -57,7 +57,7 @@ export default function SignUpPage() {
     }
   }
 
-  const goLogin = () => {
+  const goSignIn = () => {
     router.push('/sign-in')
   };
 
@@ -82,7 +82,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className='flex-1 space-y-4 mx-auto max-w-lg'>
+    <div className='flex-1 space-y-4 mx-auto max-w-lg rounded-md bg-slate-200 p-8'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -90,9 +90,9 @@ export default function SignUpPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>電子信箱</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="請輸入電子信箱" {...field} />
+                  <Input placeholder="Please enter email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -103,9 +103,9 @@ export default function SignUpPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>密碼</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="請輸入密碼" {...field} />
+                  <Input placeholder="Please enter password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,7 +115,7 @@ export default function SignUpPage() {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            註冊
+            Sign Up
           </Button>
         </form>
       </Form>
@@ -124,9 +124,9 @@ export default function SignUpPage() {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
+        <div className="relative flex justify-center text-xs">
           <span className="px-2 text-muted-foreground">
-            或以第三方註冊
+            or sign-up with third party
           </span>
         </div>
       </div>
@@ -157,12 +157,12 @@ export default function SignUpPage() {
           "
         >
           <div className="flex flex-row justify-center items-center gap-2">
-            <div>已經是會員了嗎？</div>
+            <div>Already a member?</div>
             <div
-              onClick={goLogin}
+              onClick={goSignIn}
               className="text-neutral-500 cursor-pointer underline"
             >
-              登入您的帳號
+              Sign in your account
             </div>
           </div>
         </div>

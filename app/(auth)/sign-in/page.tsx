@@ -83,7 +83,11 @@ export default function SignInPage() {
   }
 
   return (
-    <div className='flex-1 space-y-4 mx-auto max-w-lg'>
+    <div className='flex-1 space-y-4 mx-auto max-w-lg rounded-md bg-slate-200 p-8'>
+      <div className="text-center">
+        <h2 className="text-2xl font-bold">Welcome Back!</h2>
+        <p className="text-sm text-slate-700">We're so excited to see you again!</p>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -91,9 +95,9 @@ export default function SignInPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>電子信箱</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="請輸入電子信箱" {...field} />
+                  <Input placeholder="Please enter email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,15 +108,15 @@ export default function SignInPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>密碼</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="請輸入密碼" {...field} />
+                  <Input placeholder="Please enter password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">登入</Button>
+          <Button type="submit" className="w-full">Sign In</Button>
         </form>
       </Form>
 
@@ -120,9 +124,9 @@ export default function SignInPage() {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
+        <div className="relative flex justify-center text-xs">
           <span className="px-2 text-muted-foreground">
-            或以第三方登入
+            or sign-in with third party
           </span>
         </div>
       </div>
@@ -153,12 +157,12 @@ export default function SignInPage() {
           "
         >
           <div className="flex flex-row justify-center items-center gap-2">
-            <div>第一次造訪 Cynote？</div>
+            <div>First time enter Cynote？</div>
             <div
               onClick={goSignUp}
               className="text-neutral-500 cursor-pointer underline"
             >
-              註冊您的帳號
+              Sign up here
             </div>
           </div>
         </div>

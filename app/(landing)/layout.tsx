@@ -1,17 +1,11 @@
-import { Footer } from "./_components/footer";
-import { Navbar } from "./_components/navbar";
+import { Footer } from './_components/footer';
+import { Navbar } from './_components/navbar';
 
-const LandingLayout = ({
-  children
-}: {
-  children: React.ReactNode;
-}) => {
+const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-screen bg-slate-200">
+    <div>
       <Navbar />
-      <main className="pt-40 pb-40 bg-slate-200">
-        {children}
-      </main>
+      <main>{children}</main>
       <Footer />
     </div>
   );
