@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/actions/auth';
 import { db } from '@/lib/db';
-import { Navbar } from './_components/navbar';
 import { Sidebar } from './_components/sidebar';
+import { MobileSidebar } from './_components/mobile-sidebar';
 
 export default async function PlatformLayout({
   children,
@@ -37,9 +37,14 @@ export default async function PlatformLayout({
     where: {
       userId: user.id,
     },
+    select: {
+      workspaceId: true,
+    },
   });
 
-  const workspaceIds = collaborators.map((collaborator) => collaborator.workspaceId);
+  const workspaceIds = collaborators.map(
+    (collaborator) => collaborator.workspaceId
+  );
 
   const workspaces = await db.workspace.findMany({
     where: {
@@ -51,15 +56,8 @@ export default async function PlatformLayout({
 
   return (
     <div>
-      <Navbar workspaces={workspaces} />
-      <main className="max-w-6xl mx-auto px-4 pt-20 md:pt-24 xl:max-w-screen-xl">
-        <div className="flex gap-x-7">
-          <div className="hidden shrink-0 w-64 md:block">
-            <Sidebar workspaces={workspaces} />
-          </div>
-          {children}
-        </div>
-      </main>
+      <MobileSidebar workspaces={workspaces} user={user} />
+      {children}
     </div>
   );
 }

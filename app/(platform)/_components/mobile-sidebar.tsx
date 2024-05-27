@@ -3,27 +3,28 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useIsMounted } from 'usehooks-ts';
-import { Menu } from 'lucide-react';
+import { ArrowRightFromLine } from 'lucide-react';
 
 import { useMbSidebar } from '@/hooks/use-mb-sidebar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Sidebar } from './sidebar';
-import { Workspace } from '@prisma/client';
+import { User, Workspace } from '@prisma/client';
 
 interface MobileSidebarProps {
   workspaces: Workspace[];
+  user: User;
 }
 
 export const MobileSidebar = ({
-  workspaces
+  workspaces,
+  user
 }: MobileSidebarProps) => {
   const isOpen = useMbSidebar((state) => state.isOpen);
   const onOpen = useMbSidebar((state) => state.onOpen);
   const onClose = useMbSidebar((state) => state.onClose);
 
   const isMounted = useIsMounted();
-
   const pathname = usePathname();
 
   useEffect(() => {
@@ -42,11 +43,11 @@ export const MobileSidebar = ({
         onClick={onOpen}
         className="block md:hidden mr-2"
       >
-        <Menu className="w-4 h-4" />
+        <ArrowRightFromLine className="w-4 h-4" />
       </Button>
       <Sheet open={isOpen} onOpenChange={onClose}>
-        <SheetContent side="left" className="p-2 pt-10">
-          <Sidebar storageKey="cy-sidebar-mb" workspaces={workspaces} />
+        <SheetContent side="left">
+          <Sidebar storageKey="cy-sidebar-mb" workspaces={workspaces} user={user} />
         </SheetContent>
       </Sheet>
     </>
