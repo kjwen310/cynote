@@ -1,10 +1,11 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useRouter, useParams } from 'next/navigation';
-import { createTaskBoard } from '@/actions/task';
+import { createTaskBoard } from '@/actions/task/create-task-board';
+import { InputType } from '@/actions/task/create-task-board/types';
+import { CreateTaskBoardSchema } from '@/actions/task/create-task-board/schema';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
@@ -20,11 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-  image: z.string().min(1, { message: 'Image is required' }),
-});
+import { useAction } from '@/hooks/use-action';
 
 export const CreateTaskBoard = () => {
   const isOpen = useModal((state) => state.isOpen);
@@ -34,44 +31,43 @@ export const CreateTaskBoard = () => {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
-
   const { workspaceId } = params;
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
+  const { execute } = useAction(createTaskBoard, {
+    onSuccess: ({ id, title }) => {
+      toast({
+        title: 'SUCCESS',
+        description: `Successfully Create task board ${title}`,
+      });
+      router.push(`/workspace/${workspaceId}/task-board/${id}`);
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: `Something went wrong: ${error}`,
+      });
+    },
+    onFinally: onClose,
+  });
+
+  const onSubmit = (data: InputType) => {
+    const { title, image } = data;
+    execute({ title, image, workspaceId: workspaceId as string });
+  };
+
+  const form = useForm({
+    resolver: zodResolver(CreateTaskBoardSchema),
     defaultValues: {
       title: '',
       image: '',
+      workspaceId: '',
     },
   });
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-
-    const result = await createTaskBoard({...data, workspaceId } as any);
-
-    const taskBoardId = JSON.parse(result);
-    onClose();
-    console.log(JSON.parse(result))
-
-    if (!taskBoardId) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    } else {
-      toast({
-        title: 'SUCCESS',
-        description: 'Successfully Create task board',
-      });
-
-      router.push(`/workspace/${workspaceId}/task-board/${taskBoardId}`);
-    }
-  };
 
   const modalBody = (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-      <FormField
+        <FormField
           control={form.control}
           name="image"
           render={({ field }) => (
