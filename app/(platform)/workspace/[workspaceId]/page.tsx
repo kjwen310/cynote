@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { TaskBoard } from '@prisma/client';
 import { db } from '@/lib/db';
-import { CreateTaskBoard } from '../../_components/create-taskboard';
+import { CreateTaskBoardBtn } from '../../_components/create-taskboard-btn';
 
 interface WorkspaceIdPageProps {
   params: { workspaceId: string };
@@ -34,7 +34,7 @@ export default async function WorkspaceIdPage({
         </Link>
       ))}
       <div className="flex flex-col justify-center items-center gap-y-1 relative w-full bg-muted rounded-sm aspect-video transition cursor-pointer hover:opacity-75">
-        <CreateTaskBoard />
+        <CreateTaskBoardBtn />
       </div>
     </div>
   );

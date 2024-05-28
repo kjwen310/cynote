@@ -1,9 +1,13 @@
 'use client';
 
-import { CardModal } from '../../app/(platform)/workspace/[workspaceId]/task-board/[taskBoardId]/_components/card-modal';
-import { InviteModal } from '@/app/(platform)/_components/invite-modal';
-import { MemberModal } from '@/app/(platform)/_components/member-modal';
 import { useIsMounted } from 'usehooks-ts';
+import { ConfirmModal } from '@/components/modals/confirm-modal';
+import { WorkspaceCreateModal } from '@/components/modals/workspace-create-modal';
+import { WorkspaceMemberModal } from '@/components/modals/workspace-member-modal';
+import { WorkspaceInviteModal } from '@/components/modals/workspace-invite-modal';
+import { WorkspaceSettingModal } from '@/components/modals/workspace-setting-modal';
+import { TaskBoardCreateModal } from '@/components/modals/task-board-create-modal';
+import { TaskCardModal } from '@/components/modals/task-card-modal';
 
 export const ModalProvider = () => {
   const isMounted = useIsMounted();
@@ -14,9 +18,13 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <CardModal />;
-      <InviteModal />
-      <MemberModal />
+      <ConfirmModal />
+      <WorkspaceCreateModal />
+      <WorkspaceMemberModal />
+      <WorkspaceInviteModal />
+      <WorkspaceSettingModal />
+      <TaskBoardCreateModal />
+      <TaskCardModal />
     </>
-)
+  );
 };

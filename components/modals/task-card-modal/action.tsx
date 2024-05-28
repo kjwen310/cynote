@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { TaskCardWithTaskList } from '@/types';
 import { copyTaskCard } from '@/actions/task/copy-task-card';
 import { deleteTaskCard } from '@/actions/task/delete-task-card';
-import { useCardModal } from '@/hooks/use-card-modal';
+import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
 import { useAction } from '@/hooks/use-action';
 
@@ -20,7 +20,7 @@ const { toast } = useToast();
   const params = useParams();
   const { workspaceId, taskBoardId } = params;
 
-  const onClose = useCardModal((state) => state.onClose);
+  const { onClose } = useModal();
 
   const { execute: executeCopy } = useAction(copyTaskCard, {
     onSuccess: (data) => {

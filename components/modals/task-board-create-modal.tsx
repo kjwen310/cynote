@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from './dialog-modal';
-import { ImagePicker } from './image-picker';
+import { DialogModal } from '@/components/dialog-modal';
+import { ImagePicker } from '@/components/image-picker';
 
 import {
   Form,
@@ -23,14 +23,13 @@ import {
 } from '@/components/ui/form';
 import { useAction } from '@/hooks/use-action';
 
-export const CreateTaskBoard = () => {
-  const isOpen = useModal((state) => state.isOpen);
-  const onOpen = useModal((state) => state.onOpen);
-  const onClose = useModal((state) => state.onClose);
+export const TaskBoardCreateModal = () => {
+  const { type, isOpen, onClose } = useModal();
+  const modalOpen = type === "taskBoardCreate" && isOpen;
 
+  const { toast } = useToast();
   const router = useRouter();
   const params = useParams();
-  const { toast } = useToast();
   const { workspaceId } = params;
 
   const { execute } = useAction(createTaskBoard, {
@@ -101,18 +100,14 @@ export const CreateTaskBoard = () => {
       </form>
     </Form>
   );
+
   return (
-    <>
-      <p onClick={onOpen} className="text-sm">
-        Create Board
-      </p>
-      <DialogModal
-        title="Create TaskBoard"
-        description="Choose cover image and set title"
-        body={modalBody}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
-    </>
+    <DialogModal
+      title="Create TaskBoard"
+      description="Choose cover image and set title"
+      body={modalBody}
+      isOpen={modalOpen}
+      onClose={onClose}
+    />
   );
 };

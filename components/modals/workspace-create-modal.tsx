@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '../_components/dialog-modal';
-import { IconPicker } from './icon-picker';
+import { DialogModal } from '@/components/dialog-modal';
+import { IconPicker } from '@/components/icon-picker';
 
 import {
   Form,
@@ -24,10 +24,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-export const CreateWorkspace = () => {
-  const isOpen = useModal((state) => state.isOpen);
-  const onOpen = useModal((state) => state.onOpen);
-  const onClose = useModal((state) => state.onClose);
+export const WorkspaceCreateModal = () => {
+  const { type, isOpen, onClose } = useModal();
+  const modalOpen = type === 'workspaceCreate' && isOpen;
 
   const router = useRouter();
   const { toast } = useToast();
@@ -122,17 +121,12 @@ export const CreateWorkspace = () => {
     </Form>
   );
   return (
-    <>
-      <Button variant="outline" onClick={onOpen}>
-        Create Your Workspace
-      </Button>
-      <DialogModal
-        title="Create Workspace"
-        description="Fill the title and description"
-        body={modalBody}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
-    </>
+    <DialogModal
+      title="Create Workspace"
+      description="Fill the title and description"
+      body={modalBody}
+      isOpen={modalOpen}
+      onClose={onClose}
+    />
   );
 };

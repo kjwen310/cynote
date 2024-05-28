@@ -6,10 +6,8 @@ import { Plus } from 'lucide-react';
 import { useLocalStorage } from 'usehooks-ts';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Accordion } from '@/components/ui/accordion';
-import { NavItem } from './nav-item';
 import { ModeToggle } from '@/components/ui/mode-toggle';
+import { useModal } from '@/hooks/use-modal';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -29,6 +27,8 @@ export const Sidebar = ({
   workspaces,
   user,
 }: SidebarProps) => {
+  const { onOpen } = useModal();
+
   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
     storageKey,
     {}
@@ -57,9 +57,7 @@ export const Sidebar = ({
             variant="ghost"
             className="w-12 h-12 rounded-full bg-slate-200"
           >
-            <Link href="/workspace">
-              Hi
-            </Link>
+            <Link href="/workspace">Hi</Link>
           </Button>
           <Separator />
           {workspaces.map((workspace) => (
@@ -93,21 +91,42 @@ export const Sidebar = ({
             <div>test</div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem
+              onClick={() =>
+                onOpen('workspaceInvite', { workspace: workspaces[0] })
+              }
+            >
               Invite People
             </DropdownMenuItem>
             <Separator />
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem
+              onClick={() =>
+                onOpen('workspaceInvite', { workspace: workspaces[0] })
+              }
+            >
               Workspace Setting
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
-              Payment
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {}}>Payment</DropdownMenuItem>
             <Separator />
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem
+              onClick={() =>
+                onOpen('confirm', {
+                  confirm: { title: 'Are you sure to delete workspace?' },
+                })
+              }
+            >
               Delete Workspace
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem
+              onClick={() =>
+                onOpen('confirm', {
+                  confirm: {
+                    title: 'Are you sure to quit workspace?',
+                    description: 'You have to get a invitation to re-join.',
+                  },
+                })
+              }
+            >
               Quit Workspace
             </DropdownMenuItem>
           </DropdownMenuContent>

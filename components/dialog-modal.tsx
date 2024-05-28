@@ -10,8 +10,8 @@ import {
 } from '@/components/ui/dialog';
 
 interface DialogModalProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   isOpen?: boolean;
   body?: React.ReactElement;
   footer?: React.ReactElement;
@@ -34,8 +34,8 @@ export const DialogModal = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className={bodyClassName}>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          {title && <DialogTitle>{title}</DialogTitle>}
+          {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
 
         <div>{body}</div>
