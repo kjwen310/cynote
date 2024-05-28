@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { TaskBoard } from '@prisma/client';
-import { fetchAllTaskBoards } from '@/actions/task';
+import { db } from '@/lib/db';
 import { CreateTaskBoard } from '../../_components/create-taskboard';
 
 interface WorkspaceIdPageProps {
@@ -11,14 +11,15 @@ export default async function WorkspaceIdPage({
   params,
 }: WorkspaceIdPageProps) {
   const { workspaceId } = params;
-  const taskBoardList = await fetchAllTaskBoards({
-    workspaceId: workspaceId as string,
+  const taskBoardList = await db.taskBoard.findMany({
+    where: {
+      workspaceId,
+    },
   });
-  const boards = JSON.parse(taskBoardList);
 
   return (
     <div className="w-full grid gap-4 grid-cols-2 sm:grid-cols-3">
-      {boards.map((board: TaskBoard) => (
+      {taskBoardList.map((board: TaskBoard) => (
         <Link
           key={board.id}
           href={`/workspace/${workspaceId}/task-board/${board.id}`}

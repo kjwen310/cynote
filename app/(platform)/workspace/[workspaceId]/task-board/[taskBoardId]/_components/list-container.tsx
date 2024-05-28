@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { TaskListWithTaskCard } from '@/types';
-import { updateTaskListOrder, updateTaskCardOrder } from '@/actions/task';
+import { updateTaskCardOrder } from '@/actions/task/update-task-card-order';
+import { updateTaskListOrder } from '@/actions/task/update-task-list-order';
 import { CreateTaskList } from './create-task-list';
 import { ListItem } from './list-item';
 import { Button } from '@/components/ui/button';
 import { useInviteModal } from '@/hooks/use-invite-modal';
 import { useMemberModal } from '@/hooks/use-member-modal';
+import { useAction } from '@/hooks/use-action';
+import { useToast } from '@/components/ui/use-toast';
 
 interface ListContainerProps {
   boardId: string;
@@ -28,6 +31,7 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
   const [orderedList, setOrderedList] = useState(list);
   const params = useParams();
   const { workspaceId } = params;
+  const { toast } = useToast();
 
   const onOpen = useInviteModal((state) => state.onOpen);
   const onMemberOpen = useMemberModal((state) => state.onOpen);
@@ -35,6 +39,36 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
   useEffect(() => {
     setOrderedList(list);
   }, list);
+
+  const { execute: executeUpdateTaskListOrder } = useAction(updateTaskListOrder, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Reordered Lists',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const { execute: executeUpdateTaskCardOrder } = useAction(updateTaskCardOrder, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Reordered Cards',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
 
   const onDragEnd = (result: any) => {
     const { source, destination, type } = result;
@@ -55,9 +89,9 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
       );
       const updatedList = reorderedList.map((d, i) => ({ ...d, order: i }));
       setOrderedList(updatedList);
-      updateTaskListOrder({
+      executeUpdateTaskListOrder({
         items: updatedList,
-        boardId,
+        taskBoardId: boardId,
         workspaceId: workspaceId as string,
       });
     }
@@ -90,8 +124,9 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
         sourceList.taskCards = reorderedCards;
 
         setOrderedList(newOrderedList);
-        updateTaskCardOrder({
+        executeUpdateTaskCardOrder({
           items: reorderedCards,
+          taskBoardId: boardId,
           workspaceId: workspaceId as string,
         });
       } else {
@@ -108,8 +143,9 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
         });
 
         setOrderedList(newOrderedList);
-        updateTaskCardOrder({
+        executeUpdateTaskCardOrder({
           items: destinationList.taskCards,
+          taskBoardId: boardId,
           workspaceId: workspaceId as string,
         });
       }

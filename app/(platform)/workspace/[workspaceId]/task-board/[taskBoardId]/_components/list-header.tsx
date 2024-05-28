@@ -9,7 +9,10 @@ import { useEventListener } from 'usehooks-ts';
 import { TaskList } from '@prisma/client';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { updateTaskList } from '@/actions/task';
+import { updateTaskList } from '@/actions/task/update-task-list';
+import { UpdateTaskListSchema } from '@/actions/task/update-task-list/schema';
+import { InputType } from '@/actions/task/update-task-list/types';
+import { useAction } from '@/hooks/use-action';
 
 import {
   Form,
@@ -20,10 +23,6 @@ import {
 } from '@/components/ui/form';
 import { ListOption } from './list-option';
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-});
-
 interface ListHeaderProps {
   list: TaskList;
   onAddCard: () => void;
@@ -33,7 +32,6 @@ export const ListHeader = ({ list, onAddCard }: ListHeaderProps) => {
   const [title, setTitle] = useState(list.title);
   const [isEditing, setIsEditing] = useState(false);
 
-  const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
   const formRef = useRef<ElementRef<'form'>>(null);
@@ -41,10 +39,44 @@ export const ListHeader = ({ list, onAddCard }: ListHeaderProps) => {
 
   const { workspaceId, taskBoardId } = params;
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
+  const { execute } = useAction(updateTaskList, {
+    onSuccess: (data) => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Create card',
+      });
+      setTitle(data.title);
+      disableEditing();
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: InputType) => {
+    if (title === data.title) {
+      disableEditing();
+      return;
+    }
+
+    execute({
+      title: data.title,
+      taskListId: list.id,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+    });
+  };
+
+  const form = useForm({
+    resolver: zodResolver(UpdateTaskListSchema),
     defaultValues: {
       title: '',
+      taskListId: '',
+      workspaceId: '',
+      taskBoardId: '',
     },
   });
 
@@ -62,37 +94,6 @@ export const ListHeader = ({ list, onAddCard }: ListHeaderProps) => {
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       formRef.current?.requestSubmit();
-    }
-  };
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if (title === data.title) {
-      disableEditing();
-      return;
-    }
-
-    const result = await updateTaskList({
-      ...data,
-      workspaceId,
-      boardId: taskBoardId,
-      taskListId: list.id,
-    } as any);
-
-    const taskList = JSON.parse(result);
-    console.log(JSON.parse(result));
-
-    if (!taskList) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    } else {
-      toast({
-        title: 'SUCCESS',
-        description: 'Successfully Update list',
-      });
-      setTitle(taskList.title);
-      disableEditing();
     }
   };
 

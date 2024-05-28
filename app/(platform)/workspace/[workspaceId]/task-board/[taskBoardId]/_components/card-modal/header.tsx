@@ -4,11 +4,12 @@ import { ElementRef, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Layout } from 'lucide-react';
-import { updateTaskCard } from '@/actions/task';
+import { updateTaskCard } from '@/actions/task/update-task-card';
 import { useToast } from "@/components/ui/use-toast";
 import { TaskCardWithTaskList } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAction } from '@/hooks/use-action';
 
 interface HeaderProps {
   card: TaskCardWithTaskList;
@@ -16,43 +17,40 @@ interface HeaderProps {
 
 export const Header = ({ card }: HeaderProps) => {
   const [title, setTitle] = useState(card.title);
-  const queryClient = useQueryClient();
   const params = useParams();
   const { toast } = useToast();
   const inputRef = useRef<ElementRef<'input'>>(null);
 
-  const onBlur = () => {
-    inputRef.current?.form?.requestSubmit();
-  };
+  const { workspaceId, taskBoardId } = params;
 
-  const onSubmit = async (formData: FormData) => {
-    const title = formData.get('title') as string;
-    const workspaceId = params.workspaceId as string;
-
-    if (title === card.title) return;
-
-    const result = await updateTaskCard({ cardId: card.id, workspaceId, title });
-    const { error } = JSON.parse(result);
-
-    if (error?.message) {
-      toast({
-        title: "ERROR",
-        description: error.message,
-      });
-    } else {
-      queryClient.invalidateQueries({
-        queryKey: ["card", card.id]
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["task-log", card.id]
-      });
-      setTitle(title);
-
+  const { execute } = useAction(updateTaskCard, {
+    onSuccess: (data) => {
       toast({
         title: "SUCCESS",
-        description: `Rename to ${title}`,
+        description: `Rename to ${data.title}`,
       });
-    }
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    const title = data.get('description') as string;
+  
+    execute({
+      title,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+      taskCardId: card.id,
+    });
+  };
+
+  const onBlur = () => {
+    inputRef.current?.form?.requestSubmit();
   };
 
   return (

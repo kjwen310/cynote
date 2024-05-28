@@ -6,7 +6,7 @@ import { createHistoryLog } from '@/lib/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { CreateTaskBoardSchema } from './schema';
+import { UpdateTaskListSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {
   const { data: userData } = await getCurrentUser();
@@ -18,39 +18,38 @@ const handler = async (data: InputType): Promise<OutputType> => {
     };
   }
 
-  const { workspaceId, title, image } = data;
-  const [imageId, imageSmUrl, imageLgUrl] = image.split('|');
+  const { workspaceId, taskBoardId, taskListId, title } = data;
 
-  let taskBoard = null;
+  let taskList = null;
 
   try {
-    taskBoard = await db.taskBoard.create({
+    taskList = await db.taskList.update({
+      where: {
+        id: taskListId,
+        taskBoardId,
+      },
       data: {
-        workspaceId: workspaceId,
-        title: title,
-        imageId,
-        imageSmUrl,
-        imageLgUrl,
+        title,
       },
     });
   } catch (error) {
-    return { error: '[CREATE_TASK_BOARD]: Failed create' };
+    return { error: '[UPDATE_TASK_LIST_ERROR]: Failed update' };
   }
 
   try {
     await createHistoryLog({
       workspaceId,
-      targetId: taskBoard.id,
-      title: taskBoard.title,
-      action: 'CREATE',
+      targetId: taskList.id,
+      title: taskList.title,
+      action: 'UPDATE',
       type: 'TASK',
     });
   } catch (error) {
-    return { error: '[CREATE_TASK_BOARD_HISTORY]: Failed create' };
+    return { error: '[UPDATE_TASK_LIST_HISTORY]: Failed create' };
   }
 
-  revalidatePath(`/workspace/task-board/${taskBoard.id}`);
-  return { data: taskBoard };
+  revalidatePath(`/workspace/${workspaceId}/task-board/${taskBoardId}`);
+  return { data: taskList };
 };
 
-export const createTaskBoard = createSafeAction(CreateTaskBoardSchema, handler);
+export const updateTaskList = createSafeAction(UpdateTaskListSchema, handler);

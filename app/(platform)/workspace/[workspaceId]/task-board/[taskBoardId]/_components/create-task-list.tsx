@@ -1,17 +1,19 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useState, useRef, ElementRef } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Plus, X } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-import { createTaskList } from '@/actions/task';
+import { createTaskList } from '@/actions/task/create-task-list';
+import { CreateTaskListSchema } from '@/actions/task/create-task-list/schema';
+import { InputType } from '@/actions/task/create-task-list/types';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ListWrapper } from './list-wrapper';
+import { useAction } from '@/hooks/use-action';
 
 import {
   Form,
@@ -21,14 +23,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-});
-
 export const CreateTaskList = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
   const formRef = useRef<ElementRef<'form'>>(null);
@@ -36,10 +33,37 @@ export const CreateTaskList = () => {
 
   const { workspaceId, taskBoardId } = params;
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
+  const { execute } = useAction(createTaskList, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Create list',
+      });
+      disableEditing();
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: InputType) => {
+    const { title } = data;
+    execute({
+      title,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+    });
+  };
+
+  const form = useForm({
+    resolver: zodResolver(CreateTaskListSchema),
     defaultValues: {
       title: '',
+      workspaceId: '',
+      taskBoardId: '',
     },
   });
 
@@ -57,31 +81,6 @@ export const CreateTaskList = () => {
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       disableEditing();
-    }
-  };
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const result = await createTaskList({
-      ...data,
-      workspaceId,
-      boardId: taskBoardId,
-    } as any);
-
-    const taskList = JSON.parse(result);
-    console.log(JSON.parse(result));
-
-    if (!taskList) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    } else {
-      toast({
-        title: 'SUCCESS',
-        description: 'Successfully Create list',
-      });
-      disableEditing();
-      router.refresh();
     }
   };
 

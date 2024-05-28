@@ -1,14 +1,16 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { forwardRef } from 'react';
 import { X, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { createTaskCard } from '@/actions/task';
+import { createTaskCard } from '@/actions/task/create-task-card';
+import { CreateTaskCardSchema } from '@/actions/task/create-task-card/schema';
+import { InputType } from '@/actions/task/create-task-card/types';
 import { useToast } from '@/components/ui/use-toast';
 import { Textarea } from '@/components/ui/textarea';
+import { useAction } from '@/hooks/use-action';
 
 interface CreateTaskCardProps {
   listId: string;
@@ -26,10 +28,6 @@ import {
 } from '@/components/ui/form';
 import { useParams } from 'next/navigation';
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-});
-
 export const CreateTaskCard = forwardRef<
   HTMLTextAreaElement,
   CreateTaskCardProps
@@ -37,38 +35,43 @@ export const CreateTaskCard = forwardRef<
   const { toast } = useToast();
   const params = useParams();
 
-  const { workspaceId } = params;
+  const { workspaceId, taskBoardId } = params;
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: '',
-    },
-  });
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const result = await createTaskCard({
-      ...data,
-      listId,
-      workspaceId,
-    } as any);
-
-    const taskCard = JSON.parse(result);
-    console.log(JSON.parse(result));
-
-    if (!taskCard) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    } else {
+  const { execute } = useAction(createTaskCard, {
+    onSuccess: () => {
       toast({
         title: 'SUCCESS',
         description: 'Successfully Create card',
       });
       disableEditing();
-    }
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: InputType) => {
+    const { title } = data;
+    execute({
+      title,
+      listId,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+    });
   };
+
+  const form = useForm({
+    resolver: zodResolver(CreateTaskCardSchema),
+    defaultValues: {
+      title: '',
+      listId: '',
+      workspaceId: '',
+      taskBoardId: '',
+    },
+  });
 
   if (isEditing) {
     return (
@@ -83,12 +86,12 @@ export const CreateTaskCard = forwardRef<
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                <Textarea
-                  id="title"
-                  placeholder="Enter card info..."
-                  className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  {...field}
-                />
+                  <Textarea
+                    id="title"
+                    placeholder="Enter card info..."
+                    className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

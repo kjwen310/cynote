@@ -9,8 +9,10 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { PopoverClose } from '@radix-ui/react-popover';
-import { deleteTaskList } from '@/actions/task';
+import { deleteTaskList } from '@/actions/task/delete-task-list';
 import { useParams } from 'next/navigation';
+import { useAction } from '@/hooks/use-action';
+import { useToast } from '@/components/ui/use-toast';
 
 interface ListOptionProps {
   list: TaskList;
@@ -19,7 +21,30 @@ interface ListOptionProps {
 
 export const ListOption = ({ list, onAddTaskCard }: ListOptionProps) => {
   const params = useParams();
-  const { workspaceId } = params;
+  const { toast } = useToast();
+  const { workspaceId, taskBoardId } = params;
+
+  const { execute } = useAction(deleteTaskList, {
+    onSuccess: (data) => {
+      toast({
+        title: 'SUCCESS',
+        description: `Successfully delete list ${data.title}`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onDelete = () =>
+    execute({
+      taskListId: list.id,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+    });
 
   return (
     <Popover>
@@ -49,12 +74,7 @@ export const ListOption = ({ list, onAddTaskCard }: ListOptionProps) => {
         <Button
           variant="ghost"
           className="w-full h-auto justify-start text-sm p-2 px-5 rounded-none"
-          onClick={() =>
-            deleteTaskList({
-              workspaceId: workspaceId as string,
-              taskListId: list.id,
-            })
-          }
+          onClick={onDelete}
         >
           Delete List...
         </Button>

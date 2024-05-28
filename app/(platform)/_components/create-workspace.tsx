@@ -1,11 +1,13 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { Smile } from 'lucide-react';
-import { createWorkspace } from '@/actions/workspace';
+import { useAction } from '@/hooks/use-action';
+import { createWorkspace } from '@/actions/workspace/create-workspace';
+import { CreateWorkspaceSchema } from '@/actions/workspace/create-workspace/schema';
+import { InputType } from '@/actions/workspace/create-workspace/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
@@ -22,12 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  image: z.string(),
-});
-
 export const CreateWorkspace = () => {
   const isOpen = useModal((state) => state.isOpen);
   const onOpen = useModal((state) => state.onOpen);
@@ -36,34 +32,35 @@ export const CreateWorkspace = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
+  const { execute } = useAction(createWorkspace, {
+    onSuccess: (data) => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Create workspace',
+      });
+      router.push(`/workspace/${data.id}`);
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: InputType) => {
+    const { title, description, image } = data;
+    execute({ title, description, image });
+  };
+
+  const form = useForm({
+    resolver: zodResolver(CreateWorkspaceSchema),
     defaultValues: {
       title: '',
       description: '',
       image: '',
     },
   });
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const result = await createWorkspace(data as any);
-
-    const workspaceId = JSON.parse(result);
-    onClose();
-
-    if (!workspaceId) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    } else {
-      toast({
-        title: 'SUCCESS',
-        description: 'Successfully Create workspace',
-      });
-      router.push(`/workspace/${workspaceId}`);
-    }
-  };
 
   const modalBody = (
     <Form {...form}>

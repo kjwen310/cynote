@@ -5,9 +5,11 @@ import { Copy, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TaskCardWithTaskList } from '@/types';
-import { copyTaskCard, deleteTaskCard } from '@/actions/task';
+import { copyTaskCard } from '@/actions/task/copy-task-card';
+import { deleteTaskCard } from '@/actions/task/delete-task-card';
 import { useCardModal } from '@/hooks/use-card-modal';
 import { useToast } from '@/components/ui/use-toast';
+import { useAction } from '@/hooks/use-action';
 
 interface ActionProps {
   card: TaskCardWithTaskList;
@@ -16,53 +18,53 @@ interface ActionProps {
 export const Action = ({ card }: ActionProps) => {
 const { toast } = useToast();
   const params = useParams();
-  const { workspaceId } = params;
+  const { workspaceId, taskBoardId } = params;
 
   const onClose = useCardModal((state) => state.onClose);
 
-  const handleCopyCard = async () => {
-    const result = await copyTaskCard({
-      cardId: card.id,
-      workspaceId: workspaceId as string,
-    });
-    const { error } = JSON.parse(result);
-
-    if (error?.message) {
-      toast({
-        title: 'ERROR',
-        description: error.message,
-      });
-    } else {
+  const { execute: executeCopy } = useAction(copyTaskCard, {
+    onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
-        description: 'Copied Card',
+        description: `Copied Card ${data.title}`,
       });
-    }
-
-    onClose();
-  };
-
-  const handleDeleteCard = async () => {
-    const result = await deleteTaskCard({
-      cardId: card.id,
-      workspaceId: workspaceId as string,
-    });
-    const { error } = JSON.parse(result);
-
-    if (error?.message) {
+    },
+    onError: (error) => {
       toast({
         title: 'ERROR',
-        description: error.message,
+        description: 'Something went wrong',
       });
-    } else {
+    },
+    onFinally:  onClose,
+  });
+
+  const { execute: executeDelete } = useAction(deleteTaskCard, {
+    onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
-        description: 'Deleted Card',
+        description: `Deleted Card ${data.title}`,
       });
-    }
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+    onFinally:  onClose,
+  });
 
-    onClose();
-  };
+  const onCopy = () => executeCopy({
+    taskCardId: card.id,
+    workspaceId: workspaceId as string,
+    taskBoardId: taskBoardId as string,
+  });
+
+  const onDelete = () => executeDelete({
+    taskCardId: card.id,
+    workspaceId: workspaceId as string,
+    taskBoardId: taskBoardId as string,
+  });
 
   return (
     <div className="space-y-2 mt-2">
@@ -71,7 +73,7 @@ const { toast } = useToast();
         variant="ghost"
         size="sm"
         className="w-full justify-start"
-        onClick={handleCopyCard}
+        onClick={onCopy}
       >
         <Copy className="w-4 h-4 mr-2" />
         Copy
@@ -80,7 +82,7 @@ const { toast } = useToast();
         variant="ghost"
         size="sm"
         className="w-full justify-start"
-        onClick={handleDeleteCard}
+        onClick={onDelete}
       >
         <Trash className="w-4 h-4 mr-2" />
         Delete

@@ -4,13 +4,13 @@ import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
 import { AlignLeft } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-import { useQueryClient } from '@tanstack/react-query';
-import { updateTaskCard } from '@/actions/task';
+import { updateTaskCard } from '@/actions/task/update-task-card';
 import { TaskCardWithTaskList } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { useAction } from '@/hooks/use-action';
 
 interface BodyProps {
   card: TaskCardWithTaskList;
@@ -19,12 +19,39 @@ interface BodyProps {
 export const Body = ({ card }: BodyProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const queryClient = useQueryClient();
   const params = useParams();
   const { toast } = useToast();
+  const { workspaceId, taskBoardId } = params;
 
   const formRef = useRef<ElementRef<'form'>>(null);
   const textareaRef = useRef<ElementRef<'textarea'>>(null);
+
+  const { execute } = useAction(updateTaskCard, {
+    onSuccess: (data) => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully update card',
+      });
+      disableEditing();
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    const description = data.get('description') as string;
+  
+    execute({
+      description,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+      taskCardId: card.id,
+    });
+  };
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -45,40 +72,6 @@ export const Body = ({ card }: BodyProps) => {
 
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
-
-  const onSubmit = async (formData: FormData) => {
-    const description = formData.get('description') as string;
-    const workspaceId = params.workspaceId as string;
-
-    const result = await updateTaskCard({
-      cardId: card.id,
-      workspaceId,
-      description,
-    });
-    const { error } = JSON.parse(result);
-
-    if (error?.message) {
-      toast({
-        title: 'ERROR',
-        description: error.message,
-      });
-    } else {
-      queryClient.invalidateQueries({
-        queryKey: ['card', card.id],
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: ["task-log", card.id]
-      });
-
-      toast({
-        title: 'SUCCESS',
-        description: 'Update description',
-      });
-
-      disableEditing();
-    }
-  };
 
   return (
     <div className="flex items-start gap-x-3 w-full">
