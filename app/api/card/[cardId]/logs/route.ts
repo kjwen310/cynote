@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 
 export async function GET(
   request: Request,

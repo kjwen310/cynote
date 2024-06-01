@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { createHistoryLog } from '@/lib/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';

@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';

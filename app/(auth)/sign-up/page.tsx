@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { signUpWithEmailAndPassword } from '@/actions/auth';
 import createSupabaseBrowserClient from '@/lib/supabase/browser';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { useAction } from '@/hooks/use-action';
+import { signUpWithEmailAndPassword } from '@/actions/auth/sign-up-with-email-and-password';
+import { InputType } from '@/actions/auth/sign-up-with-email-and-password/types';
+import { SignUpWithEmailAndPasswordSchema } from '@/actions/auth/sign-up-with-email-and-password/schema';
 
 import { Icons } from '@/components/icons/Icon'
 import { Button } from "@/components/ui/button"
@@ -22,40 +23,38 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-const formSchema = z.object({
-  email: z.string().email({message: "電子信箱格式不正確" }).min(1, { message: "帳號必填" }),
-  password: z.string().min(1, { message: "密碼必填" }),
-})
-
 export default function SignUpPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<FieldValues>({
-    resolver: zodResolver(formSchema),
+  const { execute, isLoading } = useAction(signUpWithEmailAndPassword, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Signed up',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+  });
+
+  const onSubmit = (data: InputType) => {
+    const { email, password, name } = data;
+    execute({ email, password, name });
+  }
+
+  const form = useForm({
+    resolver: zodResolver(SignUpWithEmailAndPasswordSchema),
     defaultValues: {
       email: '',
       password: '',
+      name: '',
     },
   })
-
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const result = await signUpWithEmailAndPassword(data as any);
-    const { error } = JSON.parse(result);
-
-    if (error?.message) {
-      toast({
-        title: "ERROR",
-        description: error.message,
-      });
-    } else {
-      toast({
-        title: "SUCCESS",
-        description: "成功",
-      });
-    }
-  }
 
   const goSignIn = () => {
     router.push('/sign-in')
@@ -111,6 +110,19 @@ export default function SignUpPage() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Please enter name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -126,7 +138,7 @@ export default function SignUpPage() {
         </div>
         <div className="relative flex justify-center text-xs">
           <span className="px-2 text-muted-foreground">
-            or sign-up with third party
+            or sign up with third party
           </span>
         </div>
       </div>

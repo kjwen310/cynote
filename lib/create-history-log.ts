@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { db } from '@/lib/db';
 import { LOG_ACTION, LOG_TYPE } from '@prisma/client';
 

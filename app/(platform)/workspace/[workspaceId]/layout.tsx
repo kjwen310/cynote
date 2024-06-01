@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { WorkspaceSidebar } from '@/components/workspace/workspace-sidebar';
 
 interface WorkspaceIdLayout {

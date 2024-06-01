@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUser } from '@/actions/auth';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { db } from '@/lib/db';
 import { NavSidebar } from '@/components/workspace-nav/nav-sidebar';
 
