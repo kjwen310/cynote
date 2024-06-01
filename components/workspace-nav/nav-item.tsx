@@ -37,7 +37,7 @@ export const NavItem = ({ id, title, image }: NavItemProps) => {
       >
         <Image
           fill
-          src={defaultPickerImages[0].urls.thumb}
+          src={image || defaultPickerImages[0].urls.thumb}
           alt="workspace image"
         />
       </div>

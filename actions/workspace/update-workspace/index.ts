@@ -6,7 +6,7 @@ import { getCurrentUser } from '@/actions/auth';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { CreateWorkspaceSchema } from './schema';
+import { UpdateWorkspaceSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {
   const { data: userData } = await getCurrentUser();
@@ -28,37 +28,30 @@ const handler = async (data: InputType): Promise<OutputType> => {
     redirect('/sign-in');
   }
 
-  const { title, description, image } = data;
+  const { workspaceId, title, description, image } = data;
   const [imageId, imageSmUrl, imageLgUrl] = image.split('|');
 
   let workspace = null;
 
   try {
-    workspace = await db.workspace.create({
+    workspace = await db.workspace.update({
+      where: {
+        id: workspaceId,
+      },
       data: {
         title: title,
         description: description,
         imageId,
         imageSmUrl,
         imageLgUrl,
-        collaborators: {
-          create: [
-            {
-              displayName: user.name || '',
-              displayImage: user.avatarImg || '',
-              role: 'OWNER',
-              userId: user.id,
-            },
-          ],
-        },
       },
     });
   } catch (error) {
-    return { error: '[CREATE_WORKSPACE]: Failed create' };
+    return { error: '[UPDATE_WORKSPACE]: Failed update' };
   }
 
   revalidatePath(`/workspace/${workspace.id}`);
   return { data: workspace };
 };
 
-export const createWorkspace = createSafeAction(CreateWorkspaceSchema, handler);
+export const updateWorkspace = createSafeAction(UpdateWorkspaceSchema, handler);

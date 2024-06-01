@@ -3,12 +3,10 @@
 import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { RefreshCw } from 'lucide-react';
 import { useAction } from '@/hooks/use-action';
-import { createWorkspace } from '@/actions/workspace/create-workspace';
-import { CreateWorkspaceSchema } from '@/actions/workspace/create-workspace/schema';
-import { InputType } from '@/actions/workspace/create-workspace/types';
+import { updateWorkspace } from '@/actions/workspace/update-workspace';
+import { UpdateWorkspaceSchema } from '@/actions/workspace/update-workspace/schema';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
@@ -24,23 +22,22 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import Image from 'next/image';
+import { InputType } from '@/actions/workspace/update-workspace/types';
 
 export const WorkspaceSettingModal = () => {
   const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
   const { type, data, isOpen, onClose } = useModal();
   const modalOpen = type === 'workspaceSetting' && isOpen;
   const { workspace } = data;
-
-  const router = useRouter();
   const { toast } = useToast();
 
-  const { execute } = useAction(createWorkspace, {
-    onSuccess: (data) => {
+  const { execute } = useAction(updateWorkspace, {
+    onSuccess: () => {
       toast({
         title: 'SUCCESS',
-        description: 'Successfully Create workspace',
+        description: 'Successfully Update workspace',
       });
-      router.push(`/workspace/${data.id}`);
     },
     onError: (error) => {
       toast({
@@ -48,16 +45,35 @@ export const WorkspaceSettingModal = () => {
         description: 'Something went wrong',
       });
     },
+    onFinally: () => setIsImagePickerOpen(false),
   });
 
   const onSubmit = (data: InputType) => {
+    if (!workspace) return;
     const { title, description, image } = data;
-    execute({ title, description, image });
+
+    if (
+      title === workspace.title &&
+      description === workspace.description &&
+      !isImagePickerOpen
+    ) {
+      return;
+    }
+
+    execute({
+      workspaceId: workspace.id,
+      title,
+      description,
+      image:
+        image ||
+        `${workspace.imageId}|${workspace.imageSmUrl}|${workspace.imageLgUrl}`,
+    });
   };
 
   const form = useForm({
-    resolver: zodResolver(CreateWorkspaceSchema),
+    resolver: zodResolver(UpdateWorkspaceSchema),
     defaultValues: {
+      workspaceId: workspace?.id || '',
       title: '',
       description: '',
       image: '',
@@ -72,7 +88,6 @@ export const WorkspaceSettingModal = () => {
     if (!workspace) return;
     form.setValue('title', workspace.title);
     form.setValue('description', workspace.description);
-    form.setValue('image', workspace.image);
   }, [workspace, form]);
 
   const modalBody = (
@@ -84,26 +99,25 @@ export const WorkspaceSettingModal = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <>
-                  {isImagePickerOpen && (
-                    <ImagePicker id="image" onChange={field.onChange} />
-                  )}
-                  <div className="flex items-center gap-x-2 mt-2">
-                    <Input
-                      readOnly
-                      value={field.value}
-                      className="border-0 text-black bg-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0"
+                {!isImagePickerOpen && workspace?.imageSmUrl ? (
+                  <div className="relative aspect-video cursor-pointer transition bg-muted group hover:opacity-75">
+                    <Image
+                      fill
+                      src={workspace.imageSmUrl}
+                      alt="image"
+                      className="rounded-sm object-cover"
+                      sizes="(max-width: 768px) 100vw"
                     />
-                    <Button
-                      type="button"
-                      size="icon"
-                      disabled={isImagePickerOpen}
-                      onClick={onOpenImagePicker}
-                    >
-                      <RefreshCw className="w-3 h-3" />
-                    </Button>
+                    <div className="absolute flex justify-center items-center w-full h-full inset-y-0 bg-black/30">
+                      <RefreshCw
+                        className="w-8 h-8 text-white"
+                        onClick={onOpenImagePicker}
+                      />
+                    </div>
                   </div>
-                </>
+                ) : (
+                  <ImagePicker id="image" onChange={field.onChange} />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>

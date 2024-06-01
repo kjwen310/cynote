@@ -25,7 +25,7 @@ export const NavSidebar = ({
             <NavItem
               id={workspace.id}
               title={workspace.title}
-              image={workspace.image}
+              image={workspace.imageSmUrl}
             />
           </div>
         ))}
