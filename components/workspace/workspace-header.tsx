@@ -40,7 +40,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
               <UserPlus className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onOpen('workspaceMember')}
+              onClick={() => onOpen('workspaceCollaborator', { workspace })}
               className="text-sm px-3 py-2 cursor-pointer text-indigo-600 dark:text-indigo-400"
             >
               Manage Collaborators

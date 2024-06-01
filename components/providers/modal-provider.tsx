@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ConfirmModal } from '@/components/modals/confirm-modal';
 import { WorkspaceCreateModal } from '@/components/modals/workspace-create-modal';
-import { WorkspaceMemberModal } from '@/components/modals/workspace-member-modal';
+import { WorkspaceCollaboratorModal } from '@/components/modals/workspace-collaborator-modal';
 import { WorkspaceInviteModal } from '@/components/modals/workspace-invite-modal';
 import { WorkspaceSettingModal } from '@/components/modals/workspace-setting-modal';
 import { TaskBoardCreateModal } from '@/components/modals/task-board-create-modal';
@@ -24,7 +24,7 @@ export const ModalProvider = () => {
     <>
       <ConfirmModal />
       <WorkspaceCreateModal />
-      <WorkspaceMemberModal />
+      <WorkspaceCollaboratorModal />
       <WorkspaceInviteModal />
       <WorkspaceSettingModal />
       <TaskBoardCreateModal />

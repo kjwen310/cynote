@@ -8,9 +8,6 @@ import { updateTaskCardOrder } from '@/actions/task/update-task-card-order';
 import { updateTaskListOrder } from '@/actions/task/update-task-list-order';
 import { CreateTaskList } from './create-task-list';
 import { ListItem } from './list-item';
-import { Button } from '@/components/ui/button';
-import { useInviteModal } from '@/hooks/use-invite-modal';
-import { useMemberModal } from '@/hooks/use-member-modal';
 import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -32,9 +29,6 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
   const params = useParams();
   const { workspaceId } = params;
   const { toast } = useToast();
-
-  const onOpen = useInviteModal((state) => state.onOpen);
-  const onMemberOpen = useMemberModal((state) => state.onOpen);
 
   useEffect(() => {
     setOrderedList(list);
@@ -154,8 +148,6 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Invite</Button>
-      <Button onClick={onMemberOpen}>Member</Button>
       <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
         droppableId="task-list"
