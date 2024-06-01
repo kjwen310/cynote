@@ -42,7 +42,9 @@ model Workspace {
   id          String @id @default(uuid())
   title       String
   description String
-  image       String
+  imageId    String
+  imageSmUrl String
+  imageLgUrl String
   inviteCode  String @default(uuid()) @unique
 
   collaborators Collaborator[]
