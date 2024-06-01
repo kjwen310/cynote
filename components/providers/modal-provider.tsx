@@ -1,6 +1,6 @@
 'use client';
 
-import { useIsMounted } from 'usehooks-ts';
+import { useState, useEffect } from 'react';
 import { ConfirmModal } from '@/components/modals/confirm-modal';
 import { WorkspaceCreateModal } from '@/components/modals/workspace-create-modal';
 import { WorkspaceMemberModal } from '@/components/modals/workspace-member-modal';
@@ -10,9 +10,13 @@ import { TaskBoardCreateModal } from '@/components/modals/task-board-create-moda
 import { TaskCardModal } from '@/components/modals/task-card-modal';
 
 export const ModalProvider = () => {
-  const isMounted = useIsMounted();
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (!isMounted()) {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
     return null;
   }
 

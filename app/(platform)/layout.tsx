@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/actions/auth';
 import { db } from '@/lib/db';
-import { Sidebar } from './_components/sidebar';
-import { MobileSidebar } from './_components/mobile-sidebar';
+import { NavSidebar } from '@/components/workspace-nav/nav-sidebar';
 
 export default async function PlatformLayout({
   children,
@@ -55,9 +54,13 @@ export default async function PlatformLayout({
   });
 
   return (
-    <div>
-      <MobileSidebar workspaces={workspaces} user={user} />
-      {children}
+    <div className="h-full">
+      <div className="fixed z-20 flex flex-col h-full w-[72px] inset-y-0">
+        <NavSidebar workspaces={workspaces} user={user} />
+      </div>
+      <main className="pl-[72px] h-full">
+        {children}
+      </main>
     </div>
   );
 }

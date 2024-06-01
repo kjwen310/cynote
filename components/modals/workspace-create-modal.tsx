@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Smile } from 'lucide-react';
 import { useAction } from '@/hooks/use-action';
 import { createWorkspace } from '@/actions/workspace/create-workspace';
 import { CreateWorkspaceSchema } from '@/actions/workspace/create-workspace/schema';
@@ -13,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
 import { DialogModal } from '@/components/dialog-modal';
-import { IconPicker } from '@/components/icon-picker';
+import { ImagePicker } from '@/components/image-picker';
 
 import {
   Form,
@@ -66,6 +65,18 @@ export const WorkspaceCreateModal = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImagePicker id="image" onChange={field.onChange} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
@@ -90,27 +101,6 @@ export const WorkspaceCreateModal = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <IconPicker onChange={field.onChange} asChild>
-                  <Button type="button" variant="outline">
-                    {field.value ? (
-                      <p className="w-4 h-4 mr-2">{field.value}</p>
-                    ) : (
-                      <Smile className="w-4 h-4 mr-2" />
-                    )}
-                    Pick Icon
-                  </Button>
-                </IconPicker>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button
           type="submit"
           className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
@@ -123,7 +113,7 @@ export const WorkspaceCreateModal = () => {
   return (
     <DialogModal
       title="Create Workspace"
-      description="Fill the title and description"
+      description="Choose cover image and set infos"
       body={modalBody}
       isOpen={modalOpen}
       onClose={onClose}

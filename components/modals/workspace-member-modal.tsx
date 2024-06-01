@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import qs from 'query-string';
 import { fetcher } from '@/lib/fetcher';
 import {
   Gavel,
@@ -15,7 +14,7 @@ import {
   ShieldQuestion,
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Collaborator } from '@prisma/client';
 import {
   DropdownMenu,
@@ -57,6 +56,7 @@ export const WorkspaceMemberModal = () => {
           <div key={d.id} className="flex items-center gap-x-2 mb-6">
             <Avatar className="w-8 h-8">
               <AvatarImage src={d.displayImage} />
+              <AvatarFallback>{d.displayName}</AvatarFallback>
             </Avatar>
             <div className="flex items-center gap-x-1 text-xs font-semibold">
               {d.displayName}
@@ -102,7 +102,7 @@ export const WorkspaceMemberModal = () => {
 
   return (
     <DialogModal
-      title="Member"
+      title="Collaborator Settings"
       description={`${workspaceData?.collaborators?.length || 0} members`}
       body={modalBody}
       isOpen={modalOpen}
