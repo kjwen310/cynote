@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useModal } from '@/hooks/use-modal';
 import { Label } from '@/components/ui/label';
@@ -20,6 +21,7 @@ export const WorkspaceInviteModal = () => {
 
   const { workspace } = data;
 
+  const router = useRouter();
   const { toast } = useToast();
   const origin = useOrigin();
   const inviteCode = workspace?.inviteCode || '';
@@ -46,12 +48,15 @@ export const WorkspaceInviteModal = () => {
         description: 'Something went wrong',
       });
     },
+    onFinally: () => {
+      router.refresh();
+    },
   });
 
   const onRefresh = () => {
     if (!workspace) return;
     execute({ workspaceId: workspace.id });
-  }
+  };
 
   const modalBody = (
     <div className="space-y-4 p-6">

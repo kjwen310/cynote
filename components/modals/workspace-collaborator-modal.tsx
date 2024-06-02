@@ -32,6 +32,7 @@ export const WorkspaceCollaboratorModal = () => {
         description: 'Something went wrong',
       });
     },
+    onFinally: onClose,
   });
 
   const onSubmit = (collaboratorId: string) => {

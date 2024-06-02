@@ -59,7 +59,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
         <DropdownMenuSeparator />
         {isOwner ? (
           <DropdownMenuItem
-            onClick={() => onOpen('confirm')}
+            onClick={() => onOpen('workspaceDelete', { workspace })}
             className="text-sm px-3 py-2 cursor-pointer text-rose-500"
           >
             Delete Workspace
@@ -67,7 +67,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
-            onClick={() => onOpen('confirm')}
+            onClick={() => onOpen('workspaceLeave', { workspace })}
             className="text-sm px-3 py-2 cursor-pointer text-rose-500"
           >
             Leave Workspace

@@ -9,6 +9,8 @@ export type ModalType =
   | 'workspaceCollaborator'
   | 'workspaceInvite'
   | 'workspaceSetting'
+  | 'workspaceLeave'
+  | 'workspaceDelete'
   | 'taskBoardCreate'
   | 'taskCard'
   | 'noteCreate';

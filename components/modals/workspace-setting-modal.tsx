@@ -45,7 +45,10 @@ export const WorkspaceSettingModal = () => {
         description: 'Something went wrong',
       });
     },
-    onFinally: () => setIsImagePickerOpen(false),
+    onFinally: () => {
+      setIsImagePickerOpen(false);
+      onClose();
+    },
   });
 
   const onSubmit = (data: InputType) => {

@@ -44,6 +44,7 @@ export const WorkspaceCreateModal = () => {
         description: 'Something went wrong',
       });
     },
+    onFinally: onClose,
   });
 
   const onSubmit = (data: InputType) => {
