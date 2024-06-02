@@ -1,5 +1,6 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { InputType, OutputType } from './types';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -11,14 +12,14 @@ const handler = async (data: InputType): Promise<OutputType> => {
   try {
     const supabase = await createSupabaseServerClient();
     await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
+      email,
+      password,
     });
   } catch (error) {
     return { error: '[SIGN_IN]: Failed sign in' };
   }
 
-  return {};
+  redirect('/workspace');
 };
 
 export const signInWithEmailAndPassword = createSafeAction(

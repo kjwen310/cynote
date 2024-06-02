@@ -10,10 +10,11 @@ const handler = async (): Promise<OutputType> => {
   try {
     const supabase = await createSupabaseServerClient();
     await supabase.auth.signOut();
-    redirect('/sign-in');
   } catch (error) {
     return { error: '[SIGN_OUT]: Failed sign out' };
   }
+
+  redirect('/sign-in');
 };
 
 export const signOut = createSafeAction(SignOutSchema, handler);

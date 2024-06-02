@@ -2,9 +2,9 @@ import { User, Workspace } from '@prisma/client';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ModeToggle } from '@/components/ui/mode-toggle';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { NavAction } from './nav-action';
 import { NavItem } from './nav-item';
+import { UserAvatar } from './user-avatar';
 
 interface NavSidebarProps {
   workspaces: Workspace[];
@@ -32,10 +32,7 @@ export const NavSidebar = ({
       </ScrollArea>
       <div className="flex flex-col items-center gap-y-4 mt-auto pb-3">
         <ModeToggle />
-        <Avatar className="w-12 h-12">
-          <AvatarImage src={user.avatarImg || ''} />
-          <AvatarFallback>{user.name}</AvatarFallback>
-        </Avatar>
+        <UserAvatar user={user} />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { TaskCard } from '@prisma/client';
+import { TaskCard, User } from '@prisma/client';
 import { WorkspaceWithDetail } from '@/types';
 
 export type ModalType =
-  | 'signOut'
+  | 'user'
   | 'confirm'
   | 'workspaceCreate'
   | 'workspaceCollaborator'
@@ -22,6 +22,7 @@ type ConfirmData = {
 
 interface ModalData {
   workspace?: WorkspaceWithDetail;
+  user?: User;
   taskCard?: TaskCard;
   confirm?: ConfirmData;
 }
