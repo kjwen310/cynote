@@ -7,7 +7,7 @@ export const CreateWorkspaceBtn = () => {
   const { onOpen } = useModal();
 
   return (
-    <Button variant="outline" onClick={() => onOpen('workspaceCreate')}>
+    <Button onClick={() => onOpen('workspaceCreate')}>
       Create Your Workspace
     </Button>
   );

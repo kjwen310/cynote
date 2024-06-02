@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "@/app/(landing)/_components/logo";
+import { Logo } from "@/components/logo";
 
 export const Navbar = () => {
   return (

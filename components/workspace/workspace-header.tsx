@@ -23,7 +23,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus:outline-none" asChild>
+      <DropdownMenuTrigger className="focus:outline-none px-4" asChild>
         <button className="w-full h-12 flex items-center text-md font-semibold border-b-2 border-neutral-200 transition dark:border-neutral-800 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50">
           {workspace.title}
           <ChevronDown className="w-6 h-6 ml-auto" />
