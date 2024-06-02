@@ -119,11 +119,14 @@ model TaskCard {
 }
 
 model Note {
-  id        String   @id @default(uuid())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  imageId    String
+  imageSmUrl String
+  imageLgUrl String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   workspaceId String
   workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
