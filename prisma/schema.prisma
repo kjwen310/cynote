@@ -31,21 +31,26 @@ enum LOG_TYPE {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  email         String         @unique
-  name          String?
-  avatarImg     String?
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatarImg String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   collaborators Collaborator[]
 }
 
 model Workspace {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
-  imageId    String
-  imageSmUrl String
-  imageLgUrl String
-  inviteCode  String @default(uuid()) @unique
+  imageId     String
+  imageSmUrl  String
+  imageLgUrl  String
+  inviteCode  String   @unique @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   collaborators Collaborator[]
   taskBoards    TaskBoard[]
@@ -60,6 +65,8 @@ model Collaborator {
   role                ROLE       @default(MEMBER)
   createdByTaskCards  TaskCard[] @relation("CreatedByTaskCards")
   assignedToTaskCards TaskCard[] @relation("AssignedToTaskCards")
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
 
   userId      String
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -70,11 +77,13 @@ model Collaborator {
 }
 
 model TaskBoard {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   title      String
   imageId    String
   imageSmUrl String
   imageLgUrl String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   workspaceId String
   workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)

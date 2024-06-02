@@ -1,5 +1,6 @@
 'use client';
 
+import { format } from 'date-fns';
 import { useModal } from '@/hooks/use-modal';
 import { Button } from '@/components/ui/button';
 import { useAction } from '@/hooks/use-action';
@@ -46,6 +47,10 @@ export const UserModal = () => {
         <div className="flex justify-between items-center">
           <div className="text-md font-semibold">Email</div>
           <div className="text-md">{user?.email}</div>
+        </div>
+        <div className="flex justify-between items-center">
+          <div className="text-md font-semibold">Created At</div>
+          {user && <div className="text-md">{format(new Date(user.createdAt), 'MMMM d yyyy h:mm')}</div>}
         </div>
         <Separator />
         <Button
