@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import { db } from '@/lib/db';
 import { BoardNavbar } from './_components/board-navbar';
 import { ListContainer } from './_components/list-container';
+import { CoverImage } from './_components/cover-image';
 
 interface TaskBoardIdPageProps {
   params: { taskBoardId: string };
@@ -39,14 +39,7 @@ export default async function TaskBoardIdPage({
 
   return (
     <div className="relative w-full">
-      <div className="relative w-full h-60">
-        <Image
-          src={taskBoard.imageLgUrl}
-          className="object-cover"
-          fill
-          alt="image"
-        />
-      </div>
+      <CoverImage taskBoard={taskBoard} />
       <BoardNavbar board={taskBoard} />
       <div className="h-full overflow-x-auto p-4">
         <ListContainer

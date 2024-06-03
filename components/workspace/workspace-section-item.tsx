@@ -5,8 +5,9 @@ import { ClipboardCheck, Edit, FilePenLine, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { WorkspaceWithDetail } from '@/types';
 import { Note, ROLE, TaskBoard } from '@prisma/client';
+import { useModal } from '@/hooks/use-modal';
 
-type ItemType = "taskBoard" | "note";
+type ItemType = 'taskBoard' | 'note';
 
 interface WorkspaceSectionItemProps {
   workspace: WorkspaceWithDetail;
@@ -16,9 +17,23 @@ interface WorkspaceSectionItemProps {
 }
 
 const iconMap = {
-  taskBoard: <ClipboardCheck className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />,
-  note: <FilePenLine className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />,
-}
+  taskBoard: (
+    <ClipboardCheck className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
+  ),
+  note: (
+    <FilePenLine className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
+  ),
+};
+
+const paramsMap = {
+  taskBoard: 'taskBoardId',
+  note: 'noteId',
+};
+
+const routeMap = {
+  taskBoard: 'task-board',
+  note: 'note',
+};
 
 export const WorkspaceSectionItem = ({
   workspace,
@@ -28,10 +43,14 @@ export const WorkspaceSectionItem = ({
 }: WorkspaceSectionItemProps) => {
   const params = useParams();
   const router = useRouter();
+  const { onOpen } = useModal();
 
-  const paramsMap = {
-    taskBoard: "taskBoardId",
-    note: "noteId",
+  const onEdit = () => {
+    router.push(`/workspace/${workspace.id}/${routeMap[type]}/${item.id}`);
+  };
+
+  const onDelete = () => {
+    console.log('delete');
   }
 
   return (
@@ -54,8 +73,14 @@ export const WorkspaceSectionItem = ({
       </div>
       {role === 'OWNER' && (
         <div className="flex items-center gap-x-2 ml-auto">
-          <Edit className="hidden w-4 h-4 text-zinc-500 transition group-hover:block hover:text-zinc-400 dark:text-zinc-400 dar:hover:text-zinc-300" />
-          <Trash className="hidden w-4 h-4 text-zinc-500 transition group-hover:block hover:text-zinc-400 dark:text-zinc-400 dar:hover:text-zinc-300" />
+          <Edit
+            className="hidden w-4 h-4 text-zinc-500 transition group-hover:block hover:text-zinc-400 dark:text-zinc-400 dar:hover:text-zinc-300"
+            onClick={onEdit}
+          />
+          <Trash
+            className="hidden w-4 h-4 text-zinc-500 transition group-hover:block hover:text-zinc-400 dark:text-zinc-400 dar:hover:text-zinc-300"
+            onClick={onDelete}
+          />
         </div>
       )}
     </button>

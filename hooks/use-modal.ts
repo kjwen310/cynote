@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TaskCard, User } from '@prisma/client';
+import { Note, TaskBoard, TaskCard, User } from '@prisma/client';
 import { WorkspaceWithDetail } from '@/types';
 
 export type ModalType =
@@ -13,17 +13,21 @@ export type ModalType =
   | 'workspaceDelete'
   | 'taskBoardCreate'
   | 'taskCard'
-  | 'noteCreate';
+  | 'noteCreate'
+  | 'noteUpdateCover'
+  | 'taskBoardUpdateCover';
 
 type ConfirmData = {
   title: string;
   description?: string;
-}
+};
 
 interface ModalData {
   workspace?: WorkspaceWithDetail;
   user?: User;
+  taskBoard?: TaskBoard;
   taskCard?: TaskCard;
+  note?: Note;
   confirm?: ConfirmData;
 }
 

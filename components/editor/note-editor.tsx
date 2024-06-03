@@ -11,18 +11,7 @@ const Editor = dynamic(() => import('@/components/editor/editor'), {
 const initialContent = [
   {
     type: 'paragraph',
-    content: 'Welcome to this demo!',
-  },
-  {
-    type: 'heading',
-    content: 'This is a heading block',
-  },
-  {
-    type: 'paragraph',
-    content: 'This is a paragraph block',
-  },
-  {
-    type: 'paragraph',
+    content: 'Welcome! Try type something...',
   },
 ];
 
@@ -31,16 +20,13 @@ export const NoteEditor = () => {
 
   return (
     <div>
-      <Editor
-        initialContent={JSON.stringify(initialContent)}
-        onChange={setBlocks}
-      />
-      <div>Document JSON:</div>
+      <Editor initialContent={JSON.stringify(initialContent)} onChange={setBlocks} />
+      {/* <div>Document JSON:</div>
       <div className={'item bordered'}>
         <pre>
           <code>{JSON.stringify(blocks, null, 2)}</code>
         </pre>
-      </div>
+      </div> */}
     </div>
   );
 };

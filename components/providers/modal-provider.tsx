@@ -11,6 +11,9 @@ import { WorkspaceLeaveModal } from '@/components/modals/workspace-leave-modal';
 import { WorkspaceDeleteModal } from '@/components/modals/workspace-delete-modal';
 import { TaskBoardCreateModal } from '@/components/modals/task-board-create-modal';
 import { TaskCardModal } from '@/components/modals/task-card-modal';
+import { NoteCreateModal } from '@/components/modals/note-create-modal';
+import { NoteUpdateCoverModal } from '@/components/modals/note-update-cover-modal';
+import { TaskBoardUpdateCoverModal } from '../modals/task-board-update-cover-modal';
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -35,6 +38,9 @@ export const ModalProvider = () => {
       <WorkspaceDeleteModal />
       <TaskBoardCreateModal />
       <TaskCardModal />
+      <NoteCreateModal />
+      <NoteUpdateCoverModal />
+      <TaskBoardUpdateCoverModal />
     </>
   );
 };
