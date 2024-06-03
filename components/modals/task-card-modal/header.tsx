@@ -29,6 +29,7 @@ export const Header = ({ card }: HeaderProps) => {
         title: "SUCCESS",
         description: `Rename to ${data.title}`,
       });
+      setTitle(data.title);
     },
     onError: (error) => {
       toast({
@@ -39,10 +40,11 @@ export const Header = ({ card }: HeaderProps) => {
   });
 
   const onSubmit = (data: FormData) => {
-    const title = data.get('description') as string;
+    const formTitle = data.get('title') as string;
+    if (title === formTitle) return;
   
     execute({
-      title,
+      title: formTitle,
       workspaceId: workspaceId as string,
       taskBoardId: taskBoardId as string,
       taskCardId: card.id,

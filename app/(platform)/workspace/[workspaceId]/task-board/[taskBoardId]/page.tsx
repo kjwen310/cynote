@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { BoardNavbar } from './_components/board-navbar';
+import { TaskBoardHeader } from './_components/task-board-header';
 import { ListContainer } from './_components/list-container';
 import { CoverImage } from './_components/cover-image';
 
@@ -32,20 +32,17 @@ export default async function TaskBoardIdPage({
   });
 
   if (!taskBoard) {
-    return (
-      <div>No Board Data</div>
-    )
+    return <div>No Board Data</div>;
   }
 
   return (
     <div className="relative w-full">
       <CoverImage taskBoard={taskBoard} />
-      <BoardNavbar board={taskBoard} />
-      <div className="h-full overflow-x-auto p-4">
-        <ListContainer
-          boardId={taskBoardId}
-          list={taskBoard.taskLists}
-        />
+      <div className="px-8">
+        <TaskBoardHeader taskBoard={taskBoard} />
+        <div className="h-full overflow-x-auto">
+          <ListContainer boardId={taskBoardId} list={taskBoard.taskLists} />
+        </div>
       </div>
     </div>
   );

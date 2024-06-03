@@ -1,10 +1,9 @@
 'use client';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useState, useRef, ElementRef } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEventListener } from 'usehooks-ts';
 import { TaskList } from '@prisma/client';
 import { Input } from '@/components/ui/input';

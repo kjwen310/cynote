@@ -22,7 +22,7 @@ export default async function NoteIdPage({
     <div className="space-y-4">
       <CoverImage note={note} />
       <div className="px-8">
-        <NoteHeader title={note.title} />
+        <NoteHeader note={note} />
         <NoteEditor />
       </div>
     </div>

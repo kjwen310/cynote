@@ -2,19 +2,19 @@
 
 import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
-import { Note } from '@prisma/client';
+import { TaskBoard } from '@prisma/client';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
-import { updateNoteTitle } from '@/actions/note/update-note-title';
+import { updateTaskBoardTitle } from '@/actions/task/update-task-board-title';
 import { Input } from '@/components/ui/input';
 
-interface NoteHeaderProps {
-  note: Note;
+interface TaskBoardHeaderProps {
+  taskBoard: TaskBoard;
 }
 
-export const NoteHeader = ({ note }: NoteHeaderProps) => {
-  const [title, setTitle] = useState(note.title);
+export const TaskBoardHeader = ({ taskBoard }: TaskBoardHeaderProps) => {
+  const [title, setTitle] = useState(taskBoard.title);
   const { toast } = useToast();
   const inputRef = useRef<ElementRef<'input'>>(null);
 
@@ -25,7 +25,7 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  const { execute } = useAction(updateNoteTitle, {
+  const { execute } = useAction(updateTaskBoardTitle, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -47,7 +47,7 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
 
     execute({
       workspaceId: workspaceId as string,
-      noteId: note.id,
+      taskBoardId: taskBoard.id,
       title: formTitle,
     });
   };
@@ -65,6 +65,6 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
   );
 };
 
-NoteHeader.Skeleton = function NoteHeaderSkeleton() {
+TaskBoardHeader.Skeleton = function TaskBoardHeaderSkeleton() {
   return <Skeleton className="w-24 h-6 bg-neutral-200" />;
 };
