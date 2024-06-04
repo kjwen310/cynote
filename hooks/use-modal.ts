@@ -12,10 +12,12 @@ export type ModalType =
   | 'workspaceLeave'
   | 'workspaceDelete'
   | 'taskBoardCreate'
+  | 'taskBoardUpdateCover'
+  | 'taskBoardDelete'
   | 'taskCard'
   | 'noteCreate'
   | 'noteUpdateCover'
-  | 'taskBoardUpdateCover';
+  | 'noteDelete';
 
 type ConfirmData = {
   title: string;

@@ -5,7 +5,7 @@ import { ClipboardCheck, Edit, FilePenLine, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { WorkspaceWithDetail } from '@/types';
 import { Note, ROLE, TaskBoard } from '@prisma/client';
-import { useModal } from '@/hooks/use-modal';
+import { useModal, ModalType } from '@/hooks/use-modal';
 
 type ItemType = 'taskBoard' | 'note';
 
@@ -16,23 +16,25 @@ interface WorkspaceSectionItemProps {
   role?: ROLE;
 }
 
-const iconMap = {
-  taskBoard: (
-    <ClipboardCheck className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
-  ),
-  note: (
-    <FilePenLine className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
-  ),
-};
-
-const paramsMap = {
-  taskBoard: 'taskBoardId',
-  note: 'noteId',
-};
-
-const routeMap = {
-  taskBoard: 'task-board',
-  note: 'note',
+const typeMap = {
+  taskBoard: {
+    param: 'taskBoardId',
+    route: 'task-board',
+    deleteModal: 'taskBoardDelete',
+    deletePayloadKey: 'taskBoard',
+    icon: (
+      <ClipboardCheck className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
+    ),
+  },
+  note: {
+    param: 'noteId',
+    route: 'note',
+    deleteModal: 'noteDelete',
+    deletePayloadKey: 'note',
+    icon: (
+      <FilePenLine className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
+    ),
+  },
 };
 
 export const WorkspaceSectionItem = ({
@@ -46,26 +48,29 @@ export const WorkspaceSectionItem = ({
   const { onOpen } = useModal();
 
   const onEdit = () => {
-    router.push(`/workspace/${workspace.id}/${routeMap[type]}/${item.id}`);
+    router.push(`/workspace/${workspace.id}/${typeMap[type].route}/${item.id}`);
   };
 
   const onDelete = () => {
-    console.log('delete');
-  }
+    onOpen(typeMap[type].deleteModal as ModalType, {
+      [typeMap[type].deletePayloadKey]: item,
+    });
+  };
 
   return (
     <button
       onClick={() => {}}
       className={cn(
         'group w-full flex items-center gap-x-2 rounded-md transition p-2 mb-1 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50',
-        params[paramsMap[type]] === item.id && 'bg-zinc-700/20 dark:bg-zinc-700'
+        params[typeMap[type].param] === item.id &&
+          'bg-zinc-700/20 dark:bg-zinc-700'
       )}
     >
-      {iconMap[type]}
+      {typeMap[type].icon}
       <div
         className={cn(
           'text-sm text-zinc-500 font-semibold line-clamp-1 transition group-hover:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300',
-          params[paramsMap[type]] === item.id &&
+          params[typeMap[type].param] === item.id &&
             'text-primary dark:text-zinc-200 dark:group-hover:text-white'
         )}
       >

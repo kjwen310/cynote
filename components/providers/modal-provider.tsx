@@ -13,7 +13,9 @@ import { TaskBoardCreateModal } from '@/components/modals/task-board-create-moda
 import { TaskCardModal } from '@/components/modals/task-card-modal';
 import { NoteCreateModal } from '@/components/modals/note-create-modal';
 import { NoteUpdateCoverModal } from '@/components/modals/note-update-cover-modal';
-import { TaskBoardUpdateCoverModal } from '../modals/task-board-update-cover-modal';
+import { TaskBoardUpdateCoverModal } from '@/components/modals/task-board-update-cover-modal';
+import { TaskBoardDeleteModal } from '@/components/modals/task-board-delete-modal';
+import { NoteDeleteModal } from '@/components/modals/note-delete-modal';
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -41,6 +43,8 @@ export const ModalProvider = () => {
       <NoteCreateModal />
       <NoteUpdateCoverModal />
       <TaskBoardUpdateCoverModal />
+      <TaskBoardDeleteModal />
+      <NoteDeleteModal />
     </>
   );
 };
