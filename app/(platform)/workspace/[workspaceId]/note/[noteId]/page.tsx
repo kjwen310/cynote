@@ -19,11 +19,11 @@ export default async function NoteIdPage({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-8">
       <CoverImage note={note} />
       <div className="px-8">
         <NoteHeader note={note} />
-        <NoteEditor />
+        <NoteEditor dataContent={note.content} />
       </div>
     </div>
   );

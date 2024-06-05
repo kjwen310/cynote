@@ -5,27 +5,27 @@ import '@blocknote/core/fonts/inter.css';
 import { useCreateBlockNote } from '@blocknote/react';
 import { BlockNoteView } from '@blocknote/mantine';
 import '@blocknote/mantine/style.css';
-import { Block, PartialBlock } from '@blocknote/core';
+import { PartialBlock } from '@blocknote/core';
 
 interface EditorProps {
-  onChange: (value: Block[]) => void;
-  initialContent: string;
+  initialContent: PartialBlock[];
   editable?: boolean;
+  onChange: (value: PartialBlock[]) => void;
 }
 
 export default function Editor({
-  onChange,
   initialContent,
   editable,
+  onChange,
 }: EditorProps) {
   const { resolvedTheme } = useTheme();
 
-  // Creates a new editor instance.
   const editor = useCreateBlockNote({
-    initialContent: initialContent ? JSON.parse(initialContent) as PartialBlock[] : undefined,
+    initialContent: initialContent
+      ? (initialContent as PartialBlock[])
+      : undefined,
   });
 
-  // Renders the editor instance using a React component.
   return (
     <BlockNoteView
       editor={editor}
