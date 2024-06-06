@@ -4,6 +4,7 @@ import { v4 as uuidV4 } from "uuid";
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { createHistoryLog } from "@/actions/historyLog/create-history-log";
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -44,6 +45,18 @@ const handler = async (data: InputType): Promise<OutputType> => {
     });
   } catch (error) {
     return { error: '[REFRESH_INVITE_CODE]: Failed refresh' };
+  }
+
+  try {
+    await createHistoryLog({
+      workspaceId: workspace.id,
+      targetId: workspace.id,
+      title: `Invite code of ${workspace.title}`,
+      action: 'UPDATE',
+      type: 'WORKSPACE',
+    });
+  } catch (error) {
+    return { error: '[UPDATE_WORKSPACE_INVITE_CODE_HISTORY]: Failed create' };
   }
 
   revalidatePath(`/workspace/${workspace.id}`);

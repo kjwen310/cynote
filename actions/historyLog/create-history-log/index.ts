@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { LOG_ACTION, LOG_TYPE } from '@prisma/client';
 
 interface CreateHistoryLogProps {
+  upperTargetId?: string;
   targetId: string;
   workspaceId: string;
   title: string;
@@ -11,7 +12,8 @@ interface CreateHistoryLogProps {
 }
 
 export const createHistoryLog = async ({
-    targetId,
+  upperTargetId,
+  targetId,
   workspaceId,
   title,
   action,
@@ -38,6 +40,7 @@ export const createHistoryLog = async ({
         collaboratorId: collaborator.id,
         collaboratorImage: collaborator.displayImage,
         collaboratorName: collaborator.displayName,
+        upperTargetId,
         targetId,
         workspaceId,
         title,

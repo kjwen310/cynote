@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { createHistoryLog } from '@/lib/create-history-log';
+import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -71,10 +71,11 @@ const handler = async (data: InputType): Promise<OutputType> => {
   try {
     await createHistoryLog({
       workspaceId,
+      upperTargetId: taskBoardId,
       targetId: taskCard.id,
       title: taskCard.title,
       action: "CREATE",
-      type: "TASK",
+      type: "TASK_CARD",
     });
   } catch (error) {
     return { error: '[TASK_CARD_COPY_HISTORY]: Failed create' };

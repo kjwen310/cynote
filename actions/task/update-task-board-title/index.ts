@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -46,8 +47,23 @@ const handler = async (data: InputType): Promise<OutputType> => {
     return { error: '[UPDATE_TASK_BOARD_TITLE]: Failed update' };
   }
 
+  try {
+    await createHistoryLog({
+      workspaceId,
+      targetId: taskBoard.id,
+      title: `Title of ${taskBoard.title}`,
+      action: 'UPDATE',
+      type: 'TASK_BOARD',
+    });
+  } catch (error) {
+    return { error: '[UPDATE_TASK_BOARD_TITLE_HISTORY]: Failed create' };
+  }
+
   revalidatePath(`/workspace/${workspaceId}/task-board/${taskBoardId}`);
   return { data: taskBoard };
 };
 
-export const updateTaskBoardTitle = createSafeAction(UpdateTaskBoardTitleSchema, handler);
+export const updateTaskBoardTitle = createSafeAction(
+  UpdateTaskBoardTitleSchema,
+  handler
+);

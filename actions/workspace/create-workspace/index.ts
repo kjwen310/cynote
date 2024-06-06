@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -55,6 +56,18 @@ const handler = async (data: InputType): Promise<OutputType> => {
     });
   } catch (error) {
     return { error: '[CREATE_WORKSPACE]: Failed create' };
+  }
+
+  try {
+    await createHistoryLog({
+      workspaceId: workspace.id,
+      targetId: workspace.id,
+      title: workspace.title,
+      action: 'CREATE',
+      type: 'WORKSPACE',
+    });
+  } catch (error) {
+    return { error: '[CREATE_WORKSPACE_HISTORY]: Failed create' };
   }
 
   revalidatePath(`/workspace/${workspace.id}`);

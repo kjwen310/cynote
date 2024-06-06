@@ -27,7 +27,10 @@ enum LOG_ACTION {
 
 enum LOG_TYPE {
   NOTE
-  TASK
+  TASK_BOARD
+  TASK_LIST
+  TASK_CARD
+  WORKSPACE
 }
 
 model User {
@@ -136,6 +139,7 @@ model Note {
 
 model HistoryLog {
   id                String     @id @default(uuid())
+  upperTargetId     String?
   targetId          String
   title             String
   action            LOG_ACTION

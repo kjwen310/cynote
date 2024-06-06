@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -47,16 +48,31 @@ const handler = async (data: InputType): Promise<OutputType> => {
         collaborators: {
           deleteMany: {
             id: collaboratorId,
-          }
-        }
+          },
+        },
       },
     });
   } catch (error) {
     return { error: '[DELETE_WORKSPACE]: Failed delete' };
   }
 
+  try {
+    await createHistoryLog({
+      workspaceId: workspace.id,
+      targetId: workspace.id,
+      title: `Collaborator of ${workspace.title}`,
+      action: 'UPDATE',
+      type: 'WORKSPACE',
+    });
+  } catch (error) {
+    return { error: '[DELETE_WORKSPACE_COLLABORATOR_HISTORY]: Failed create' };
+  }
+
   revalidatePath(`/workspace/${workspaceId}`);
   return { data: workspace };
 };
 
-export const deleteWorkspaceCollaborator = createSafeAction(DeleteWorkspaceCollaboratorSchema, handler);
+export const deleteWorkspaceCollaborator = createSafeAction(
+  DeleteWorkspaceCollaboratorSchema,
+  handler
+);

@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { createHistoryLog } from '@/lib/create-history-log';
+import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
@@ -43,7 +43,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
       targetId: taskBoard.id,
       title: taskBoard.title,
       action: 'CREATE',
-      type: 'TASK',
+      type: 'TASK_BOARD',
     });
   } catch (error) {
     return { error: '[CREATE_TASK_BOARD_HISTORY]: Failed create' };
