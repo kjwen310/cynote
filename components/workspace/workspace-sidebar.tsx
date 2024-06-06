@@ -27,10 +27,12 @@ export const WorkspaceSidebar = async ({
     redirect('/sign-in');
   }
 
-  const collaborators = await db.collaborator.findMany({
+  const collaborator = await db.collaborator.findUnique({
     where: {
-      userId: user.id,
-      workspaceId,
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
     },
   });
 
@@ -50,11 +52,11 @@ export const WorkspaceSidebar = async ({
     },
   });
 
-  if (!workspace || collaborators.length !== 1) {
+  if (!workspace || !collaborator) {
     redirect('/');
   }
 
-  const role = collaborators[0].role;
+  const role = collaborator.role;
 
   return (
     <div className="flex flex-col w-full h-full text-primary bg-[#f2f3f5] dark:bg-[#2b2d31]">

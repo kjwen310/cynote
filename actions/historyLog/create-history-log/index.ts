@@ -21,19 +21,32 @@ export const createHistoryLog = async ({
 }: CreateHistoryLogProps) => {
   try {
     const { data } = await getCurrentUser();
-    const authUser = data?.user || null;
-    const collaborators = await db.collaborator.findMany({
+    const authUser = data?.user || null
+
+    const user = await db.user.findUnique({
       where: {
-        userId: authUser?.id,
-        workspaceId,
+        id: authUser?.id,
       },
     });
 
-    if (!collaborators[0] || collaborators.length > 1 || !workspaceId) {
-      throw new Error('User not found');
+    if (!authUser || !user) {
+      return {
+        error: 'UnAuthorized',
+      };
     }
+  
+    const collaborator = await db.collaborator.findUnique({
+      where: {
+        userId_workspaceId: {
+          userId: authUser.id,
+          workspaceId,
+        },
+      },
+    });
 
-    const collaborator = collaborators[0];
+    if (!collaborator || !workspaceId) {
+      throw new Error('Collaborator not found');
+    }
 
     await db.historyLog.create({
       data: {

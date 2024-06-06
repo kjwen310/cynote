@@ -31,14 +31,16 @@ const handler = async (data: InputType): Promise<OutputType> => {
 
   const { workspaceId } = data;
 
-  const collaborators = await db.collaborator.findMany({
+  const collaborator = await db.collaborator.findUnique({
     where: {
-      userId: user.id,
-      workspaceId,
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
     },
   });
 
-  if (collaborators?.length !== 1 || collaborators?.[0]?.role !== 'OWNER') {
+  if (!collaborator || collaborator.role !== 'OWNER') {
     return { error: '[LEAVE_WORKSPACE]: Collaborator error' };
   }
 
@@ -50,7 +52,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
         id: workspaceId,
         collaborators: {
           some: {
-            id: collaborators[0].id,
+            id: collaborator.id,
           },
         },
       },

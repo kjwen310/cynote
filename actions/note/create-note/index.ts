@@ -31,14 +31,16 @@ const handler = async (data: InputType): Promise<OutputType> => {
   const { workspaceId, title, image } = data;
   const [imageId, imageSmUrl, imageLgUrl] = image.split('|');
 
-  const collaborators = await db.collaborator.findMany({
+  const collaborator = await db.collaborator.findUnique({
     where: {
-      userId: user?.id,
-      workspaceId,
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
     },
   });
 
-  if (!user || collaborators?.length !== 1) {
+  if (!user || !collaborator) {
     redirect('/sign-in');
   }
 
@@ -53,7 +55,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
         imageSmUrl,
         imageLgUrl,
         workspaceId,
-        authorId: collaborators[0].id,
+        authorId: collaborator.id,
       },
     });
   } catch (error) {

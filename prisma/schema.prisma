@@ -77,6 +77,8 @@ model Collaborator {
   workspace   Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   notes       Note[]
   historyLogs HistoryLog[]
+
+  @@unique([userId, workspaceId])
 }
 
 model TaskBoard {
