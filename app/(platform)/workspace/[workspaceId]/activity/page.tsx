@@ -1,24 +1,38 @@
 import { Suspense } from 'react';
-import { Separator } from '@/components/ui/separator';
+import { db } from '@/lib/db';
 import { ActivityList } from './_components/activity-list';
 import { ActivityIcon } from 'lucide-react';
+import { CoverImage } from './_components/cover-image';
 
 interface ActivityPageProps {
   params: { workspaceId: string };
 }
 
-export default function ActivityPage({ params }: ActivityPageProps) {
+export default async function ActivityPage({ params }: ActivityPageProps) {
   const { workspaceId } = params;
+
+  const workspace = await db.workspace.findUnique({
+    where: {
+      id: workspaceId,
+    },
+    select: {
+      imageLgUrl: true,
+    },
+  });
+
   return (
-    <div className="w-full">
-      <div className="flex space-x-4">
-        <ActivityIcon className="w-6 h-6" />
-        <p>Activity</p>
+    <div className="space-y-4 pb-8">
+      <CoverImage image={workspace?.imageLgUrl || ''} />
+      <div className="space-y-8 px-8">
+        <div className="flex items-center gap-x-4">
+          <ActivityIcon className="w-5 h-5 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
+          <h2 className="text-xl font-semibold">Workspace Activities</h2>
+        </div>
+
+        <Suspense fallback={<ActivityList.Skeleton />}>
+          <ActivityList workspaceId={workspaceId} />
+        </Suspense>
       </div>
-      <Separator className="my-4" />
-      <Suspense fallback={<ActivityList.Skeleton />}>
-        <ActivityList workspaceId={workspaceId} />
-      </Suspense>
     </div>
   );
 }

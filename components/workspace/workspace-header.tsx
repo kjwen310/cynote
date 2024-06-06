@@ -1,7 +1,19 @@
 'use client';
 
+import Link from 'next/link';
+import {
+  ChevronDown,
+  Settings,
+  UserPlus,
+  Users,
+  Trash,
+  LogOut,
+  Activity,
+} from 'lucide-react';
 import { ROLE } from '@prisma/client';
 import { WorkspaceWithDetail } from '@/types';
+import { useModal } from '@/hooks/use-modal';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +21,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, Settings, UserPlus, Users, Trash, LogOut } from 'lucide-react';
-import { useModal } from '@/hooks/use-modal';
 
 interface WorkspaceHeaderProps {
   role: ROLE;
@@ -56,7 +66,15 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
           Workspace Settings
           <Settings className="w-4 h-4 ml-auto" />
         </DropdownMenuItem>
+        <DropdownMenuItem className="text-sm px-3 py-2 cursor-pointer">
+          <Link href={`/workspace/${workspace.id}/activity`}>
+            Workspace Activities
+          </Link>
+          <Activity className="w-4 h-4 ml-auto" />
+        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
+
         {isOwner ? (
           <DropdownMenuItem
             onClick={() => onOpen('workspaceDelete', { workspace })}
