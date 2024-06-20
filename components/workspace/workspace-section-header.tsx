@@ -2,7 +2,6 @@
 
 import { Plus, Settings } from 'lucide-react';
 import { WorkspaceWithDetail } from '@/types';
-import { ROLE } from '@prisma/client';
 import { useModal } from '@/hooks/use-modal';
 
 type ActionType = 'create' | 'manage';
@@ -10,10 +9,11 @@ type ModalType = 'taskBoardCreate' | 'noteCreate' | 'workspaceCollaborator';
 
 interface WorkspaceSectionHeaderProps {
   workspace: WorkspaceWithDetail;
+  currentCollaboratorId?: string;
   actionType?: ActionType;
   modalType: ModalType;
-  role: ROLE;
   label: string;
+  isOwner: boolean;
 }
 
 const iconMap = {
@@ -23,10 +23,11 @@ const iconMap = {
 
 export const WorkspaceSectionHeader = ({
   workspace,
+  currentCollaboratorId,
   actionType = 'create',
   modalType,
-  role,
   label,
+  isOwner,
 }: WorkspaceSectionHeaderProps) => {
   const { onOpen } = useModal();
 
@@ -35,10 +36,10 @@ export const WorkspaceSectionHeader = ({
       <div className="text-xs text-zinc-500 font-semibold dark:text-zinc-300">
         {label}
       </div>
-      {role === 'OWNER' && (
+      {isOwner && (
         <button
           className="transition text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"
-          onClick={() => onOpen(modalType, { workspace })}
+          onClick={() => onOpen(modalType, { workspace, currentCollaboratorId })}
         >
           {iconMap[actionType]}
         </button>

@@ -31,6 +31,8 @@ interface ModalData {
   taskCard?: TaskCard;
   note?: Note;
   confirm?: ConfirmData;
+  currentCollaboratorId?: string;
+  isOwner?: boolean;
 }
 
 interface ModalStore {

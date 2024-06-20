@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { RefreshCw } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useAction } from '@/hooks/use-action';
 import { updateWorkspace } from '@/actions/workspace/update-workspace';
 import { UpdateWorkspaceSchema } from '@/actions/workspace/update-workspace/schema';
@@ -28,9 +29,10 @@ import { InputType } from '@/actions/workspace/update-workspace/types';
 export const WorkspaceSettingModal = () => {
   const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
   const { type, data, isOpen, onClose } = useModal();
-  const modalOpen = type === 'workspaceSetting' && isOpen;
-  const { workspace } = data;
   const { toast } = useToast();
+
+  const modalOpen = type === 'workspaceSetting' && isOpen;
+  const { workspace, isOwner } = data;
 
   const { execute } = useAction(updateWorkspace, {
     onSuccess: () => {
@@ -103,7 +105,12 @@ export const WorkspaceSettingModal = () => {
             <FormItem>
               <FormControl>
                 {!isImagePickerOpen && workspace?.imageSmUrl ? (
-                  <div className="relative aspect-video cursor-pointer transition bg-muted group hover:opacity-75">
+                  <div
+                    className={cn(
+                      'relative aspect-video bg-muted group',
+                      isOwner && 'cursor-pointer transition  hover:opacity-75'
+                    )}
+                  >
                     <Image
                       fill
                       src={workspace.imageSmUrl}
@@ -111,12 +118,14 @@ export const WorkspaceSettingModal = () => {
                       className="rounded-sm object-cover"
                       sizes="(max-width: 768px) 100vw"
                     />
-                    <div className="absolute flex justify-center items-center w-full h-full inset-y-0 bg-black/30">
-                      <RefreshCw
-                        className="w-8 h-8 text-white"
-                        onClick={onOpenImagePicker}
-                      />
-                    </div>
+                    {isOwner && (
+                      <div className="absolute flex justify-center items-center w-full h-full inset-y-0 bg-black/30">
+                        <RefreshCw
+                          className="w-8 h-8 text-white"
+                          onClick={onOpenImagePicker}
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <ImagePicker id="image" onChange={field.onChange} />
@@ -133,7 +142,11 @@ export const WorkspaceSettingModal = () => {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Please fill title" {...field} />
+                <Input
+                  placeholder="Please fill title"
+                  disabled={!isOwner}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -146,18 +159,24 @@ export const WorkspaceSettingModal = () => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="Please fill description" {...field} />
+                <Input
+                  placeholder="Please fill description"
+                  disabled={!isOwner}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
-        >
-          Edit
-        </Button>
+        {isOwner && (
+          <Button
+            type="submit"
+            className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
+          >
+            Edit
+          </Button>
+        )}
       </form>
     </Form>
   );

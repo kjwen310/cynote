@@ -10,7 +10,6 @@ import {
   LogOut,
   Activity,
 } from 'lucide-react';
-import { ROLE } from '@prisma/client';
 import { WorkspaceWithDetail } from '@/types';
 import { useModal } from '@/hooks/use-modal';
 
@@ -23,13 +22,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface WorkspaceHeaderProps {
-  role: ROLE;
   workspace: WorkspaceWithDetail;
+  isOwner: boolean;
+  currentCollaboratorId: string;
 }
 
-export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
+export const WorkspaceHeader = ({ workspace, isOwner, currentCollaboratorId }: WorkspaceHeaderProps) => {
   const { onOpen } = useModal();
-  const isOwner = role === 'OWNER';
 
   return (
     <DropdownMenu>
@@ -50,7 +49,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
               <UserPlus className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onOpen('workspaceCollaborator', { workspace })}
+              onClick={() => onOpen('workspaceCollaborator', { workspace, currentCollaboratorId })}
               className="text-sm px-3 py-2 cursor-pointer text-indigo-600 dark:text-indigo-400"
             >
               Manage Collaborators
@@ -60,7 +59,7 @@ export const WorkspaceHeader = ({ role, workspace }: WorkspaceHeaderProps) => {
           </>
         )}
         <DropdownMenuItem
-          onClick={() => onOpen('workspaceSetting', { workspace })}
+          onClick={() => onOpen('workspaceSetting', { workspace, isOwner })}
           className="text-sm px-3 py-2 cursor-pointer"
         >
           Workspace Settings

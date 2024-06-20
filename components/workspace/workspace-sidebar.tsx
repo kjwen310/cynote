@@ -56,19 +56,20 @@ export const WorkspaceSidebar = async ({
     redirect('/');
   }
 
-  const role = collaborator.role;
+  const isOwner = collaborator.role === "OWNER";
 
   return (
     <div className="flex flex-col w-full h-full text-primary bg-[#f2f3f5] dark:bg-[#2b2d31]">
-      <WorkspaceHeader role={role} workspace={workspace} />
+      <WorkspaceHeader currentCollaboratorId={collaborator.id} isOwner={isOwner} workspace={workspace} />
       <ScrollArea className="flex-1 space-y-2 px-4">
         <div>
           <WorkspaceSectionHeader
             workspace={workspace}
+            currentCollaboratorId={collaborator.id}
             actionType="manage"
             modalType="workspaceCollaborator"
             label="Collaborators"
-            role={role}
+            isOwner={isOwner}
           />
           <div className="space-x-2">
             {!!workspace.collaborators.length &&
@@ -85,7 +86,7 @@ export const WorkspaceSidebar = async ({
             workspace={workspace}
             modalType="taskBoardCreate"
             label="Task Boards"
-            role={role}
+            isOwner={isOwner}
           />
           <div className="space-y-[2px]">
             {workspace.taskBoards.length ? (
@@ -95,7 +96,7 @@ export const WorkspaceSidebar = async ({
                   type="taskBoard"
                   workspace={workspace}
                   item={taskBoard}
-                  role={role}
+                  isOwner={isOwner}
                 />
               ))
             ) : (
@@ -110,7 +111,7 @@ export const WorkspaceSidebar = async ({
             workspace={workspace}
             modalType="noteCreate"
             label="Notes"
-            role={role}
+            isOwner={isOwner}
           />
           <div className="space-y-[2px]">
             {workspace.notes.length ? (
@@ -119,8 +120,9 @@ export const WorkspaceSidebar = async ({
                   key={note.id}
                   type="note"
                   workspace={workspace}
+                  currentCollaboratorId={collaborator.id}
                   item={note}
-                  role={role}
+                  isOwner={isOwner}
                 />
               ))
             ) : (

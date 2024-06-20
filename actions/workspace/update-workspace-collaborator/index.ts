@@ -7,12 +7,12 @@ import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/create-safe-action';
-import { DeleteWorkspaceCollaboratorSchema } from './schema';
+import { UpdateWorkspaceCollaboratorSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {
   const { data: userData } = await getCurrentUser();
   const authUser = userData?.user || null;
-  const { workspaceId, collaboratorId } = data;
+  const { workspaceId, collaboratorId, role } = data;
 
   if (!authUser) {
     return {
@@ -48,33 +48,38 @@ const handler = async (data: InputType): Promise<OutputType> => {
       },
       data: {
         collaborators: {
-          deleteMany: {
-            id: collaboratorId,
+          update: {
+            where: {
+              id: collaboratorId,
+            },
+            data: {
+              role,
+            }
           },
         },
       },
     });
   } catch (error) {
-    return { error: '[DELETE_WORKSPACE_COLLABORATOR]: Failed delete' };
+    return { error: '[UPDATE_WORKSPACE_COLLABORATOR_WORKSPACE]: Failed update' };
   }
 
   try {
     await createHistoryLog({
       workspaceId: workspace.id,
       targetId: workspace.id,
-      title: `Collaborator of ${workspace.title}`,
+      title: `Collaborator Role of ${workspace.title}`,
       action: 'UPDATE',
       type: 'WORKSPACE',
     });
   } catch (error) {
-    return { error: '[DELETE_WORKSPACE_COLLABORATOR_HISTORY]: Failed create' };
+    return { error: '[UPDATE_WORKSPACE_COLLABORATOR_HISTORY]: Failed create' };
   }
 
   revalidatePath(`/workspace/${workspaceId}`);
   return { data: workspace };
 };
 
-export const deleteWorkspaceCollaborator = createSafeAction(
-  DeleteWorkspaceCollaboratorSchema,
+export const updateWorkspaceCollaborator = createSafeAction(
+  UpdateWorkspaceCollaboratorSchema,
   handler
 );

@@ -9,9 +9,10 @@ import { WorkspaceWithDetail } from '@/types';
 
 interface CoverImageProps {
   workspace: WorkspaceWithDetail;
+  isOwner: boolean;
 }
 
-export const CoverImage = ({ workspace }: CoverImageProps) => {
+export const CoverImage = ({ workspace, isOwner }: CoverImageProps) => {
   const { onOpen } = useModal();
   return (
     <div
@@ -28,17 +29,19 @@ export const CoverImage = ({ workspace }: CoverImageProps) => {
           className="object-cover"
         />
       )}
-      <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onOpen('workspaceSetting', { workspace })}
-          className="text-xs text-muted-foreground"
-        >
-          <Settings className="w-4 h-4 mr-2" />
-          Settings
-        </Button>
-      </div>
+      {isOwner && (
+        <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onOpen('workspaceSetting', { workspace, isOwner })}
+            className="text-xs text-muted-foreground"
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Settings
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

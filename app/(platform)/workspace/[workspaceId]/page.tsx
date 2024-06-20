@@ -30,10 +30,12 @@ export default async function WorkspaceIdPage({
     redirect('/sign-in');
   }
 
-  const collaborators = await db.collaborator.findMany({
+  const collaborator = await db.collaborator.findUnique({
     where: {
-      userId: user.id,
-      workspaceId,
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
     },
   });
 
@@ -53,13 +55,15 @@ export default async function WorkspaceIdPage({
     },
   });
 
-  if (!workspace || collaborators.length !== 1) {
+  if (!workspace || !collaborator) {
     redirect('/');
   }
 
+  const isOwner = collaborator.role === "OWNER";
+
   return (
     <div className="space-y-8 pb-8">
-      <CoverImage workspace={workspace} />
+      <CoverImage workspace={workspace} isOwner={isOwner} />
 
       <div className="space-y-8 px-8">
         <section className="space-y-4">
