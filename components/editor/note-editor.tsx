@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { PartialBlock } from '@blocknote/core';
@@ -15,34 +15,25 @@ const Editor = dynamic(() => import('@/components/editor/editor'), {
 
 interface NoteEditorProps {
   dataContent: string;
+  isAuthor: boolean;
 }
 
-const defaultContent = [
-  {
-    type: 'paragraph',
-    content: 'Welcome! Try type something...',
-  },
-];
-
-export const NoteEditor = ({ dataContent }: NoteEditorProps) => {
+export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
   const [editorContent, setEditorContent] = useState<PartialBlock[]>([]);
-  const [initialContent, setInitialContent] = useState<PartialBlock[]>([]);
+  const [initialContent, setInitialContent] = useState<
+    PartialBlock[] | undefined
+  >([]);
 
-  const initRender = useRef(true);
   const { toast } = useToast();
-
   const params = useParams();
   const { workspaceId, noteId } = params;
 
   useEffect(() => {
-    if (initRender.current) {
-      initRender.current = false;
-      const content = JSON.parse(dataContent)?.length
-        ? JSON.parse(dataContent)
-        : defaultContent;
-      setInitialContent(content);
-    }
-  }, []);
+    const content = JSON.parse(dataContent)?.length
+      ? JSON.parse(dataContent)
+      : undefined;
+    setInitialContent(content);
+  }, [dataContent]);
 
   const { execute, isLoading } = useAction(updateNoteContent, {
     onSuccess: (data) => {
@@ -76,17 +67,25 @@ export const NoteEditor = ({ dataContent }: NoteEditorProps) => {
   };
 
   return (
-    <div>
+    <>
       <Editor
         initialContent={initialContent}
         onChange={onChange}
-        editable={!isLoading}
+        editable={isAuthor && !isLoading}
       />
-      <div className="fixed bottom-0 right-0 flex justify-end p-8">
-        <Button variant="outline" size="lg" disabled={isLoading || !initialContent?.length} onClick={onUpdateContent} className='shadow-md'>
-          Save
-        </Button>
-      </div>
-    </div>
+      {isAuthor && (
+        <div className="fixed bottom-0 right-0 flex justify-end p-8">
+          <Button
+            variant="outline"
+            size="lg"
+            disabled={isLoading}
+            onClick={onUpdateContent}
+            className="shadow-md"
+          >
+            Save
+          </Button>
+        </div>
+      )}
+    </>
   );
 };

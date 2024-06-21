@@ -11,9 +11,10 @@ import { Input } from '@/components/ui/input';
 
 interface NoteHeaderProps {
   note: Note;
+  isAuthor: boolean;
 }
 
-export const NoteHeader = ({ note }: NoteHeaderProps) => {
+export const NoteHeader = ({ note, isAuthor }: NoteHeaderProps) => {
   const [title, setTitle] = useState(note.title);
   const { toast } = useToast();
   const inputRef = useRef<ElementRef<'input'>>(null);
@@ -53,15 +54,23 @@ export const NoteHeader = ({ note }: NoteHeaderProps) => {
   };
 
   return (
-    <form action={onSubmit} className="w-full bg-transparent my-8">
-      <Input
-        ref={inputRef}
-        name="title"
-        onBlur={onBlur}
-        defaultValue={title}
-        className="text-5xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
-      />
-    </form>
+    <>
+      {isAuthor ? (
+        <form action={onSubmit} className="w-full bg-transparent my-8">
+          <Input
+            ref={inputRef}
+            name="title"
+            onBlur={onBlur}
+            defaultValue={title}
+            className="text-5xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
+          />
+        </form>
+      ) : (
+        <div className="text-5xl text-[#3F3F3F] bg-transparent font-bold break-words py-4 dark:text-[#CFCFCF]">
+          {title}
+        </div>
+      )}
+    </>
   );
 };
 

@@ -108,7 +108,8 @@ export default async function WorkspaceIdPage({
           </div>
           <div className="w-full grid gap-4 grid-cols-2 sm:grid-cols-3">
             {workspace.notes.map((note: Note) => (
-              <Link
+              // Need to find other solutions
+              <a
                 key={note.id}
                 href={`/workspace/${workspaceId}/note/${note.id}`}
                 style={{ backgroundImage: `url(${note.imageSmUrl})` }}
@@ -119,7 +120,7 @@ export default async function WorkspaceIdPage({
                     {note.title}
                   </p>
                 </div>
-              </Link>
+              </a>
             ))}
             <CreateBtn type="note" />
           </div>

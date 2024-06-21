@@ -1,5 +1,6 @@
 'use client';
 
+import { revalidatePath } from 'next/cache';
 import { useParams, useRouter } from 'next/navigation';
 import { ClipboardCheck, FilePenLine, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -50,7 +51,8 @@ export const WorkspaceSectionItem = ({
   const { onOpen } = useModal();
 
   const onView = () => {
-    router.push(`/workspace/${workspace.id}/${typeMap[type].route}/${item.id}`);
+    // Need to find other solutions
+    location.href = `/workspace/${workspace.id}/${typeMap[type].route}/${item.id}`;
   };
 
   const onDelete = () => {

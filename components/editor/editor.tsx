@@ -8,7 +8,7 @@ import '@blocknote/mantine/style.css';
 import { PartialBlock } from '@blocknote/core';
 
 interface EditorProps {
-  initialContent: PartialBlock[];
+  initialContent: PartialBlock[] | undefined;
   editable?: boolean;
   onChange: (value: PartialBlock[]) => void;
 }
@@ -21,7 +21,7 @@ export default function Editor({
   const { resolvedTheme } = useTheme();
 
   const editor = useCreateBlockNote({
-    initialContent: initialContent
+    initialContent: initialContent?.length
       ? (initialContent as PartialBlock[])
       : undefined,
   });

@@ -1,29 +1,64 @@
+import { redirect } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { db } from '@/lib/db';
-import { NoteEditor } from '@/components/editor/note-editor';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { CoverImage } from './_components/cover-image';
 import { NoteHeader } from './_components/note-header';
 
+const NoteEditor = dynamic(() => import('@/components/editor/note-editor'), {
+  ssr: false,
+});
+
+interface NoteIdPageProps {
+  params: { workspaceId: string, noteId: string };
+}
+
 export default async function NoteIdPage({
   params,
-}: {
-  params: { noteId: string };
-}) {
-  const note = await db.note.findUnique({
+}: NoteIdPageProps) {
+  const { workspaceId, noteId } = params;
+
+  const { data } = await getCurrentUser();
+  const authUser = data?.user || null;
+
+  const user = await db.user.findUnique({
     where: {
-      id: params.noteId,
+      id: authUser?.id,
     },
   });
 
-  if (!note) {
+  if (!user || !authUser || !authUser.email) {
+    redirect('/sign-in');
+  }
+
+  const note = await db.note.findUnique({
+    where: {
+      id: noteId,
+      workspaceId,
+    },
+  });
+
+  const collaborator = await db.collaborator.findUnique({
+    where: {
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
+    },
+  });
+
+  if (!note || !collaborator) {
     return <div>Note not found</div>;
   }
 
+  const isAuthor = collaborator?.id === note?.authorId;
+
   return (
     <div className="space-y-4 pb-8">
-      <CoverImage note={note} />
+      <CoverImage note={note} isAuthor={isAuthor} />
       <div className="px-8">
-        <NoteHeader note={note} />
-        <NoteEditor dataContent={note.content} />
+        <NoteHeader note={note} isAuthor={isAuthor} />
+        <NoteEditor dataContent={note.content} isAuthor={isAuthor} />
       </div>
     </div>
   );

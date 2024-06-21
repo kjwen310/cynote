@@ -9,9 +9,10 @@ import { useModal } from '@/hooks/use-modal';
 
 interface CoverImageProps {
   note: Note;
+  isAuthor: boolean;
 }
 
-export const CoverImage = ({ note }: CoverImageProps) => {
+export const CoverImage = ({ note, isAuthor }: CoverImageProps) => {
   const { onOpen } = useModal();
   return (
     <div
@@ -28,17 +29,19 @@ export const CoverImage = ({ note }: CoverImageProps) => {
           className="object-cover"
         />
       )}
-      <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onOpen('noteUpdateCover', { note })}
-          className="text-xs text-muted-foreground"
-        >
-          <ImageIcon className="w-4 h-4 mr-2" />
-          Change Cover
-        </Button>
-      </div>
+      {isAuthor && (
+        <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onOpen('noteUpdateCover', { note })}
+            className="text-xs text-muted-foreground"
+          >
+            <ImageIcon className="w-4 h-4 mr-2" />
+            Change Cover
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

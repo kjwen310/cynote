@@ -37,7 +37,8 @@ export const NoteCreateModal = () => {
         title: 'SUCCESS',
         description: 'Successfully Create note',
       });
-      router.push(`/workspace/${workspace?.id}/${data.id}`);
+      // Need to find other solutions
+      location.href = `/workspace/${workspace?.id}/note/${data.id}`;
     },
     onError: (error) => {
       toast({
@@ -58,7 +59,7 @@ export const NoteCreateModal = () => {
   const form = useForm({
     resolver: zodResolver(CreateNoteSchema),
     defaultValues: {
-    workspaceId: workspace?.id || "",
+      workspaceId: workspace?.id || '',
       title: '',
       image: '',
     },
