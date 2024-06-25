@@ -44,7 +44,7 @@ export const Body = ({ card }: BodyProps) => {
 
   const onSubmit = (data: FormData) => {
     const description = data.get('description') as string;
-  
+
     execute({
       description,
       workspaceId: workspaceId as string,
@@ -75,7 +75,7 @@ export const Body = ({ card }: BodyProps) => {
 
   return (
     <div className="flex items-start gap-x-3 w-full">
-      <AlignLeft className="w-5 h-5text-neutral-700 mt-0.5" />
+      <AlignLeft className="w-5 h-5text-neutral-700" />
       <div className="w-full">
         <p className="font-semibold text-neutral-700 mb-2">Description</p>
         {isEditing ? (
@@ -85,7 +85,7 @@ export const Body = ({ card }: BodyProps) => {
               name="description"
               placeholder="Add more description..."
               defaultValue={card.description || undefined}
-              className="w-full mt-2"
+              className="w-full resize-none mt-2 "
             />
             <div className="flex items-center space-x-2">
               <Button type="submit" size="sm">

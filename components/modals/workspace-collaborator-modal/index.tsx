@@ -87,14 +87,14 @@ export const WorkspaceCollaboratorModal = () => {
     <ScrollArea className="max-h-[400px]">
       {collaborators &&
         collaborators.map((d: Collaborator) => (
-          <div className="flex items-center gap-x-2">
-            <div key={d.id} className="flex items-center gap-x-2">
+          <div key={d.id} className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2">
               <Avatar className="w-8 h-8">
                 <AvatarImage src={d.displayImage} />
                 <AvatarFallback>{d.displayName}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col space-y-1">
-                <div key={d.id} className="flex items-center gap-x-2">
+                <div className="flex items-center gap-x-2">
                   <p className="text-sm text-muted-foreground font-semibold text-neutral-700">
                     {d.displayName}
                   </p>

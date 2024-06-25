@@ -2,8 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { forwardRef } from 'react';
+import { useRef, ElementRef } from 'react';
 import { X, Plus } from 'lucide-react';
+import { useEventListener, useOnClickOutside } from 'usehooks-ts';
 import { Button } from '@/components/ui/button';
 import { createTaskCard } from '@/actions/task/create-task-card';
 import { CreateTaskCardSchema } from '@/actions/task/create-task-card/schema';
@@ -28,10 +29,8 @@ import {
 } from '@/components/ui/form';
 import { useParams } from 'next/navigation';
 
-export const CreateTaskCard = forwardRef<
-  HTMLTextAreaElement,
-  CreateTaskCardProps
->(({ listId, isEditing, disableEditing, enableEditing }, ref) => {
+export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditing }: CreateTaskCardProps) => {
+  const formRef = useRef<ElementRef<'form'>>(null);
   const { toast } = useToast();
   const params = useParams();
 
@@ -73,10 +72,20 @@ export const CreateTaskCard = forwardRef<
     },
   });
 
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      disableEditing();
+    }
+  };
+
+  useEventListener('keydown', onKeyDown);
+  useOnClickOutside(formRef, disableEditing);
+
   if (isEditing) {
     return (
       <Form {...form}>
         <form
+          ref={formRef}
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 py-0.5 px-1 m-1"
         >
@@ -88,7 +97,7 @@ export const CreateTaskCard = forwardRef<
                 <FormControl>
                   <Textarea
                     id="title"
-                    placeholder="Enter card info..."
+                    placeholder="Enter card title..."
                     className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     {...field}
                   />
@@ -121,6 +130,4 @@ export const CreateTaskCard = forwardRef<
       </Button>
     </div>
   );
-});
-
-CreateTaskCard.displayName = 'CreateTaskCard';
+};

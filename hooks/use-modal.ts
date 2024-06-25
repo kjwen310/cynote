@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Note, TaskBoard, TaskCard, User } from '@prisma/client';
+import { Collaborator, Note, TaskBoard, TaskCard, User } from '@prisma/client';
 import { WorkspaceWithDetail } from '@/types';
 
 export type ModalType =
@@ -33,6 +33,7 @@ interface ModalData {
   confirm?: ConfirmData;
   currentCollaboratorId?: string;
   isOwner?: boolean;
+  collaborators?: Collaborator[];
 }
 
 interface ModalStore {

@@ -1,7 +1,8 @@
 'use client';
 
-import { ElementRef, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
+import { Collaborator } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { TaskListWithTaskCard } from '@/types';
 import { ListHeader } from './list-header';
@@ -11,11 +12,11 @@ import { CardItem } from './card-item';
 interface ListItemProps {
   index: number;
   item: TaskListWithTaskCard;
+  collaborators: Collaborator[];
 }
 
-export const ListItem = ({ index, item }: ListItemProps) => {
+export const ListItem = ({ index, item, collaborators }: ListItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const textareaRef = useRef<ElementRef<'textarea'>>(null);
 
   const disableEditing = () => {
     setIsEditing(false);
@@ -23,9 +24,6 @@ export const ListItem = ({ index, item }: ListItemProps) => {
 
   const enableEditing = () => {
     setIsEditing(true);
-    setTimeout(() => {
-      textareaRef.current?.focus();
-    });
   };
 
   return (
@@ -40,7 +38,7 @@ export const ListItem = ({ index, item }: ListItemProps) => {
             {...provided.dragHandleProps}
             className="w-full rounded-md shadow-md bg-[#f1f2f4] pb-4"
           >
-            <ListHeader list={item} onAddCard={enableEditing} />
+            <ListHeader list={item} />
             <Droppable droppableId={item.id} type="task-card">
               {(provided) => (
                 <ol
@@ -52,14 +50,18 @@ export const ListItem = ({ index, item }: ListItemProps) => {
                   )}
                 >
                   {item.taskCards.map((card, index) => (
-                    <CardItem key={card.id} index={index} card={card} />
+                    <CardItem
+                      key={card.id}
+                      index={index}
+                      card={card}
+                      collaborators={collaborators}
+                    />
                   ))}
                   {provided.placeholder}
                 </ol>
               )}
             </Droppable>
             <CreateTaskCard
-              ref={textareaRef}
               listId={item.id}
               isEditing={isEditing}
               disableEditing={disableEditing}

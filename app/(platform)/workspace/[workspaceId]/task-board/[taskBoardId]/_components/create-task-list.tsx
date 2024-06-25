@@ -12,7 +12,6 @@ import { InputType } from '@/actions/task/create-task-list/types';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ListWrapper } from './list-wrapper';
 import { useAction } from '@/hooks/use-action';
 
 import {
@@ -88,7 +87,7 @@ export const CreateTaskList = () => {
   useOnClickOutside(formRef, disableEditing);
 
   return (
-    <ListWrapper>
+    <li className="shrink-0 h-full w-[200px] select-none">
       {isEditing ? (
         <Form {...form}>
           <form
@@ -130,6 +129,6 @@ export const CreateTaskList = () => {
           Add a list
         </button>
       )}
-    </ListWrapper>
+    </li>
   );
 };

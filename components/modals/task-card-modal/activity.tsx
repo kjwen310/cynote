@@ -2,6 +2,7 @@
 
 import { ActivityItem } from '@/components/activity-item';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { HistoryLog } from '@prisma/client';
 import { ActivityIcon } from 'lucide-react';
 
@@ -11,17 +12,19 @@ interface ActivityProps {
 
 export const Activity = ({ historyLogs }: ActivityProps) => {
   return (
-    <div className="flex items-start gap-x-3 w-full">
-      <ActivityIcon className="w-5 h-5 mt-0.5" />
-      <div className="w-full">
-        <p className="font-semibold text-neutral-200 mb-2">Activity</p>
-        <ol className="space-y-4 mt-2">
-          {historyLogs.map((log) => (
-            <ActivityItem key={log.id} log={log} />
-          ))}
-        </ol>
+    <ScrollArea className="max-h-[150px]">
+      <div className="flex items-start gap-x-3 w-full">
+        <ActivityIcon className="w-5 h-5 mt-0.5" />
+        <div className="w-full">
+          <p className="font-semibold text-neutral-700 mb-2">Activity</p>
+          <ol className="space-y-4 mt-2">
+            {historyLogs.map((log) => (
+              <ActivityItem key={log.id} log={log} />
+            ))}
+          </ol>
+        </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 };
 

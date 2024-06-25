@@ -1,14 +1,14 @@
 'use client';
 
 import { Edit } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ROLE } from '@prisma/client';
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { PopoverClose } from '@radix-ui/react-popover';
-import { ROLE } from '@prisma/client';
 
 interface RoleOptionProps {
   collaboratorId: string;

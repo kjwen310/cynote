@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { Collaborator } from '@prisma/client';
 import { TaskListWithTaskCard } from '@/types';
 import { updateTaskCardOrder } from '@/actions/task/update-task-card-order';
 import { updateTaskListOrder } from '@/actions/task/update-task-list-order';
@@ -14,6 +15,7 @@ import { useToast } from '@/components/ui/use-toast';
 interface ListContainerProps {
   boardId: string;
   list: TaskListWithTaskCard[];
+  collaborators: Collaborator[];
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -24,7 +26,11 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-export const ListContainer = ({ boardId, list }: ListContainerProps) => {
+export const ListContainer = ({
+  boardId,
+  list,
+  collaborators,
+}: ListContainerProps) => {
   const [orderedList, setOrderedList] = useState(list);
   const params = useParams();
   const { workspaceId } = params;
@@ -32,37 +38,43 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
 
   useEffect(() => {
     setOrderedList(list);
-  }, list);
+  }, [list]);
 
-  const { execute: executeUpdateTaskListOrder } = useAction(updateTaskListOrder, {
-    onSuccess: () => {
-      toast({
-        title: 'SUCCESS',
-        description: 'Reordered Lists',
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-  });
+  const { execute: executeUpdateTaskListOrder } = useAction(
+    updateTaskListOrder,
+    {
+      onSuccess: () => {
+        toast({
+          title: 'SUCCESS',
+          description: 'Reordered Lists',
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+    }
+  );
 
-  const { execute: executeUpdateTaskCardOrder } = useAction(updateTaskCardOrder, {
-    onSuccess: () => {
-      toast({
-        title: 'SUCCESS',
-        description: 'Reordered Cards',
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-  });
+  const { execute: executeUpdateTaskCardOrder } = useAction(
+    updateTaskCardOrder,
+    {
+      onSuccess: () => {
+        toast({
+          title: 'SUCCESS',
+          description: 'Reordered Cards',
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+    }
+  );
 
   const onDragEnd = (result: any) => {
     const { source, destination, type } = result;
@@ -147,8 +159,7 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
   };
 
   return (
-    <>
-      <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
         droppableId="task-list"
         type="task-list"
@@ -162,7 +173,12 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
           >
             {orderedList &&
               orderedList.map((item, index) => (
-                <ListItem key={item.id} index={index} item={item} />
+                <ListItem
+                  key={item.id}
+                  index={index}
+                  item={item}
+                  collaborators={collaborators}
+                />
               ))}
             {provided.placeholder}
             <CreateTaskList />
@@ -171,6 +187,5 @@ export const ListContainer = ({ boardId, list }: ListContainerProps) => {
         )}
       </Droppable>
     </DragDropContext>
-    </>
   );
 };

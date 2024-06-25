@@ -4,13 +4,16 @@ import { ListContainer } from './_components/list-container';
 import { CoverImage } from './_components/cover-image';
 
 interface TaskBoardIdPageProps {
-  params: { taskBoardId: string };
+  params: {
+    workspaceId: string;
+    taskBoardId: string;
+  };
 }
 
 export default async function TaskBoardIdPage({
   params,
 }: TaskBoardIdPageProps) {
-  const { taskBoardId } = params;
+  const { workspaceId, taskBoardId } = params;
   const taskBoard = await db.taskBoard.findUnique({
     where: {
       id: taskBoardId,
@@ -31,6 +34,12 @@ export default async function TaskBoardIdPage({
     },
   });
 
+  const collaborators = await db.collaborator.findMany({
+    where: {
+      workspaceId,
+    },
+  });
+
   if (!taskBoard) {
     return <div>No Board Data</div>;
   }
@@ -41,7 +50,11 @@ export default async function TaskBoardIdPage({
       <div className="px-8">
         <TaskBoardHeader taskBoard={taskBoard} />
         <div className="h-full overflow-x-auto">
-          <ListContainer boardId={taskBoardId} list={taskBoard.taskLists} />
+          <ListContainer
+            boardId={taskBoardId}
+            list={taskBoard.taskLists}
+            collaborators={collaborators}
+          />
         </div>
       </div>
     </div>

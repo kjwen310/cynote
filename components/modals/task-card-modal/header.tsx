@@ -2,7 +2,6 @@
 
 import { ElementRef, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
 import { Layout } from 'lucide-react';
 import { updateTaskCard } from '@/actions/task/update-task-card';
 import { useToast } from "@/components/ui/use-toast";
@@ -57,7 +56,7 @@ export const Header = ({ card }: HeaderProps) => {
 
   return (
     <div className="flex items-start gap-x-3 w-full mb-6">
-      <Layout className="w-5 h-5 text-neutral-700 mt-1" />
+      <Layout className="w-5 h-5 text-neutral-700 mt-2.5" />
       <div className="w-full">
         <form action={onSubmit}>
           <Input
