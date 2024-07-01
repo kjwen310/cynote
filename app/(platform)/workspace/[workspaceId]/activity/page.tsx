@@ -1,7 +1,7 @@
-import { Suspense } from 'react';
+import { ActivityIcon } from 'lucide-react';
+
 import { db } from '@/lib/prisma/db';
 import { ActivityList } from './_components/activity-list';
-import { ActivityIcon } from 'lucide-react';
 import { CoverImage } from './_components/cover-image';
 
 interface ActivityPageProps {
@@ -29,9 +29,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
           <h2 className="text-xl font-semibold">Workspace Activities</h2>
         </div>
 
-        <Suspense fallback={<ActivityList.Skeleton />}>
-          <ActivityList workspaceId={workspaceId} />
-        </Suspense>
+        <ActivityList workspaceId={workspaceId} />
       </div>
     </div>
   );

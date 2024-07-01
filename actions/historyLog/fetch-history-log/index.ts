@@ -7,6 +7,7 @@ import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
 import { createSafeAction } from '@/lib/utils';
 import { FetchHistoryLogSchema } from './schema';
+import { LOG_TYPE } from '@prisma/client';
 
 const handler = async (data: InputType): Promise<OutputType> => {
   const { data: userData } = await getCurrentUser();
@@ -28,7 +29,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
     redirect('/sign-in');
   }
 
-  const { workspaceId, page } = data;
+  const { workspaceId, collaboratorId, type, page } = data;
   const per = 10;
   let result = [];
 
@@ -37,6 +38,8 @@ const handler = async (data: InputType): Promise<OutputType> => {
       db.historyLog.findMany({
         where: {
           workspaceId,
+          ...(collaboratorId && { collaboratorId }),
+          ...(type && { type: type as LOG_TYPE }),
         },
         orderBy: {
           createdAt: 'desc',
@@ -47,6 +50,8 @@ const handler = async (data: InputType): Promise<OutputType> => {
       db.historyLog.count({
         where: {
           workspaceId,
+          ...(collaboratorId && { collaboratorId }),
+          ...(type && { type: type as LOG_TYPE }),
         },
       }),
     ]);

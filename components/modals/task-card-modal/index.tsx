@@ -76,15 +76,7 @@ export const TaskCardModal = () => {
     });
 
   useEffect(() => {
-    if (!isOpen) return;
-
-    if (!workspaceId || !taskBoardId || !taskCard) {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-      return;
-    }
+    if (!isOpen || !taskCard) return;
 
     executeGetTaskCard({
       workspaceId: workspaceId as string,
