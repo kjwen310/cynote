@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 
 import { cn } from '@/lib/utils';
-import { siteConfig } from '@/constant/site';
+import { siteConfig } from '@/constant/site-config';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
