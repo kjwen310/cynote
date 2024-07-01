@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import createSupabaseBrowserClient from '@/lib/supabase/browser';
 import { useForm } from 'react-hook-form';
+
+import createSupabaseBrowserClient from '@/lib/supabase/browser';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from '@/hooks/use-action';
 import { signInWithEmailAndPassword } from '@/actions/auth/sign-in-with-email-and-password';
 import { InputType } from '@/actions/auth/sign-in-with-email-and-password/types';
@@ -13,7 +14,6 @@ import { Icons } from '@/components/shared-ui/Icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-
 import {
   Form,
   FormControl,

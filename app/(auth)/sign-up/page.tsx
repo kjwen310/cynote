@@ -1,19 +1,19 @@
-"use client"
+'use client';
 
 import { useRouter } from 'next/navigation';
-import { zodResolver } from "@hookform/resolvers/zod"
-import createSupabaseBrowserClient from '@/lib/supabase/browser';
 import { useForm } from 'react-hook-form';
+
+import createSupabaseBrowserClient from '@/lib/supabase/browser';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from '@/hooks/use-action';
 import { signUpWithEmailAndPassword } from '@/actions/auth/sign-up-with-email-and-password';
 import { InputType } from '@/actions/auth/sign-up-with-email-and-password/types';
 import { SignUpWithEmailAndPasswordSchema } from '@/actions/auth/sign-up-with-email-and-password/schema';
 
-import { Icons } from '@/components/shared-ui/Icon'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast";
-
+import { Icons } from '@/components/shared-ui/Icon';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from '@/components/ui/form';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function SignUpPage() {
   const onSubmit = (data: InputType) => {
     const { email, password, name } = data;
     execute({ email, password, name });
-  }
+  };
 
   const form = useForm({
     resolver: zodResolver(SignUpWithEmailAndPasswordSchema),
@@ -48,34 +48,34 @@ export default function SignUpPage() {
       password: '',
       name: '',
     },
-  })
+  });
 
   const goSignIn = () => {
-    router.push('/sign-in')
+    router.push('/sign-in');
   };
 
   const signInWithGoogle = async () => {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback`,
       },
     });
-  }
+  };
 
   const signInWithGithub = async () => {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.signInWithOAuth({
-      provider: "github",
+      provider: 'github',
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback`,
       },
     });
-  }
+  };
 
   return (
-    <div className='flex-1 space-y-4 mx-auto max-w-lg rounded-md bg-slate-200 p-8'>
+    <div className="flex-1 space-y-4 mx-auto max-w-lg rounded-md bg-slate-200 p-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -138,20 +138,30 @@ export default function SignUpPage() {
       </div>
 
       <div className="flex flex-col gap-4 mt-2">
-        <Button variant="outline" type="button" disabled={isLoading} onClick={signInWithGoogle}>
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          onClick={signInWithGoogle}
+        >
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Icons.google className="mr-2 h-4 w-4" />
-          )}{" "}
+          )}{' '}
           Continue with Google
         </Button>
-        <Button variant="outline" type="button" disabled={isLoading} onClick={signInWithGithub}>
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          onClick={signInWithGithub}
+        >
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Icons.gitHub className="mr-2 h-4 w-4" />
-          )}{" "}
+          )}{' '}
           Continue with Github
         </Button>
         <div
@@ -174,5 +184,5 @@ export default function SignUpPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

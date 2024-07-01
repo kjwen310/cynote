@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/ui/mode-toggle';
-import { Logo } from '../../../components/shared-ui/logo';
+import { Logo } from '@/components/shared-ui/logo';
 
 export const Navbar = () => {
   return (

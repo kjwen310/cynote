@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Logo } from "@/components/shared-ui/logo";
+import { Logo } from '@/components/shared-ui/logo';
 
 export const Navbar = () => {
   return (
