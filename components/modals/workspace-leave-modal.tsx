@@ -6,6 +6,7 @@ import { useAction } from '@/hooks/use-action';
 import { DialogModal } from '@/components/dialog-modal';
 import { leaveWorkspace } from '@/actions/workspace/leave-workspace';
 import { useToast } from '@/components/ui/use-toast';
+import Loading from '@/components/loading';
 
 export const WorkspaceLeaveModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -51,6 +52,10 @@ export const WorkspaceLeaveModal = () => {
       </Button>
     </div>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

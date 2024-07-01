@@ -2,6 +2,7 @@ import { db } from '@/lib/db';
 import { TaskBoardHeader } from './_components/task-board-header';
 import { ListContainer } from './_components/list-container';
 import { CoverImage } from './_components/cover-image';
+import Loading from '@/components/loading';
 
 interface TaskBoardIdPageProps {
   params: {
@@ -41,7 +42,7 @@ export default async function TaskBoardIdPage({
   });
 
   if (!taskBoard) {
-    return <div>No Board Data</div>;
+    return <Loading />;
   }
 
   return (

@@ -9,6 +9,7 @@ import { TaskCardWithTaskList } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAction } from '@/hooks/use-action';
+import Loading from '@/components/loading';
 
 interface HeaderProps {
   card: TaskCardWithTaskList;
@@ -22,7 +23,7 @@ export const Header = ({ card }: HeaderProps) => {
 
   const { workspaceId, taskBoardId } = params;
 
-  const { execute } = useAction(updateTaskCard, {
+  const { execute, isLoading } = useAction(updateTaskCard, {
     onSuccess: (data) => {
       toast({
         title: "SUCCESS",
@@ -53,6 +54,10 @@ export const Header = ({ card }: HeaderProps) => {
   const onBlur = () => {
     inputRef.current?.form?.requestSubmit();
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex items-start gap-x-3 w-full mb-6">

@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { ListOption } from './list-option';
+import Loading from '@/components/loading';
 
 interface ListHeaderProps {
   list: TaskList;
@@ -37,7 +38,7 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
 
   const { workspaceId, taskBoardId } = params;
 
-  const { execute } = useAction(updateTaskList, {
+  const { execute, isLoading } = useAction(updateTaskList, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -96,6 +97,10 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
   };
 
   useEventListener('keydown', onKeyDown);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex justify-between items-start gap-x-2 text-sm font-semibold pt-2 px-2">

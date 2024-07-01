@@ -7,6 +7,7 @@ import { useAction } from '@/hooks/use-action';
 import { DialogModal } from '@/components/dialog-modal';
 import { deleteNote } from '@/actions/note/delete-note';
 import { useToast } from '@/components/ui/use-toast';
+import Loading from '@/components/loading';
 
 export const NoteDeleteModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -57,6 +58,10 @@ export const NoteDeleteModal = () => {
       </Button>
     </div>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

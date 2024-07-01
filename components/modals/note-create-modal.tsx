@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import Loading from '@/components/loading';
 
 export const NoteCreateModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -31,7 +32,7 @@ export const NoteCreateModal = () => {
   const { toast } = useToast();
   const { workspace } = data;
 
-  const { execute } = useAction(createNote, {
+  const { execute, isLoading } = useAction(createNote, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -102,6 +103,11 @@ export const NoteCreateModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <DialogModal
       title="Create Note"

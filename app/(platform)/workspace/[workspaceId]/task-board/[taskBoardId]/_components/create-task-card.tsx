@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useParams } from 'next/navigation';
+import Loading from '@/components/loading';
 
 export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditing }: CreateTaskCardProps) => {
   const formRef = useRef<ElementRef<'form'>>(null);
@@ -36,7 +37,7 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
 
   const { workspaceId, taskBoardId } = params;
 
-  const { execute } = useAction(createTaskCard, {
+  const { execute, isLoading } = useAction(createTaskCard, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -80,6 +81,10 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
 
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (isEditing) {
     return (

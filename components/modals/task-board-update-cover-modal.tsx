@@ -20,6 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import Loading from '@/components/loading';
 
 export const TaskBoardUpdateCoverModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -29,7 +30,7 @@ export const TaskBoardUpdateCoverModal = () => {
   const { toast } = useToast();
   const { taskBoard } = data;
 
-  const { execute } = useAction(updateTaskBoardCover, {
+  const { execute, isLoading } = useAction(updateTaskBoardCover, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -85,6 +86,11 @@ export const TaskBoardUpdateCoverModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <DialogModal
       title="Change Task Board Cover"

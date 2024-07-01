@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import Loading from '@/components/loading';
 
 export const WorkspaceCreateModal = () => {
   const { type, isOpen, onClose } = useModal();
@@ -30,7 +31,7 @@ export const WorkspaceCreateModal = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { execute } = useAction(createWorkspace, {
+  const { execute, isLoading } = useAction(createWorkspace, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -111,6 +112,11 @@ export const WorkspaceCreateModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <DialogModal
       title="Create Workspace"

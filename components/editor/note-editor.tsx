@@ -8,6 +8,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateNoteContent } from '@/actions/note/update-note-content';
 import { Button } from '@/components/ui/button';
+import Loading from '@/components/loading';
 
 const Editor = dynamic(() => import('@/components/editor/editor'), {
   ssr: false,
@@ -65,6 +66,10 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
     if (!blockContent) return;
     setEditorContent(blockContent);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

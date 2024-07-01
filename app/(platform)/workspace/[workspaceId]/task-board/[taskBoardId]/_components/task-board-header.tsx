@@ -8,6 +8,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateTaskBoardTitle } from '@/actions/task/update-task-board-title';
 import { Input } from '@/components/ui/input';
+import Loading from '@/components/loading';
 
 interface TaskBoardHeaderProps {
   taskBoard: TaskBoard;
@@ -25,7 +26,7 @@ export const TaskBoardHeader = ({ taskBoard }: TaskBoardHeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  const { execute } = useAction(updateTaskBoardTitle, {
+  const { execute, isLoading } = useAction(updateTaskBoardTitle, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -51,6 +52,10 @@ export const TaskBoardHeader = ({ taskBoard }: TaskBoardHeaderProps) => {
       title: formTitle,
     });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <form action={onSubmit} className="w-full bg-transparent my-8">

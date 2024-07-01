@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import Loading from '@/components/loading';
 
 interface ActionProps {
   card: TaskCardWithTaskList;
@@ -27,37 +28,43 @@ export const Action = ({ card }: ActionProps) => {
 
   const { onClose } = useModal();
 
-  const { execute: executeCopy } = useAction(copyTaskCard, {
-    onSuccess: (data) => {
-      toast({
-        title: 'SUCCESS',
-        description: `Copied Card ${data.title}`,
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-    onFinally: onClose,
-  });
+  const { execute: executeCopy, isLoading: isCopyLoading } = useAction(
+    copyTaskCard,
+    {
+      onSuccess: (data) => {
+        toast({
+          title: 'SUCCESS',
+          description: `Copied Card ${data.title}`,
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+      onFinally: onClose,
+    }
+  );
 
-  const { execute: executeDelete } = useAction(deleteTaskCard, {
-    onSuccess: (data) => {
-      toast({
-        title: 'SUCCESS',
-        description: `Deleted Card ${data.title}`,
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-    onFinally: onClose,
-  });
+  const { execute: executeDelete, isLoading: isDeleteLoading } = useAction(
+    deleteTaskCard,
+    {
+      onSuccess: (data) => {
+        toast({
+          title: 'SUCCESS',
+          description: `Deleted Card ${data.title}`,
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+      onFinally: onClose,
+    }
+  );
 
   const onCopy = () =>
     executeCopy({
@@ -72,6 +79,10 @@ export const Action = ({ card }: ActionProps) => {
       workspaceId: workspaceId as string,
       taskBoardId: taskBoardId as string,
     });
+
+  if (isCopyLoading || isDeleteLoading) {
+    return <Loading />;
+  }
 
   return (
     <Popover>

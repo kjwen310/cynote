@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useAction } from '@/hooks/use-action';
+import Loading from '@/components/loading';
 
 export const TaskBoardCreateModal = () => {
   const { type, isOpen, onClose } = useModal();
@@ -32,7 +33,7 @@ export const TaskBoardCreateModal = () => {
   const params = useParams();
   const { workspaceId } = params;
 
-  const { execute } = useAction(createTaskBoard, {
+  const { execute, isLoading } = useAction(createTaskBoard, {
     onSuccess: ({ id, title }) => {
       toast({
         title: 'SUCCESS',
@@ -100,6 +101,10 @@ export const TaskBoardCreateModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

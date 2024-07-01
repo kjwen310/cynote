@@ -12,6 +12,7 @@ import { useAction } from '@/hooks/use-action';
 import { DialogModal } from '@/components/dialog-modal';
 import { refreshInviteCode } from '@/actions/workspace/refresh-invite-code';
 import { useToast } from '@/components/ui/use-toast';
+import Loading from '@/components/loading';
 
 export const WorkspaceInviteModal = () => {
   const [copied, setCopied] = useState(false);
@@ -35,7 +36,7 @@ export const WorkspaceInviteModal = () => {
     }, 1000);
   };
 
-  const { execute } = useAction(refreshInviteCode, {
+  const { execute, isLoading } = useAction(refreshInviteCode, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -81,6 +82,10 @@ export const WorkspaceInviteModal = () => {
       </Button>
     </div>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

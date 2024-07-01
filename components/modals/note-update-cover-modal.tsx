@@ -20,6 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import Loading from '@/components/loading';
 
 export const NoteUpdateCoverModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -29,7 +30,7 @@ export const NoteUpdateCoverModal = () => {
   const { toast } = useToast();
   const { note } = data;
 
-  const { execute } = useAction(updateNoteCover, {
+  const { execute, isLoading } = useAction(updateNoteCover, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -85,6 +86,11 @@ export const NoteUpdateCoverModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <DialogModal
       title="Change Note Cover"

@@ -12,6 +12,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { DialogModal } from '@/components/dialog-modal';
 import { RoleOption } from './role-option';
+import Loading from '@/components/loading';
 
 const roleMap = {
   [ROLE.OWNER]: <ShieldCheck className="w-full h-full  text-indigo-500" />,
@@ -26,43 +27,43 @@ export const WorkspaceCollaboratorModal = () => {
   const { workspace, currentCollaboratorId } = data;
   const { collaborators } = workspace || {};
 
-  const { execute: executeUpdateWorkspaceCollaborator } = useAction(
-    updateWorkspaceCollaborator,
-    {
-      onSuccess: () => {
-        toast({
-          title: 'SUCCESS',
-          description: 'Successfully Update collaborator role',
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
-      onFinally: onClose,
-    }
-  );
+  const {
+    execute: executeUpdateWorkspaceCollaborator,
+    isLoading: isUpdateLoading,
+  } = useAction(updateWorkspaceCollaborator, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Update collaborator role',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+    onFinally: onClose,
+  });
 
-  const { execute: executeDeleteWorkspaceCollaborator } = useAction(
-    deleteWorkspaceCollaborator,
-    {
-      onSuccess: () => {
-        toast({
-          title: 'SUCCESS',
-          description: 'Successfully Delete collaborator',
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
-      onFinally: onClose,
-    }
-  );
+  const {
+    execute: executeDeleteWorkspaceCollaborator,
+    isLoading: isDeleteLoading,
+  } = useAction(deleteWorkspaceCollaborator, {
+    onSuccess: () => {
+      toast({
+        title: 'SUCCESS',
+        description: 'Successfully Delete collaborator',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'ERROR',
+        description: 'Something went wrong',
+      });
+    },
+    onFinally: onClose,
+  });
 
   const onUpdateCollaborator = (collaboratorId: string, role: ROLE) => {
     if (!workspace) return;
@@ -124,6 +125,10 @@ export const WorkspaceCollaboratorModal = () => {
 
   if (!workspace || !collaborators) {
     return null;
+  }
+
+  if (isUpdateLoading || isDeleteLoading) {
+    return <Loading />;
   }
 
   return (

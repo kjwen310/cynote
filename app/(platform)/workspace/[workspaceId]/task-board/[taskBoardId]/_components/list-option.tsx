@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import Loading from '@/components/loading';
 
 interface ListOptionProps {
   list: TaskList;
@@ -24,35 +25,41 @@ export const ListOption = ({ list }: ListOptionProps) => {
   const { toast } = useToast();
   const { workspaceId, taskBoardId } = params;
 
-  const { execute: executeDelete } = useAction(deleteTaskList, {
-    onSuccess: (data) => {
-      toast({
-        title: 'SUCCESS',
-        description: `Successfully delete list ${data.title}`,
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-  });
+  const { execute: executeDelete, isLoading: isDeleteLoading } = useAction(
+    deleteTaskList,
+    {
+      onSuccess: (data) => {
+        toast({
+          title: 'SUCCESS',
+          description: `Successfully delete list ${data.title}`,
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+    }
+  );
 
-  const { execute: executeCopy } = useAction(copyTaskList, {
-    onSuccess: (data) => {
-      toast({
-        title: 'SUCCESS',
-        description: `Successfully copy list ${data.title}`,
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
-  });
+  const { execute: executeCopy, isLoading: isCopyLoading } = useAction(
+    copyTaskList,
+    {
+      onSuccess: (data) => {
+        toast({
+          title: 'SUCCESS',
+          description: `Successfully copy list ${data.title}`,
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: 'ERROR',
+          description: 'Something went wrong',
+        });
+      },
+    }
+  );
 
   const onDelete = () =>
     executeDelete({
@@ -61,12 +68,16 @@ export const ListOption = ({ list }: ListOptionProps) => {
       taskBoardId: taskBoardId as string,
     });
 
-    const onCopy = () =>
-      executeCopy({
-        taskListId: list.id,
-        workspaceId: workspaceId as string,
-        taskBoardId: taskBoardId as string,
-      });
+  const onCopy = () =>
+    executeCopy({
+      taskListId: list.id,
+      workspaceId: workspaceId as string,
+      taskBoardId: taskBoardId as string,
+    });
+
+  if (isDeleteLoading || isCopyLoading) {
+    return <Loading />;
+  }
 
   return (
     <Popover>

@@ -25,6 +25,7 @@ import {
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Loading from '@/components/loading';
 
 export const TaskCardModal = () => {
   const [cardData, setCardData] = useState<TaskCardWithTaskList | null>(null);
@@ -46,8 +47,9 @@ export const TaskCardModal = () => {
     (d) => d.id === cardData?.assignedToId
   );
 
-  const { execute: executeGetTaskCard, isLoading: isGetCardLoading } =
-    useAction(getTaskCard, {
+  const { execute: executeGetTaskCard, isLoading: isCardLoading } = useAction(
+    getTaskCard,
+    {
       onSuccess: (data) => {
         setCardData(data);
       },
@@ -57,11 +59,12 @@ export const TaskCardModal = () => {
           description: 'Something went wrong',
         });
       },
-    });
+    }
+  );
 
   const {
     execute: executeGetHistoryLogByCard,
-    isLoading: isGetHistoryLogLoading,
+    isLoading: isHistoryLogLoading,
   } = useAction(getHistoryLogByCard, {
     onSuccess: (data) => {
       setHistoryLogs(data);
@@ -205,6 +208,10 @@ export const TaskCardModal = () => {
       </div>
     </>
   );
+
+  if (isCardLoading || isHistoryLogLoading) {
+    return <Loading />;
+  }
 
   return <DialogModal body={modalBody} isOpen={modalOpen} onClose={onClose} />;
 };

@@ -7,6 +7,7 @@ import { useAction } from '@/hooks/use-action';
 import { DialogModal } from '@/components/dialog-modal';
 import { deleteTaskBoard } from '@/actions/task/delete-task-board';
 import { useToast } from '@/components/ui/use-toast';
+import Loading from '@/components/loading';
 
 export const TaskBoardDeleteModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -57,6 +58,10 @@ export const TaskBoardDeleteModal = () => {
       </Button>
     </div>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

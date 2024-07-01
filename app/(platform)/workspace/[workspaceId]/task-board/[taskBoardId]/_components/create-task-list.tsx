@@ -21,6 +21,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import Loading from '@/components/loading';
 
 export const CreateTaskList = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -32,7 +33,7 @@ export const CreateTaskList = () => {
 
   const { workspaceId, taskBoardId } = params;
 
-  const { execute } = useAction(createTaskList, {
+  const { execute, isLoading } = useAction(createTaskList, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -85,6 +86,10 @@ export const CreateTaskList = () => {
 
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <li className="shrink-0 h-full w-[200px] select-none">

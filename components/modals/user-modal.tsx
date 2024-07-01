@@ -9,6 +9,7 @@ import { signOut } from '@/actions/auth/sign-out';
 import { useToast } from '@/components/ui/use-toast';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '../ui/separator';
+import Loading from '@/components/loading';
 
 export const UserModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -64,6 +65,10 @@ export const UserModal = () => {
       </div>
     </div>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return <DialogModal body={modalBody} isOpen={modalOpen} onClose={onClose} />;
 };

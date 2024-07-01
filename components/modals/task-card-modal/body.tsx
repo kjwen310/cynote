@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useAction } from '@/hooks/use-action';
+import Loading from '@/components/loading';
 
 interface BodyProps {
   card: TaskCardWithTaskList;
@@ -26,7 +27,7 @@ export const Body = ({ card }: BodyProps) => {
   const formRef = useRef<ElementRef<'form'>>(null);
   const textareaRef = useRef<ElementRef<'textarea'>>(null);
 
-  const { execute } = useAction(updateTaskCard, {
+  const { execute, isLoading } = useAction(updateTaskCard, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -72,6 +73,10 @@ export const Body = ({ card }: BodyProps) => {
 
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex items-start gap-x-3 w-full">

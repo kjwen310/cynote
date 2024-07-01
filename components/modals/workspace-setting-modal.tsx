@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import Image from 'next/image';
 import { InputType } from '@/actions/workspace/update-workspace/types';
+import Loading from '@/components/loading';
 
 export const WorkspaceSettingModal = () => {
   const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
@@ -34,7 +35,7 @@ export const WorkspaceSettingModal = () => {
   const modalOpen = type === 'workspaceSetting' && isOpen;
   const { workspace, isOwner } = data;
 
-  const { execute } = useAction(updateWorkspace, {
+  const { execute, isLoading } = useAction(updateWorkspace, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -180,6 +181,10 @@ export const WorkspaceSettingModal = () => {
       </form>
     </Form>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <DialogModal

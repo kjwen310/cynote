@@ -10,6 +10,7 @@ import { fetchHistoryLog } from '@/actions/historyLog/fetch-history-log';
 import { useToast } from '@/components/ui/use-toast';
 import { HistoryLog } from '@prisma/client';
 import { ActivityItem } from '@/components/activity-item';
+import Loading from '@/components/loading';
 
 let page = 2;
 
@@ -23,7 +24,7 @@ export const LoadMore = () => {
   const params = useParams();
   const { workspaceId } = params;
 
-  const { execute } = useAction(fetchHistoryLog, {
+  const { execute, isLoading } = useAction(fetchHistoryLog, {
     onSuccess: (historyLogData) => {
       const { data: newData, count } = historyLogData;
       setTotalCount(count);
@@ -45,6 +46,11 @@ export const LoadMore = () => {
       setCanLoadMore(false);
     }
   }, [inView, data]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       {data.map((log: HistoryLog) => (

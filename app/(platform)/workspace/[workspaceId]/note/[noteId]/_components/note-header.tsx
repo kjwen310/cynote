@@ -8,6 +8,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateNoteTitle } from '@/actions/note/update-note-title';
 import { Input } from '@/components/ui/input';
+import Loading from '@/components/loading';
 
 interface NoteHeaderProps {
   note: Note;
@@ -26,7 +27,7 @@ export const NoteHeader = ({ note, isAuthor }: NoteHeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  const { execute } = useAction(updateNoteTitle, {
+  const { execute, isLoading } = useAction(updateNoteTitle, {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
@@ -52,6 +53,10 @@ export const NoteHeader = ({ note, isAuthor }: NoteHeaderProps) => {
       title: formTitle,
     });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
