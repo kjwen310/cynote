@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   description,
   icons: [
     {
-      url: '/logo.svg',
-      href: '/logo.svg',
+      url: '/images/logo.svg',
+      href: '/images/logo.svg',
     },
   ],
 };

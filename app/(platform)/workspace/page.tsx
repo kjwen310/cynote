@@ -13,7 +13,7 @@ export default function WorkspacePage() {
   return (
     <div
       className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center bg-slate-400/20"
-      style={{ backgroundImage: 'url(/landing_1.svg)' }}
+      style={{ backgroundImage: 'url(/images/landing_1.svg)' }}
     >
       <Card className="w-[240px] text-center shadow-xl md:w-[350px]">
         <CardHeader className="space-y-4">

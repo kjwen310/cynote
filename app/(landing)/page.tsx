@@ -33,7 +33,12 @@ export default function LandingPage() {
 
       <section className="max-w-4xl h-[600px] flex justify-center items-center mx-auto px-8">
         <div className="flex flex-col items-center gap-y-4 md:flex-row md:gap-x-12 md:gap-y-0">
-          <Image src="/landing_1.svg" height={400} width={400} alt="task" />
+          <Image
+            src="/images/landing_1.svg"
+            height={400}
+            width={400}
+            alt="task"
+          />
           <div className="flex flex-col gap-y-8">
             <h2 className="text-2xl font-bold">
               Create a task for you and anyone
@@ -60,7 +65,12 @@ export default function LandingPage() {
                 lhkl hllhkl hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
               </p>
             </div>
-            <Image src="/landing_2.svg" height={400} width={400} alt="note" />
+            <Image
+              src="/images/landing_2.svg"
+              height={400}
+              width={400}
+              alt="note"
+            />
           </div>
         </section>
       </div>
@@ -68,7 +78,7 @@ export default function LandingPage() {
       <section className="max-w-4xl h-[600px] flex justify-center items-center mx-auto px-8">
         <div className="flex flex-col items-center gap-y-4 md:flex-row md:gap-x-12 md:gap-y-0">
           <Image
-            src="/landing_3.svg"
+            src="/images/landing_3.svg"
             height={400}
             width={400}
             alt="workspace"
@@ -90,7 +100,7 @@ export default function LandingPage() {
         <div className="max-w-4xl flex flex-col items-center gap-y-8">
           <div className="relative max-w-4xl w-[620px] h-[420px]">
             <Image
-              src="/landing_4.svg"
+              src="/images/landing_4.svg"
               fill
               alt="workspace"
               className="object-center object-cover"

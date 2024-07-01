@@ -15,7 +15,7 @@ export default async function AuthLayout({
   return (
     <main
       className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center"
-      style={{ backgroundImage: 'url(/landing_1.svg)' }}
+      style={{ backgroundImage: 'url(/images/landing_1.svg)' }}
     >
       {children}
     </main>
