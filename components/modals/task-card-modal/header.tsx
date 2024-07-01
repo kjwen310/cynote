@@ -31,12 +31,6 @@ export const Header = ({ card }: HeaderProps) => {
       });
       setTitle(data.title);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onSubmit = (data: FormData) => {

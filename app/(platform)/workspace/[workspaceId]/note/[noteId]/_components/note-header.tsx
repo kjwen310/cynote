@@ -35,12 +35,6 @@ export const NoteHeader = ({ note, isAuthor }: NoteHeaderProps) => {
       });
       setTitle(data.title);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onSubmit = (data: FormData) => {

@@ -43,12 +43,6 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
         description: `Successfully Updated content for ${data.title}`,
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onUpdateContent = () => {

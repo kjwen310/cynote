@@ -49,12 +49,6 @@ export const ListContainer = ({
           description: 'Reordered Lists',
         });
       },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
     }
   );
 
@@ -65,12 +59,6 @@ export const ListContainer = ({
         toast({
           title: 'SUCCESS',
           description: 'Reordered Cards',
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
         });
       },
     }

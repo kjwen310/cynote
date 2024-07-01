@@ -31,12 +31,6 @@ export const LoadMore = () => {
       setData([...data, ...newData]);
       page++;
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   useEffect(() => {

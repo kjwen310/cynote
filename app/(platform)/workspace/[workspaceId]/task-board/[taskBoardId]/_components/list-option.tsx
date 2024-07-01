@@ -34,12 +34,6 @@ export const ListOption = ({ list }: ListOptionProps) => {
           description: `Successfully delete list ${data.title}`,
         });
       },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
     }
   );
 
@@ -50,12 +44,6 @@ export const ListOption = ({ list }: ListOptionProps) => {
         toast({
           title: 'SUCCESS',
           description: `Successfully copy list ${data.title}`,
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
         });
       },
     }

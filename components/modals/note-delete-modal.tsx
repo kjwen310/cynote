@@ -28,12 +28,6 @@ export const NoteDeleteModal = () => {
       });
       router.push(`/workspace/${workspaceId}`);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 

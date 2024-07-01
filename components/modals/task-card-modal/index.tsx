@@ -53,12 +53,6 @@ export const TaskCardModal = () => {
       onSuccess: (data) => {
         setCardData(data);
       },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
     }
   );
 
@@ -69,12 +63,6 @@ export const TaskCardModal = () => {
     onSuccess: (data) => {
       setHistoryLogs(data);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const { execute: executeUpdateTaskCardAssign, isLoading: isAssignLoading } =
@@ -83,12 +71,6 @@ export const TaskCardModal = () => {
         toast({
           title: 'SUCCESS',
           description: 'Successfully update assign',
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
         });
       },
     });
@@ -209,7 +191,7 @@ export const TaskCardModal = () => {
     </>
   );
 
-  if (isCardLoading || isHistoryLogLoading) {
+  if (isCardLoading || isHistoryLogLoading || isAssignLoading) {
     return <Loading />;
   }
 

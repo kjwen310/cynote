@@ -37,12 +37,6 @@ export const TaskBoardUpdateCoverModal = () => {
         description: 'Successfully Update task board cover',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 

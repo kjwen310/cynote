@@ -25,12 +25,6 @@ export const UserModal = () => {
         description: 'Successfully signed out',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: `Something went wrong, ${error}`,
-      });
-    },
     onFinally: onClose,
   });
 

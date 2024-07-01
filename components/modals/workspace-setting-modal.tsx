@@ -42,12 +42,6 @@ export const WorkspaceSettingModal = () => {
         description: 'Successfully Update workspace',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: () => {
       setIsImagePickerOpen(false);
       onClose();

@@ -22,12 +22,6 @@ export const WorkspaceLeaveModal = () => {
         description: `Successfully leave workspace ${data.title}`,
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 

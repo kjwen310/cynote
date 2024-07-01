@@ -41,12 +41,6 @@ export const TaskBoardCreateModal = () => {
       });
       router.push(`/workspace/${workspaceId}/task-board/${id}`);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: `Something went wrong: ${error}`,
-      });
-    },
     onFinally: onClose,
   });
 

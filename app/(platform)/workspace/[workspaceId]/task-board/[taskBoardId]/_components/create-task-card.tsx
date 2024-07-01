@@ -45,12 +45,6 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
       });
       disableEditing();
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onSubmit = (data: InputType) => {

@@ -43,12 +43,6 @@ export const WorkspaceInviteModal = () => {
         description: 'Successfully Refresh invite code',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: () => {
       router.refresh();
     },

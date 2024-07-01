@@ -37,12 +37,6 @@ export const Action = ({ card }: ActionProps) => {
           description: `Copied Card ${data.title}`,
         });
       },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
-        });
-      },
       onFinally: onClose,
     }
   );
@@ -54,12 +48,6 @@ export const Action = ({ card }: ActionProps) => {
         toast({
           title: 'SUCCESS',
           description: `Deleted Card ${data.title}`,
-        });
-      },
-      onError: (error) => {
-        toast({
-          title: 'ERROR',
-          description: 'Something went wrong',
         });
       },
       onFinally: onClose,

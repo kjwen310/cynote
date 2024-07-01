@@ -37,12 +37,6 @@ export const WorkspaceCollaboratorModal = () => {
         description: 'Successfully Update collaborator role',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 
@@ -54,12 +48,6 @@ export const WorkspaceCollaboratorModal = () => {
       toast({
         title: 'SUCCESS',
         description: 'Successfully Delete collaborator',
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
       });
     },
     onFinally: onClose,

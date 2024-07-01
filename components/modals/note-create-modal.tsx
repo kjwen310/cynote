@@ -41,12 +41,6 @@ export const NoteCreateModal = () => {
       // Need to find other solutions
       location.href = `/workspace/${workspace?.id}/note/${data.id}`;
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 

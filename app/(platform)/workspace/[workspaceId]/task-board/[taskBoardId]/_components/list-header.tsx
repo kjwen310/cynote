@@ -47,12 +47,6 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
       setTitle(data.title);
       disableEditing();
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onSubmit = (data: InputType) => {

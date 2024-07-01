@@ -34,12 +34,6 @@ export default function SignUpPage() {
         description: 'Successfully Signed up',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
   });
 
   const onSubmit = (data: InputType) => {

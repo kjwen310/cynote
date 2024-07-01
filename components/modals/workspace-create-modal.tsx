@@ -39,12 +39,6 @@ export const WorkspaceCreateModal = () => {
       });
       router.push(`/workspace/${data.id}`);
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 

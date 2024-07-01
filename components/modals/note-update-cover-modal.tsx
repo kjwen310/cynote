@@ -37,12 +37,6 @@ export const NoteUpdateCoverModal = () => {
         description: 'Successfully Update note cover',
       });
     },
-    onError: (error) => {
-      toast({
-        title: 'ERROR',
-        description: 'Something went wrong',
-      });
-    },
     onFinally: onClose,
   });
 
