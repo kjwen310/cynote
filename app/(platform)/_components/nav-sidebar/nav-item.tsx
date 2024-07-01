@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
+
 import { cn } from '@/lib/utils';
 import { defaultPickerImages } from '@/constant/default-picker-image';
 
@@ -11,13 +12,13 @@ interface NavItemProps {
   image: string;
 }
 
-export const NavItem = ({ id, title, image }: NavItemProps) => {
+export const NavItem = ({ id, image }: NavItemProps) => {
   const params = useParams();
   const router = useRouter();
 
   const onClick = () => {
     router.push(`/workspace/${id}`);
-  }
+  };
 
   return (
     <button onClick={onClick} className="relative flex items-center group">

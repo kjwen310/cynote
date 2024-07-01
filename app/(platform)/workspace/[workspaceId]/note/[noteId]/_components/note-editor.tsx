@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 import { PartialBlock } from '@blocknote/core';
+
 import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
 import { updateNoteContent } from '@/actions/note/update-note-content';
+
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/shared-ui/loading';
 
@@ -37,10 +39,10 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
   }, [dataContent]);
 
   const { execute, isLoading } = useAction(updateNoteContent, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: 'SUCCESS',
-        description: `Successfully Updated content for ${data.title}`,
+        description: `Successfully Updated content`,
       });
     },
   });
@@ -87,4 +89,4 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
       )}
     </>
   );
-};
+}

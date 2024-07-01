@@ -3,12 +3,14 @@
 import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
 import { Note } from '@prisma/client';
-import { Skeleton } from '@/components/ui/skeleton';
+
 import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
 import { updateNoteTitle } from '@/actions/note/update-note-title';
+
+import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import Loading from '@/components/shared-ui/loading';
+import { useToast } from '@/components/ui/use-toast';
 
 interface NoteHeaderProps {
   note: Note;

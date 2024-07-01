@@ -1,4 +1,5 @@
 import { User, Workspace } from '@prisma/client';
+
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ModeToggle } from '@/components/ui/mode-toggle';

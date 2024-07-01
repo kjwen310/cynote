@@ -4,15 +4,17 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { Collaborator } from '@prisma/client';
+
 import { TaskListWithTaskCard } from '@/types';
+import { useAction } from '@/hooks/use-action';
 import { updateTaskCardOrder } from '@/actions/task/update-task-card-order';
 import { updateTaskListOrder } from '@/actions/task/update-task-list-order';
+
+import { useToast } from '@/components/ui/use-toast';
 import { CreateTaskList } from './create-task-list';
 import { ListItem } from './list-item';
-import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
 
-interface ListContainerProps {
+interface TaskListContainerProps {
   boardId: string;
   list: TaskListWithTaskCard[];
   collaborators: Collaborator[];
@@ -26,11 +28,11 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-export const ListContainer = ({
+export const TaskListContainer = ({
   boardId,
   list,
   collaborators,
-}: ListContainerProps) => {
+}: TaskListContainerProps) => {
   const [orderedList, setOrderedList] = useState(list);
   const params = useParams();
   const { workspaceId } = params;

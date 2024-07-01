@@ -5,8 +5,8 @@ import { Note, TaskBoard } from '@prisma/client';
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { Separator } from '@/components/ui/separator';
-import { CoverImage } from '../../_components/cover-image';
-import { CreateBtn } from '../../_components/create-btn';
+import { CoverImage } from './_components/cover-image';
+import { CreateBtn } from './_components/create-btn';
 
 interface WorkspaceIdPageProps {
   params: { workspaceId: string };

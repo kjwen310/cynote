@@ -7,7 +7,7 @@ import { useModal } from '@/hooks/use-modal';
 type ActionType = 'create' | 'manage';
 type ModalType = 'taskBoardCreate' | 'noteCreate' | 'workspaceCollaborator';
 
-interface WorkspaceSectionHeaderProps {
+interface SectionHeaderProps {
   workspace: WorkspaceWithDetail;
   currentCollaboratorId?: string;
   actionType?: ActionType;
@@ -21,14 +21,14 @@ const iconMap = {
   manage: <Settings className="w-4 h-4" />,
 };
 
-export const WorkspaceSectionHeader = ({
+export const SectionHeader = ({
   workspace,
   currentCollaboratorId,
   actionType = 'create',
   modalType,
   label,
   isOwner,
-}: WorkspaceSectionHeaderProps) => {
+}: SectionHeaderProps) => {
   const { onOpen } = useModal();
 
   return (
@@ -39,7 +39,9 @@ export const WorkspaceSectionHeader = ({
       {isOwner && (
         <button
           className="transition text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"
-          onClick={() => onOpen(modalType, { workspace, currentCollaboratorId })}
+          onClick={() =>
+            onOpen(modalType, { workspace, currentCollaboratorId })
+          }
         >
           {iconMap[actionType]}
         </button>

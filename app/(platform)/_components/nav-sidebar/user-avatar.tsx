@@ -1,8 +1,9 @@
 'use client';
 
-import { useModal } from '@/hooks/use-modal';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { User } from '@prisma/client';
+import { useModal } from '@/hooks/use-modal';
+
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface UserAvatarProps {
   user: User;

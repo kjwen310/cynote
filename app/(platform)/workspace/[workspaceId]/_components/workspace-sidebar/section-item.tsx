@@ -1,16 +1,16 @@
 'use client';
 
-import { revalidatePath } from 'next/cache';
 import { useParams, useRouter } from 'next/navigation';
 import { ClipboardCheck, FilePenLine, Trash } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
-import { WorkspaceWithDetail } from '@/types';
 import { Note, TaskBoard } from '@prisma/client';
+import { WorkspaceWithDetail } from '@/types';
 import { useModal, ModalType } from '@/hooks/use-modal';
 
 type ItemType = 'taskBoard' | 'note';
 
-interface WorkspaceSectionItemProps {
+interface SectionItemProps {
   workspace: WorkspaceWithDetail;
   currentCollaboratorId?: string;
   type: ItemType;
@@ -39,13 +39,13 @@ const typeMap = {
   },
 };
 
-export const WorkspaceSectionItem = ({
+export const SectionItem = ({
   workspace,
   currentCollaboratorId,
   type,
   item,
   isOwner,
-}: WorkspaceSectionItemProps) => {
+}: SectionItemProps) => {
   const params = useParams();
   const router = useRouter();
   const { onOpen } = useModal();

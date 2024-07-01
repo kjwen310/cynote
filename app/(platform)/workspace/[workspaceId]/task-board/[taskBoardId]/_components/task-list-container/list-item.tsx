@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { Collaborator } from '@prisma/client';
+
 import { cn } from '@/lib/utils';
 import { TaskListWithTaskCard } from '@/types';
+
 import { ListHeader } from './list-header';
-import { CreateTaskCard } from './create-task-card';
 import { CardItem } from './card-item';
+import { CreateTaskCard } from './create-task-card';
 
 interface ListItemProps {
   index: number;

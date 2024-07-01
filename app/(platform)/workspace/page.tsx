@@ -1,3 +1,5 @@
+import { Check } from 'lucide-react';
+
 import {
   Card,
   CardContent,
@@ -6,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { CreateWorkspaceBtn } from '../_components/create-workspace-btn';
-import { Check } from 'lucide-react';
+import { CreateWorkspaceBtn } from './_components/create-workspace-btn';
 
 export default function WorkspacePage() {
   return (
@@ -22,21 +23,21 @@ export default function WorkspacePage() {
         </CardHeader>
         <CardContent>
           <ul className="flex flex-col gap-y-2 font-semibold text-sm text-left text-indigo-400 p-4">
-            <li className='flex justify-center items-center gap-x-2'>
+            <li className="flex justify-center items-center gap-x-2">
               <Check className="w-4 h-4" />
               <p>Share ideas with flexible notes</p>
             </li>
-            <li className='flex justify-center items-center gap-x-2'>
+            <li className="flex justify-center items-center gap-x-2">
               <Check className="w-4 h-4" />
               <p>Manage tasks with task boards</p>
             </li>
-            <li className='flex justify-center items-center gap-x-2'>
+            <li className="flex justify-center items-center gap-x-2">
               <Check className="w-4 h-4" />
               <p>United people with workspaces</p>
             </li>
           </ul>
         </CardContent>
-        <CardFooter className='flex justify-center'>
+        <CardFooter className="flex justify-center">
           <CreateWorkspaceBtn />
         </CardFooter>
       </Card>

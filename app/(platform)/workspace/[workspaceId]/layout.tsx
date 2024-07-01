@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation';
+
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { WorkspaceSidebar } from '@/components/workspace/workspace-sidebar';
+
+import { WorkspaceSidebar } from './_components/workspace-sidebar';
 
 interface WorkspaceIdLayout {
   children: React.ReactNode;

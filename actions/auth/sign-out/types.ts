@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ActionState } from '@/lib/utils/create-safe-action';
+import { ActionState } from '@/types';
 import { SignOutSchema } from './schema';
 
 export type InputType = z.infer<typeof SignOutSchema>;

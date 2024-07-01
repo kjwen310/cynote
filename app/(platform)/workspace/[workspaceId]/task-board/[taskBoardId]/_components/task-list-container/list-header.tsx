@@ -1,18 +1,20 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useEventListener } from 'usehooks-ts';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { TaskList } from '@prisma/client';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+
+import { useAction } from '@/hooks/use-action';
 import { updateTaskList } from '@/actions/task/update-task-list';
 import { UpdateTaskListSchema } from '@/actions/task/update-task-list/schema';
 import { InputType } from '@/actions/task/update-task-list/types';
-import { useAction } from '@/hooks/use-action';
 
+import Loading from '@/components/shared-ui/loading';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -20,8 +22,8 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+
 import { ListOption } from './list-option';
-import Loading from '@/components/shared-ui/loading';
 
 interface ListHeaderProps {
   list: TaskList;

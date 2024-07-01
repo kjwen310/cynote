@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { db } from '@/lib/prisma/db';
-import { NavSidebar } from '@/components/workspace-nav/nav-sidebar';
+import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { NavSidebar } from './_components/nav-sidebar';
 
 export default async function PlatformLayout({
   children,
@@ -58,9 +58,7 @@ export default async function PlatformLayout({
       <div className="fixed z-20 flex flex-col h-full w-[72px] inset-y-0">
         <NavSidebar workspaces={workspaces} user={user} />
       </div>
-      <main className="pl-[72px] h-full">
-        {children}
-      </main>
+      <main className="pl-[72px] h-full">{children}</main>
     </div>
   );
 }

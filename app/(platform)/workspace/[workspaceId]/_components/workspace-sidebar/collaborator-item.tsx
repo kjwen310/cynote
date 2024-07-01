@@ -4,7 +4,7 @@ import { ShieldCheck, ShieldAlert } from 'lucide-react';
 import { Collaborator, ROLE } from '@prisma/client';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-interface WorkspaceCollaboratorProps {
+interface CollaboratorItemProps {
   collaborator: Collaborator;
 }
 
@@ -13,9 +13,9 @@ const roleMap = {
   [ROLE.MEMBER]: <ShieldAlert className="w-full h-full text-indigo-500" />,
 };
 
-export const WorkspaceCollaborator = ({
+export const CollaboratorItem = ({
   collaborator,
-}: WorkspaceCollaboratorProps) => {
+}: CollaboratorItemProps) => {
   const icon = roleMap[collaborator.role];
 
   return (

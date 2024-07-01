@@ -10,6 +10,7 @@ import {
   LogOut,
   Activity,
 } from 'lucide-react';
+
 import { WorkspaceWithDetail } from '@/types';
 import { useModal } from '@/hooks/use-modal';
 
@@ -21,13 +22,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface WorkspaceHeaderProps {
+interface HeaderProps {
   workspace: WorkspaceWithDetail;
   isOwner: boolean;
   currentCollaboratorId: string;
 }
 
-export const WorkspaceHeader = ({ workspace, isOwner, currentCollaboratorId }: WorkspaceHeaderProps) => {
+export const Header = ({
+  workspace,
+  isOwner,
+  currentCollaboratorId,
+}: HeaderProps) => {
   const { onOpen } = useModal();
 
   return (
@@ -49,7 +54,12 @@ export const WorkspaceHeader = ({ workspace, isOwner, currentCollaboratorId }: W
               <UserPlus className="w-4 h-4 ml-auto" />
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onOpen('workspaceCollaborator', { workspace, currentCollaboratorId })}
+              onClick={() =>
+                onOpen('workspaceCollaborator', {
+                  workspace,
+                  currentCollaboratorId,
+                })
+              }
               className="text-sm px-3 py-2 cursor-pointer text-indigo-600 dark:text-indigo-400"
             >
               Manage Collaborators

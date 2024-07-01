@@ -3,11 +3,13 @@
 import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
 import { TaskBoard } from '@prisma/client';
-import { Skeleton } from '@/components/ui/skeleton';
+
 import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
 import { updateTaskBoardTitle } from '@/actions/task/update-task-board-title';
+
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
 import Loading from '@/components/shared-ui/loading';
 
 interface TaskBoardHeaderProps {

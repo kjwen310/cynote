@@ -6,7 +6,7 @@ import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { createHistoryLog } from '@/actions/historyLog/create-history-log';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
-import { createSafeAction } from '@/lib/utils/create-safe-action';
+import { createSafeAction } from '@/lib/utils';
 import { DeleteWorkspaceCollaboratorSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {

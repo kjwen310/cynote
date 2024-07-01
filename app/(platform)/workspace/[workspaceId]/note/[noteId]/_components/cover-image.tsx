@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import { ImageIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { Note } from '@prisma/client';
-import { Button } from '@/components/ui/button';
 import { useModal } from '@/hooks/use-modal';
+
+import { Button } from '@/components/ui/button';
 
 interface CoverImageProps {
   note: Note;

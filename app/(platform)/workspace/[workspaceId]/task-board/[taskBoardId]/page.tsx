@@ -1,8 +1,9 @@
 import { db } from '@/lib/prisma/db';
-import { TaskBoardHeader } from './_components/task-board-header';
-import { ListContainer } from './_components/list-container';
-import { CoverImage } from './_components/cover-image';
+
 import Loading from '@/components/shared-ui/loading';
+import { CoverImage } from './_components/cover-image';
+import { TaskBoardHeader } from './_components/task-board-header';
+import { TaskListContainer } from './_components/task-list-container';
 
 interface TaskBoardIdPageProps {
   params: {
@@ -51,7 +52,7 @@ export default async function TaskBoardIdPage({
       <div className="px-8">
         <TaskBoardHeader taskBoard={taskBoard} />
         <div className="h-full overflow-x-auto">
-          <ListContainer
+          <TaskListContainer
             boardId={taskBoardId}
             list={taskBoard.taskLists}
             collaborators={collaborators}

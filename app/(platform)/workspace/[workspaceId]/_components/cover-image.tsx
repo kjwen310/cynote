@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import { Settings } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { useModal } from '@/hooks/use-modal';
 import { WorkspaceWithDetail } from '@/types';
+
+import { Button } from '@/components/ui/button';
 
 interface CoverImageProps {
   workspace: WorkspaceWithDetail;

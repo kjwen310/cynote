@@ -2,10 +2,10 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { WorkspaceHeader } from './workspace-header';
-import { WorkspaceSectionHeader } from './workspace-section-header';
-import { WorkspaceSectionItem } from './workspace-section-item';
-import { WorkspaceCollaborator } from './workspace-collaborator';
+import { Header } from './header';
+import { SectionHeader } from './section-header';
+import { SectionItem } from './section-item';
+import { CollaboratorItem } from './collaborator-item';
 
 interface WorkspaceSidebarProps {
   workspaceId: string;
@@ -56,14 +56,18 @@ export const WorkspaceSidebar = async ({
     redirect('/');
   }
 
-  const isOwner = collaborator.role === "OWNER";
+  const isOwner = collaborator.role === 'OWNER';
 
   return (
     <div className="flex flex-col w-full h-full text-primary bg-[#f2f3f5] dark:bg-[#2b2d31]">
-      <WorkspaceHeader currentCollaboratorId={collaborator.id} isOwner={isOwner} workspace={workspace} />
+      <Header
+        currentCollaboratorId={collaborator.id}
+        isOwner={isOwner}
+        workspace={workspace}
+      />
       <ScrollArea className="flex-1 space-y-2 px-4">
         <div>
-          <WorkspaceSectionHeader
+          <SectionHeader
             workspace={workspace}
             currentCollaboratorId={collaborator.id}
             actionType="manage"
@@ -74,7 +78,7 @@ export const WorkspaceSidebar = async ({
           <div className="space-x-2">
             {!!workspace.collaborators.length &&
               workspace.collaborators.map((collaborator) => (
-                <WorkspaceCollaborator
+                <CollaboratorItem
                   key={collaborator.id}
                   collaborator={collaborator}
                 />
@@ -82,7 +86,7 @@ export const WorkspaceSidebar = async ({
           </div>
         </div>
         <div>
-          <WorkspaceSectionHeader
+          <SectionHeader
             workspace={workspace}
             modalType="taskBoardCreate"
             label="Task Boards"
@@ -91,7 +95,7 @@ export const WorkspaceSidebar = async ({
           <div className="space-y-[2px]">
             {workspace.taskBoards.length ? (
               workspace.taskBoards.map((taskBoard) => (
-                <WorkspaceSectionItem
+                <SectionItem
                   key={taskBoard.id}
                   type="taskBoard"
                   workspace={workspace}
@@ -107,7 +111,7 @@ export const WorkspaceSidebar = async ({
           </div>
         </div>
         <div>
-          <WorkspaceSectionHeader
+          <SectionHeader
             workspace={workspace}
             modalType="noteCreate"
             label="Notes"
@@ -116,7 +120,7 @@ export const WorkspaceSidebar = async ({
           <div className="space-y-[2px]">
             {workspace.notes.length ? (
               workspace.notes.map((note) => (
-                <WorkspaceSectionItem
+                <SectionItem
                   key={note.id}
                   type="note"
                   workspace={workspace}

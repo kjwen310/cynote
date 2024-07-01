@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import { ImageIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { TaskBoard } from '@prisma/client';
-import { Button } from '@/components/ui/button';
+
+import { cn } from '@/lib/utils';
 import { useModal } from '@/hooks/use-modal';
+
+import { Button } from '@/components/ui/button';
 
 interface CoverImageProps {
   taskBoard: TaskBoard;

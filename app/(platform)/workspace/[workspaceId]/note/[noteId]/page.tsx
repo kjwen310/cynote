@@ -1,21 +1,27 @@
 import { redirect } from 'next/navigation';
 import dynamic from 'next/dynamic';
+
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+
 import { CoverImage } from './_components/cover-image';
 import { NoteHeader } from './_components/note-header';
 
-const NoteEditor = dynamic(() => import('@/app/(platform)/workspace/[workspaceId]/note/[noteId]/_components/note-editor'), {
-  ssr: false,
-});
+const NoteEditor = dynamic(
+  () =>
+    import(
+      '@/app/(platform)/workspace/[workspaceId]/note/[noteId]/_components/note-editor'
+    ),
+  {
+    ssr: false,
+  }
+);
 
 interface NoteIdPageProps {
-  params: { workspaceId: string, noteId: string };
+  params: { workspaceId: string; noteId: string };
 }
 
-export default async function NoteIdPage({
-  params,
-}: NoteIdPageProps) {
+export default async function NoteIdPage({ params }: NoteIdPageProps) {
   const { workspaceId, noteId } = params;
 
   const { data } = await getCurrentUser();

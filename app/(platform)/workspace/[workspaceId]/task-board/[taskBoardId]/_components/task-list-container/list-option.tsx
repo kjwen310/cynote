@@ -1,20 +1,21 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { MoreHorizontal } from 'lucide-react';
 import { TaskList } from '@prisma/client';
-import { Button } from '@/components/ui/button';
+
+import { useAction } from '@/hooks/use-action';
 import { deleteTaskList } from '@/actions/task/delete-task-list';
 import { copyTaskList } from '@/actions/task/copy-task-list';
-import { useParams } from 'next/navigation';
-import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
 
+import Loading from '@/components/shared-ui/loading';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import Loading from '@/components/shared-ui/loading';
 
 interface ListOptionProps {
   list: TaskList;
