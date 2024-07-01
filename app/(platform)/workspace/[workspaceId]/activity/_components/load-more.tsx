@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Icons } from '@/components/icons/Icon';
+import { Icons } from '@/components/shared-ui/Icon';
 import { useAction } from '@/hooks/use-action';
 import { fetchHistoryLog } from '@/actions/historyLog/fetch-history-log';
 import { useToast } from '@/components/ui/use-toast';
 import { HistoryLog } from '@prisma/client';
-import { ActivityItem } from '@/components/activity-item';
-import Loading from '@/components/loading';
+import { ActivityItem } from '@/components/shared-ui/activity-item';
+import Loading from '@/components/shared-ui/loading';
 
 let page = 2;
 

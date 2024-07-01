@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ActionState, FieldErrors } from '@/lib/create-safe-action';
+import { ActionState, FieldErrors } from '@/types';
 import { useToast } from '@/components/ui/use-toast';
 
 type Action<TInput, TOutput> = (

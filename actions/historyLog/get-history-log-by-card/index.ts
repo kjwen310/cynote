@@ -1,10 +1,10 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { InputType, OutputType } from './types';
-import { createSafeAction } from '@/lib/create-safe-action';
+import { createSafeAction } from '@/lib/utils/create-safe-action';
 import { GetHistoryLogByCardSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {

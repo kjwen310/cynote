@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Check, Copy, RefreshCw } from 'lucide-react';
 import { useOrigin } from '@/hooks/use-origin';
 import { useAction } from '@/hooks/use-action';
-import { DialogModal } from '@/components/dialog-modal';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { refreshInviteCode } from '@/actions/workspace/refresh-invite-code';
 import { useToast } from '@/components/ui/use-toast';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const WorkspaceInviteModal = () => {
   const [copied, setCopied] = useState(false);

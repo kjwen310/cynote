@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '@/components/dialog-modal';
-import { ImagePicker } from '@/components/image-picker';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { ImagePicker } from '@/components/shared-ui/image-picker';
 
 import {
   Form,
@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useAction } from '@/hooks/use-action';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const TaskBoardCreateModal = () => {
   const { type, isOpen, onClose } = useModal();

@@ -1,10 +1,10 @@
 'use server';
 
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { InputType, OutputType } from './types';
 import { revalidatePath } from 'next/cache';
-import { createSafeAction } from '@/lib/create-safe-action';
+import { createSafeAction } from '@/lib/utils/create-safe-action';
 import { UpdateTaskListOrderSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {

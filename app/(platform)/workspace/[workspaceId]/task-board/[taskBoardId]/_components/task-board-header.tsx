@@ -8,7 +8,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateTaskBoardTitle } from '@/actions/task/update-task-board-title';
 import { Input } from '@/components/ui/input';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface TaskBoardHeaderProps {
   taskBoard: TaskBoard;

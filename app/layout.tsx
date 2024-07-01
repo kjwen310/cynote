@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
-import { siteConfig } from '@/config/site';
+import { siteConfig } from '@/constant/site';
 
 const inter = Inter({ subsets: ['latin'] });
 const { title, description } = siteConfig;

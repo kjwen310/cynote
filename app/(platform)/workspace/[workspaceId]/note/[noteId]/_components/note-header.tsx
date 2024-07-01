@@ -8,7 +8,7 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateNoteTitle } from '@/actions/note/update-note-title';
 import { Input } from '@/components/ui/input';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface NoteHeaderProps {
   note: Note;

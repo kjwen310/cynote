@@ -21,7 +21,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const CreateTaskList = () => {
   const [isEditing, setIsEditing] = useState(false);

@@ -9,7 +9,7 @@ import { signUpWithEmailAndPassword } from '@/actions/auth/sign-up-with-email-an
 import { InputType } from '@/actions/auth/sign-up-with-email-and-password/types';
 import { SignUpWithEmailAndPasswordSchema } from '@/actions/auth/sign-up-with-email-and-password/schema';
 
-import { Icons } from '@/components/icons/Icon'
+import { Icons } from '@/components/shared-ui/Icon'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast";

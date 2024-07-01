@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useAction } from '@/hooks/use-action';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface BodyProps {
   card: TaskCardWithTaskList;

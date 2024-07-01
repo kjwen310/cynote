@@ -28,7 +28,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useParams } from 'next/navigation';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditing }: CreateTaskCardProps) => {
   const formRef = useRef<ElementRef<'form'>>(null);

@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { CoverImage } from './_components/cover-image';
 import { NoteHeader } from './_components/note-header';
 
-const NoteEditor = dynamic(() => import('@/components/editor/note-editor'), {
+const NoteEditor = dynamic(() => import('@/app/(platform)/workspace/[workspaceId]/note/[noteId]/_components/note-editor'), {
   ssr: false,
 });
 

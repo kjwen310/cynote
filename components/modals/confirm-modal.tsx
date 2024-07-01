@@ -1,7 +1,7 @@
 'use client';
 
 import { useModal } from '@/hooks/use-modal';
-import { DialogModal } from '@/components/dialog-modal';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
 
 export const ConfirmModal = () => {
   const { type, data, isOpen, onClose } = useModal();

@@ -9,7 +9,7 @@ import { getTaskCard } from '@/actions/task/get-task-card';
 import { getHistoryLogByCard } from '@/actions/historyLog/get-history-log-by-card';
 import { updateTaskCardAssign } from '@/actions/task/update-task-card-assign';
 import { TaskCardWithTaskList } from '@/types';
-import { DialogModal } from '@/components/dialog-modal';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { useToast } from '@/components/ui/use-toast';
 import { Header } from './header';
 import { Body } from './body';
@@ -25,7 +25,7 @@ import {
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const TaskCardModal = () => {
   const [cardData, setCardData] = useState<TaskCardWithTaskList | null>(null);

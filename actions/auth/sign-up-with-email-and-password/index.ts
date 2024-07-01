@@ -2,7 +2,7 @@
 
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { InputType, OutputType } from './types';
-import { createSafeAction } from '@/lib/create-safe-action';
+import { createSafeAction } from '@/lib/utils/create-safe-action';
 import { SignUpWithEmailAndPasswordSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {

@@ -10,8 +10,8 @@ import { InputType } from '@/actions/task/update-task-board-cover/types';
 import { Button } from '@/components/ui/button';
 import { useModal } from '@/hooks/use-modal';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '@/components/dialog-modal';
-import { ImagePicker } from '@/components/image-picker';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { ImagePicker } from '@/components/shared-ui/image-picker';
 
 import {
   Form,
@@ -20,7 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 export const TaskBoardUpdateCoverModal = () => {
   const { type, data, isOpen, onClose } = useModal();

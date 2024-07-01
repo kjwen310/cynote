@@ -1,4 +1,4 @@
-import { ActivityItem } from '@/components/activity-item';
+import { ActivityItem } from '@/components/shared-ui/activity-item';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchHistoryLog } from '@/actions/historyLog/fetch-history-log';
 import { HistoryLog } from '@prisma/client';

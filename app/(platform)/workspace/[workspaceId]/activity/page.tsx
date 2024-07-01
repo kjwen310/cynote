@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { ActivityList } from './_components/activity-list';
 import { ActivityIcon } from 'lucide-react';
 import { CoverImage } from './_components/cover-image';

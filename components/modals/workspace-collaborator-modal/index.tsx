@@ -10,9 +10,9 @@ import { Collaborator, ROLE } from '@prisma/client';
 import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '@/components/dialog-modal';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { RoleOption } from './role-option';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 const roleMap = {
   [ROLE.OWNER]: <ShieldCheck className="w-full h-full  text-indigo-500" />,

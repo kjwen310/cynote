@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { InputType, OutputType } from './types';
-import { createSafeAction } from '@/lib/create-safe-action';
+import { createSafeAction } from '@/lib/utils/create-safe-action';
 import { SignInWithEmailAndPasswordSchema } from './schema';
 
 const handler = async (data: InputType): Promise<OutputType> => {

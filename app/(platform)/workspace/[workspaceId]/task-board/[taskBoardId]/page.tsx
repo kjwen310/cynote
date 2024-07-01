@@ -1,8 +1,8 @@
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { TaskBoardHeader } from './_components/task-board-header';
 import { ListContainer } from './_components/list-container';
 import { CoverImage } from './_components/cover-image';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface TaskBoardIdPageProps {
   params: {

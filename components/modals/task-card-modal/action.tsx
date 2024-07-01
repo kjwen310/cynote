@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface ActionProps {
   card: TaskCardWithTaskList;

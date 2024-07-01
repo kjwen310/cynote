@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ClipboardCheck, FilePenLine } from 'lucide-react';
 import { Note, TaskBoard } from '@prisma/client';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { Separator } from '@/components/ui/separator';
 import { CoverImage } from '../../_components/cover-image';

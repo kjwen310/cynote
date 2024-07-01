@@ -1,6 +1,6 @@
 'use client';
 
-import { ActivityItem } from '@/components/activity-item';
+import { ActivityItem } from '@/components/shared-ui/activity-item';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { HistoryLog } from '@prisma/client';

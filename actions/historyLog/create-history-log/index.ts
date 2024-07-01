@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { LOG_ACTION, LOG_TYPE } from '@prisma/client';
 
 interface CreateHistoryLogProps {

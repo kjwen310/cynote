@@ -8,9 +8,9 @@ import { useAction } from '@/hooks/use-action';
 import { useToast } from '@/components/ui/use-toast';
 import { updateNoteContent } from '@/actions/note/update-note-content';
 import { Button } from '@/components/ui/button';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
-const Editor = dynamic(() => import('@/components/editor/editor'), {
+const Editor = dynamic(() => import('@/components/shared-ui/editor'), {
   ssr: false,
 });
 

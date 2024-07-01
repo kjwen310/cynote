@@ -9,7 +9,7 @@ import { TaskCardWithTaskList } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAction } from '@/hooks/use-action';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface HeaderProps {
   card: TaskCardWithTaskList;

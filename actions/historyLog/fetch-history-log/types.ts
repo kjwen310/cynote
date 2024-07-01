@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { HistoryLog } from '@prisma/client';
-import { ActionState } from '@/lib/create-safe-action';
+import { ActionState } from '@/lib/utils/create-safe-action';
 import { FetchHistoryLogSchema } from './schema';
 
 type HistoryLogsWithCount = {

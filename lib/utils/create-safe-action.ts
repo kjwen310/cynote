@@ -1,14 +1,5 @@
 import { z } from 'zod';
-
-export type FieldErrors<T> = {
-  [K in keyof T]?: string[];
-};
-
-export type ActionState<TInput, TOutput> = {
-  fieldErrors?: FieldErrors<TInput>;
-  error?: string | null;
-  data?: TOutput;
-};
+import { ActionState, FieldErrors } from '@/types';
 
 export const createSafeAction = <TInput, TOutput>(
   schema: z.Schema<TInput>,

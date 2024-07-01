@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { ListOption } from './list-option';
-import Loading from '@/components/loading';
+import Loading from '@/components/shared-ui/loading';
 
 interface ListHeaderProps {
   list: TaskList;

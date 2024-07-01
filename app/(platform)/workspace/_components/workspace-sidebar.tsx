@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { WorkspaceHeader } from './workspace-header';

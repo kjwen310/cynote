@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { db } from '@/lib/db';
+import { db } from '@/lib/prisma/db';
 import { NavSidebar } from '@/components/workspace-nav/nav-sidebar';
 
 export default async function PlatformLayout({
