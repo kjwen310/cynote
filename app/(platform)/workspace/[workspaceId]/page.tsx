@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { ClipboardCheck, FilePenLine } from 'lucide-react';
 import { Note, TaskBoard } from '@prisma/client';
+
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+
 import { Separator } from '@/components/ui/separator';
 import { CoverImage } from './_components/cover-image';
 import { CreateBtn } from './_components/create-btn';
@@ -59,7 +61,7 @@ export default async function WorkspaceIdPage({
     redirect('/');
   }
 
-  const isOwner = collaborator.role === "OWNER";
+  const isOwner = collaborator.role === 'OWNER';
 
   return (
     <div className="space-y-8 pb-8">

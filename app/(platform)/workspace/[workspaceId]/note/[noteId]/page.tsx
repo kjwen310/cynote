@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 
+import { NotFoundContainer } from '@/components/shared-ui/not-found-container';
 import { CoverImage } from './_components/cover-image';
 import { NoteHeader } from './_components/note-header';
 
@@ -54,7 +55,11 @@ export default async function NoteIdPage({ params }: NoteIdPageProps) {
   });
 
   if (!note || !collaborator) {
-    return <div>Note not found</div>;
+    return (
+      <div className="w-full">
+        <NotFoundContainer info="Note is not exist" />
+      </div>
+    );
   }
 
   const isAuthor = collaborator?.id === note?.authorId;

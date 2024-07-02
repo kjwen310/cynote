@@ -1,6 +1,6 @@
 import { db } from '@/lib/prisma/db';
 
-import Loading from '@/components/shared-ui/loading';
+import { NotFoundContainer } from '@/components/shared-ui/not-found-container';
 import { CoverImage } from './_components/cover-image';
 import { TaskBoardHeader } from './_components/task-board-header';
 import { TaskListContainer } from './_components/task-list-container';
@@ -43,7 +43,11 @@ export default async function TaskBoardIdPage({
   });
 
   if (!taskBoard) {
-    return <Loading />;
+    return (
+      <div className="w-full">
+        <NotFoundContainer info="Workspace is not exist" />
+      </div>
+    );
   }
 
   return (
