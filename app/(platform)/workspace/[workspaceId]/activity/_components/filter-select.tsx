@@ -20,13 +20,14 @@ export function FilterSelect({
   setSelectedCollaborator,
 }: FilterSelectProps) {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="w-1/2 grid grid-cols-2 gap-4">
       <Select onValueChange={(val) => setSelectedType(val as LOG_TYPE)}>
         <SelectTrigger>
           <SelectValue placeholder="Select Type" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            <SelectItem value="all">All Types</SelectItem>
             <SelectItem value="WORkSPACE">Workspace</SelectItem>
             <SelectItem value="NOTE">Note</SelectItem>
             <SelectItem value="TASK_BOARD">Task Board</SelectItem>
@@ -41,6 +42,7 @@ export function FilterSelect({
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            <SelectItem value="all">All Collaborators</SelectItem>
             {collaborators.map((collaborator) => (
               <SelectItem key={collaborator.id} value={collaborator.id}>
                 {collaborator.displayName}

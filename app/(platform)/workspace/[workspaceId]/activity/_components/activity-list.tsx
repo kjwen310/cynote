@@ -8,7 +8,6 @@ import { useAction } from '@/hooks/use-action';
 import { fetchHistoryLog } from '@/actions/historyLog/fetch-history-log';
 import { fetchCollaborator } from '@/actions/collaborator/fetch-collaborator';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import { ActivityItem } from '@/components/shared-ui/activity-item';
 import { Icons } from '@/components/shared-ui/Icon';
 import { FilterSelect } from './filter-select';
@@ -24,22 +23,23 @@ export const ActivityList = ({ workspaceId }: ActivityListProps) => {
   const [page, setPage] = useState(1);
   const [canLoadMore, setCanLoadMore] = useState(true);
 
-  const [selectedType, setSelectedType] = useState<LOG_TYPE | null>(null);
+  const [selectedType, setSelectedType] = useState<LOG_TYPE | 'all'>('all');
   const [selectedCollaborator, setSelectedCollaborator] = useState<
-    string | null
-  >(null);
+    string | 'all'
+  >('all');
 
   const { ref, inView } = useInView();
 
   const { execute, isLoading } = useAction(fetchHistoryLog, {
     onSuccess: (historyLogData) => {
       const { data: newData, count } = historyLogData;
-      setLogData([...logData, ...newData]);
-      setPage((prev) => prev + 1);
 
       if (count <= page * 10) {
         setCanLoadMore(false);
       }
+
+      setLogData([...logData, ...newData]);
+      setPage((prev) => prev + 1);
     },
   });
 
@@ -50,28 +50,34 @@ export const ActivityList = ({ workspaceId }: ActivityListProps) => {
   });
 
   const loadMore = () => {
+    if (isLoading || !canLoadMore) return;
+
     execute({
       workspaceId,
       page,
-      ...(selectedType && { type: selectedType }),
-      ...(selectedCollaborator && { collaboratorId: selectedCollaborator }),
+      ...(selectedType && selectedType !== 'all' && { type: selectedType }),
+      ...(selectedCollaborator &&
+        selectedCollaborator !== 'all' && {
+          collaboratorId: selectedCollaborator,
+        }),
     });
   };
 
   useEffect(() => {
-    loadMore();
     executeFetchCollaborator({ workspaceId });
   }, []);
 
   useEffect(() => {
-    if (page > 1 && inView && canLoadMore) {
+    if (inView) {
       loadMore();
     }
-  }, [inView, page, canLoadMore]);
+  }, [inView]);
 
   useEffect(() => {
     setPage(1);
     setLogData([]);
+    setCanLoadMore(() => true);
+
     loadMore();
   }, [selectedType, selectedCollaborator]);
 

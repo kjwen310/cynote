@@ -39,7 +39,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
         where: {
           workspaceId,
           ...(collaboratorId && { collaboratorId }),
-          ...(type && { type: type as LOG_TYPE }),
+          ...(type && { type }),
         },
         orderBy: {
           createdAt: 'desc',
@@ -51,7 +51,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
         where: {
           workspaceId,
           ...(collaboratorId && { collaboratorId }),
-          ...(type && { type: type as LOG_TYPE }),
+          ...(type && { type }),
         },
       }),
     ]);
@@ -59,7 +59,7 @@ const handler = async (data: InputType): Promise<OutputType> => {
     return { error: '[FETCH_HISTORY_LOGS]: Failed fetch' };
   }
 
-  revalidatePath(`/workspace/${workspaceId}/activity`);
+  // revalidatePath(`/workspace/${workspaceId}/activity`);
   return {
     data: {
       data: result[0],
