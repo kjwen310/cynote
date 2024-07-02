@@ -1,12 +1,13 @@
 'use client';
 
 import { useModal } from '@/hooks/use-modal';
-import { Button } from '@/components/ui/button';
 import { useAction } from '@/hooks/use-action';
-import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { leaveWorkspace } from '@/actions/workspace/leave-workspace';
-import { useToast } from '@/components/ui/use-toast';
+
 import Loading from '@/components/shared-ui/loading';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 export const WorkspaceLeaveModal = () => {
   const { type, data, isOpen, onClose } = useModal();

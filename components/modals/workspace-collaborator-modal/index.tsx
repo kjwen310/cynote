@@ -2,17 +2,19 @@
 
 import { format } from 'date-fns';
 import { ShieldAlert, ShieldCheck, Trash } from 'lucide-react';
-import { updateWorkspaceCollaborator } from '@/actions/workspace/update-workspace-collaborator';
-import { deleteWorkspaceCollaborator } from '@/actions/workspace/delete-workspace-collaborator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Collaborator, ROLE } from '@prisma/client';
+
 import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
-import { useToast } from '@/components/ui/use-toast';
-import { DialogModal } from '@/components/shared-ui/dialog-modal';
-import { RoleOption } from './role-option';
+import { updateWorkspaceCollaborator } from '@/actions/workspace/update-workspace-collaborator';
+import { deleteWorkspaceCollaborator } from '@/actions/workspace/delete-workspace-collaborator';
+
 import Loading from '@/components/shared-ui/loading';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/components/ui/use-toast';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { RoleOption } from './role-option';
 
 const roleMap = {
   [ROLE.OWNER]: <ShieldCheck className="w-full h-full  text-indigo-500" />,

@@ -3,13 +3,15 @@
 import { ElementRef, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Layout } from 'lucide-react';
-import { updateTaskCard } from '@/actions/task/update-task-card';
-import { useToast } from "@/components/ui/use-toast";
+
 import { TaskCardWithTaskList } from '@/types';
+import { useAction } from '@/hooks/use-action';
+import { updateTaskCard } from '@/actions/task/update-task-card';
+
+import Loading from '@/components/shared-ui/loading';
+import { useToast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAction } from '@/hooks/use-action';
-import Loading from '@/components/shared-ui/loading';
 
 interface HeaderProps {
   card: TaskCardWithTaskList;
@@ -26,7 +28,7 @@ export const Header = ({ card }: HeaderProps) => {
   const { execute, isLoading } = useAction(updateTaskCard, {
     onSuccess: (data) => {
       toast({
-        title: "SUCCESS",
+        title: 'SUCCESS',
         description: `Rename to ${data.title}`,
       });
       setTitle(data.title);
@@ -36,7 +38,7 @@ export const Header = ({ card }: HeaderProps) => {
   const onSubmit = (data: FormData) => {
     const formTitle = data.get('title') as string;
     if (title === formTitle) return;
-  
+
     execute({
       title: formTitle,
       workspaceId: workspaceId as string,

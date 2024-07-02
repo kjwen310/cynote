@@ -1,18 +1,21 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useRouter, useParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useModal } from '@/hooks/use-modal';
+import { useAction } from '@/hooks/use-action';
 import { createTaskBoard } from '@/actions/task/create-task-board';
 import { InputType } from '@/actions/task/create-task-board/types';
 import { CreateTaskBoardSchema } from '@/actions/task/create-task-board/schema';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useModal } from '@/hooks/use-modal';
-import { useToast } from '@/components/ui/use-toast';
+
+import Loading from '@/components/shared-ui/loading';
 import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { ImagePicker } from '@/components/shared-ui/image-picker';
-
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -21,12 +24,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useAction } from '@/hooks/use-action';
-import Loading from '@/components/shared-ui/loading';
 
 export const TaskBoardCreateModal = () => {
   const { type, isOpen, onClose } = useModal();
-  const modalOpen = type === "taskBoardCreate" && isOpen;
+  const modalOpen = type === 'taskBoardCreate' && isOpen;
 
   const { toast } = useToast();
   const router = useRouter();

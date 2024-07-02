@@ -1,18 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Check, Copy, RefreshCw } from 'lucide-react';
+
 import { useModal } from '@/hooks/use-modal';
+import { useOrigin } from '@/hooks/use-origin';
+import { useAction } from '@/hooks/use-action';
+import { refreshInviteCode } from '@/actions/workspace/refresh-invite-code';
+
+import Loading from '@/components/shared-ui/loading';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Check, Copy, RefreshCw } from 'lucide-react';
-import { useOrigin } from '@/hooks/use-origin';
-import { useAction } from '@/hooks/use-action';
-import { DialogModal } from '@/components/shared-ui/dialog-modal';
-import { refreshInviteCode } from '@/actions/workspace/refresh-invite-code';
 import { useToast } from '@/components/ui/use-toast';
-import Loading from '@/components/shared-ui/loading';
 
 export const WorkspaceInviteModal = () => {
   const [copied, setCopied] = useState(false);

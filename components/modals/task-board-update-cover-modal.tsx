@@ -1,18 +1,20 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
 import { updateTaskBoardCover } from '@/actions/task/update-task-board-cover';
 import { UpdateTaskBoardCoverSchema } from '@/actions/task/update-task-board-cover/schema';
 import { InputType } from '@/actions/task/update-task-board-cover/types';
-import { Button } from '@/components/ui/button';
-import { useModal } from '@/hooks/use-modal';
-import { useToast } from '@/components/ui/use-toast';
+
+import Loading from '@/components/shared-ui/loading';
 import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { ImagePicker } from '@/components/shared-ui/image-picker';
-
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -20,7 +22,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import Loading from '@/components/shared-ui/loading';
 
 export const TaskBoardUpdateCoverModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -44,14 +45,18 @@ export const TaskBoardUpdateCoverModal = () => {
     if (!taskBoard) return;
     const { image } = data;
 
-    execute({ workspaceId: params.workspaceId as string, taskBoardId: taskBoard.id, image });
+    execute({
+      workspaceId: params.workspaceId as string,
+      taskBoardId: taskBoard.id,
+      image,
+    });
   };
 
   const form = useForm({
     resolver: zodResolver(UpdateTaskBoardCoverSchema),
     defaultValues: {
-      workspaceId: params?.workspaceId as string || '',
-      taskBoardId: taskBoard?.id || "",
+      workspaceId: (params?.workspaceId as string) || '',
+      taskBoardId: taskBoard?.id || '',
       image: '',
     },
   });

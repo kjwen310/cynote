@@ -1,10 +1,11 @@
 'use client';
 
-import { ActivityItem } from '@/components/shared-ui/activity-item';
+import { ActivityIcon } from 'lucide-react';
+import { HistoryLog } from '@prisma/client';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { HistoryLog } from '@prisma/client';
-import { ActivityIcon } from 'lucide-react';
+import { ActivityItem } from '@/components/shared-ui/activity-item';
 
 interface ActivityProps {
   historyLogs: HistoryLog[];

@@ -2,30 +2,32 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { RefreshCw } from 'lucide-react';
+import { HistoryLog } from '@prisma/client';
+
+import { TaskCardWithTaskList } from '@/types';
 import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
-import { HistoryLog } from '@prisma/client';
 import { getTaskCard } from '@/actions/task/get-task-card';
 import { getHistoryLogByCard } from '@/actions/historyLog/get-history-log-by-card';
 import { updateTaskCardAssign } from '@/actions/task/update-task-card-assign';
-import { TaskCardWithTaskList } from '@/types';
-import { DialogModal } from '@/components/shared-ui/dialog-modal';
-import { useToast } from '@/components/ui/use-toast';
-import { Header } from './header';
-import { Body } from './body';
-import { Action } from './action';
-import { Activity } from './activity';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
+import Loading from '@/components/shared-ui/loading';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import Loading from '@/components/shared-ui/loading';
+
+import { Header } from './header';
+import { Body } from './body';
+import { Action } from './action';
+import { Activity } from './activity';
 
 export const TaskCardModal = () => {
   const [cardData, setCardData] = useState<TaskCardWithTaskList | null>(null);

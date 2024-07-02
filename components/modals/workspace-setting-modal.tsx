@@ -1,20 +1,24 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { RefreshCw } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
+import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
 import { updateWorkspace } from '@/actions/workspace/update-workspace';
 import { UpdateWorkspaceSchema } from '@/actions/workspace/update-workspace/schema';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useModal } from '@/hooks/use-modal';
-import { useToast } from '@/components/ui/use-toast';
+import { InputType } from '@/actions/workspace/update-workspace/types';
+
+import Loading from '@/components/shared-ui/loading';
 import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { ImagePicker } from '@/components/shared-ui/image-picker';
-
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -23,9 +27,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import Image from 'next/image';
-import { InputType } from '@/actions/workspace/update-workspace/types';
-import Loading from '@/components/shared-ui/loading';
 
 export const WorkspaceSettingModal = () => {
   const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);

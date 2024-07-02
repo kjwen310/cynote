@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { HistoryLog } from '@prisma/client';
+
 import { genLogMessage } from '@/lib/utils';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 

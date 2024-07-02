@@ -4,13 +4,15 @@ import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
 import { AlignLeft } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
+
 import { updateTaskCard } from '@/actions/task/update-task-card';
 import { TaskCardWithTaskList } from '@/types';
+import { useAction } from '@/hooks/use-action';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { useAction } from '@/hooks/use-action';
 import Loading from '@/components/shared-ui/loading';
 
 interface BodyProps {
@@ -28,7 +30,7 @@ export const Body = ({ card }: BodyProps) => {
   const textareaRef = useRef<ElementRef<'textarea'>>(null);
 
   const { execute, isLoading } = useAction(updateTaskCard, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: 'SUCCESS',
         description: 'Successfully update card',

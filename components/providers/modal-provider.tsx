@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { UserModal } from '@/components/modals/user-modal';
 import { ConfirmModal } from '@/components/modals/confirm-modal';
 import { WorkspaceCreateModal } from '@/components/modals/workspace-create-modal';

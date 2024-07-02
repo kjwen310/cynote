@@ -5,6 +5,7 @@ import { useFormStatus } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Check, Loader2 } from 'lucide-react';
+
 import { unsplash } from '@/lib/unsplash';
 import { cn } from '@/lib/utils';
 import { defaultPickerImages } from '@/constant/default-picker-image';
@@ -17,7 +18,8 @@ interface ImagePickerProps {
 
 export const ImagePicker = ({ id, onChange, errors }: ImagePickerProps) => {
   const { pending } = useFormStatus();
-  const [images, setImages] = useState<Array<Record<string, any>>>(defaultPickerImages);
+  const [images, setImages] =
+    useState<Array<Record<string, any>>>(defaultPickerImages);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageId, setSelectedImageId] = useState(null);
 
@@ -61,7 +63,7 @@ export const ImagePicker = ({ id, onChange, errors }: ImagePickerProps) => {
             key={image.id}
             className={cn(
               'relative aspect-video cursor-pointer transition bg-muted group hover:opacity-75',
-              pending && 'cursor-auto opacity-50 hover:opacity-50',
+              pending && 'cursor-auto opacity-50 hover:opacity-50'
             )}
             onClick={() => {
               if (pending) return;

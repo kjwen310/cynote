@@ -1,13 +1,15 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+
 import { useModal } from '@/hooks/use-modal';
-import { Button } from '@/components/ui/button';
 import { useAction } from '@/hooks/use-action';
-import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { deleteWorkspace } from '@/actions/workspace/delete-workspace';
-import { useToast } from '@/components/ui/use-toast';
+
 import Loading from '@/components/shared-ui/loading';
+import { Button } from '@/components/ui/button';
+import { DialogModal } from '@/components/shared-ui/dialog-modal';
+import { useToast } from '@/components/ui/use-toast';
 
 export const WorkspaceDeleteModal = () => {
   const { type, data, isOpen, onClose } = useModal();
@@ -31,7 +33,7 @@ export const WorkspaceDeleteModal = () => {
   const onConfirm = () => {
     if (!workspace) return;
     execute({ workspaceId: workspace.id });
-  }
+  };
 
   const modalBody = (
     <p className="text-md text-rose-500 font-semibold">

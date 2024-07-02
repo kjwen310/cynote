@@ -2,18 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+
+import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
 import { createNote } from '@/actions/note/create-note';
 import { CreateNoteSchema } from '@/actions/note/create-note/schema';
 import { InputType } from '@/actions/note/create-note/types';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useModal } from '@/hooks/use-modal';
-import { useToast } from '@/components/ui/use-toast';
+
+import Loading from '@/components/shared-ui/loading';
 import { DialogModal } from '@/components/shared-ui/dialog-modal';
 import { ImagePicker } from '@/components/shared-ui/image-picker';
-
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Form,
   FormControl,
@@ -22,13 +23,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import Loading from '@/components/shared-ui/loading';
 
 export const NoteCreateModal = () => {
   const { type, data, isOpen, onClose } = useModal();
   const modalOpen = type === 'noteCreate' && isOpen;
 
-  const router = useRouter();
   const { toast } = useToast();
   const { workspace } = data;
 
