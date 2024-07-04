@@ -26,6 +26,7 @@ export const CoverImage = ({ taskBoard }: CoverImageProps) => {
         <Image
           fill
           src={taskBoard.imageLgUrl}
+          sizes="(max-width: 768px) 100vw"
           alt="task board cover image"
           className="object-cover"
         />

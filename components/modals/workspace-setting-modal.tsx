@@ -110,9 +110,9 @@ export const WorkspaceSettingModal = () => {
                     <Image
                       fill
                       src={workspace.imageSmUrl}
+                      sizes="(max-width: 768px) 100vw"
                       alt="image"
                       className="rounded-sm object-cover"
-                      sizes="(max-width: 768px) 100vw"
                     />
                     {isOwner && (
                       <div className="absolute flex justify-center items-center w-full h-full inset-y-0 bg-black/30">

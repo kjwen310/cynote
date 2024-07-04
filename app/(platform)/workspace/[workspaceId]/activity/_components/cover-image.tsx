@@ -17,6 +17,7 @@ export const CoverImage = ({ image }: CoverImageProps) => {
         <Image
           fill
           src={image}
+          sizes="(max-width: 768px) 100vw"
           alt="note cover image"
           className="object-cover"
         />

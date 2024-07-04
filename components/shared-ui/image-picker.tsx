@@ -72,11 +72,11 @@ export const ImagePicker = ({ id, onChange, errors }: ImagePickerProps) => {
             }}
           >
             <Image
+              fill
               src={image.urls.thumb}
+              sizes="(max-width: 768px) 100vw"
               alt="image"
               className="rounded-sm object-cover"
-              fill
-              sizes="(max-width: 768px) 100vw"
             />
             <Link
               href={image.links.html}

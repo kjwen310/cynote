@@ -16,8 +16,9 @@ export const NotFoundContainer = ({
     <div className="w-full h-screen flex flex-col items-center justify-center space-y-8 bg-slate-200">
       <div className="relative w-full h-[400px] aspect-video">
         <Image
-          src="/images/not-found.svg"
           fill
+          src="/images/not-found.svg"
+          sizes="(max-width: 768px) 100vw"
           alt="not-found"
           className="bg-cover bg-center"
         />

@@ -27,6 +27,7 @@ export const CoverImage = ({ workspace, isOwner }: CoverImageProps) => {
         <Image
           fill
           src={workspace.imageLgUrl}
+          sizes="(max-width: 768px) 100vw"
           alt="task board cover image"
           className="object-cover"
         />

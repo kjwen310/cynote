@@ -39,6 +39,7 @@ export const NavItem = ({ id, image }: NavItemProps) => {
         <Image
           fill
           src={image || defaultPickerImages[0].urls.thumb}
+          sizes="(max-width: 768px) 100vw"
           alt="workspace image"
         />
       </div>
