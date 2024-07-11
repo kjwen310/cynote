@@ -124,7 +124,7 @@ export const WorkspaceSettingModal = () => {
                     )}
                   </div>
                 ) : (
-                  <ImagePicker id="image" onChange={field.onChange} />
+                  <ImagePicker onChange={field.onChange} />
                 )}
               </FormControl>
               <FormMessage />

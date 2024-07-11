@@ -11,12 +11,10 @@ import { cn } from '@/lib/utils';
 import { defaultPickerImages } from '@/constant/default-picker-image';
 
 interface ImagePickerProps {
-  id: string;
   onChange: (imageStr: string) => void;
-  errors?: Record<string, string[] | undefined>;
 }
 
-export const ImagePicker = ({ id, onChange, errors }: ImagePickerProps) => {
+export const ImagePicker = ({ onChange }: ImagePickerProps) => {
   const { pending } = useFormStatus();
   const [images, setImages] =
     useState<Array<Record<string, any>>>(defaultPickerImages);
@@ -81,7 +79,7 @@ export const ImagePicker = ({ id, onChange, errors }: ImagePickerProps) => {
             <Link
               href={image.links.html}
               target="_blank"
-              className="absolute w-full text-[10px] truncate text-white hover:underline bottom-0 p-1 bg-black/50 opacity-0 group-hover:opacity-100"
+              className="absolute w-full text-[8px] truncate text-white bottom-0 p-1 bg-black/50 hover:underline md:text-[10px] md:opacity-0 md:group-hover:opacity-100"
             >
               {image.user.name}
             </Link>

@@ -68,14 +68,14 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
   }
 
   return (
-    <>
+    <div className='w-full'>
       <Editor
         initialContent={initialContent}
         onChange={onChange}
         editable={isAuthor && !isLoading}
       />
       {isAuthor && (
-        <div className="fixed bottom-0 right-0 flex justify-end p-8">
+        <div className="fixed bottom-4 right-4 flex justify-end">
           <Button
             variant="outline"
             size="lg"
@@ -87,6 +87,6 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
           </Button>
         </div>
       )}
-    </>
+    </div>
   );
 }

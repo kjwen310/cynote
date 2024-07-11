@@ -33,7 +33,7 @@ export const CoverImage = ({ workspace, isOwner }: CoverImageProps) => {
         />
       )}
       {isOwner && (
-        <div className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100">
+        <div className="absolute bottom-5 right-5 md:opacity-0 md:group-hover:opacity-100">
           <Button
             variant="outline"
             size="sm"

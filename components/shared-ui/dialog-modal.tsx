@@ -1,5 +1,7 @@
 'use client';
 
+import { cn } from '@/lib/utils';
+
 import {
   Dialog,
   DialogContent,
@@ -32,7 +34,7 @@ export const DialogModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={bodyClassName}>
+      <DialogContent className={cn("max-w-[340px] rounded-sm md:max-w-lg", bodyClassName)}>
         <DialogHeader>
           {title && <DialogTitle>{title}</DialogTitle>}
           {description && <DialogDescription>{description}</DialogDescription>}

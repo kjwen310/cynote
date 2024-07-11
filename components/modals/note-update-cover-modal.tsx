@@ -70,7 +70,7 @@ export const NoteUpdateCoverModal = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <ImagePicker id="image" onChange={field.onChange} />
+                <ImagePicker onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>

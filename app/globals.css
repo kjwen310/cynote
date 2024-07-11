@@ -71,6 +71,11 @@ body,
     --ring: 0 0% 83.1%;
   }
 }
+
+/* Hide Dialog and Sheet Close Button */
+button.right-4.top-4 {
+  display: none;
+}
  
 @layer base {
   * {
