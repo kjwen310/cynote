@@ -13,10 +13,11 @@ import { CreateWorkspaceBtn } from './_components/create-workspace-btn';
 export default function WorkspacePage() {
   return (
     <div
-      className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center bg-slate-400/20"
+      className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center "
       style={{ backgroundImage: 'url(/images/landing_1.svg)' }}
     >
-      <Card className="w-[240px] text-center shadow-xl md:w-[350px]">
+      <div className='fixed w-full h-screen bg-slate-700/70' />
+      <Card className="relative z-50 text-center shadow-xl max-w-[320px] mx-4 md:w-[400px] md:max-w-none md:mx-0">
         <CardHeader className="space-y-4">
           <CardTitle>Not have a workspace yet?</CardTitle>
           <CardDescription>Create your own one and explore!</CardDescription>

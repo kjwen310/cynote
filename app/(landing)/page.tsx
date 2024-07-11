@@ -22,9 +22,9 @@ export default function LandingPage() {
         <div className="flex flex-col justify-center items-center gap-y-4 text-center max-w-4xl">
           <h1 className="text-6xl">Best Tool For Teamwork</h1>
           <p className="text-lg">
-            dsfs gdfnhgjgjgjgj gjkjkjkj kkhkhhkhj hkklklj lljlkj lhkkjkjkkgkg
-            kjhkjhk jhkjhkj hkhjk hklhlhklklk lhlhlhkh llhlhhj lhkl hllhkl
-            hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
+            Enhance your team's productivity and collaboration with the ultimate
+            tool designed for seamless teamwork. Boost efficiency, streamline
+            communication, and achieve your goals together with ease.
           </p>
           <Button size="lg" asChild>
             <Link href="/sign-in">Get Cynote For Free</Link>
@@ -45,9 +45,9 @@ export default function LandingPage() {
               Create a task for you and anyone
             </h2>
             <p className="text-lg text-slate-500">
-              dsfs gdfnhgjgjgjgj gjkjkjkj kkhkhhkhj hkklklj lljlkj lhkkjkjkkgkg
-              kjhkjhk jhkjhkj hkhjk hklhlhklklk lhlhlhkh llhlhhj lhkl hllhkl
-              hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
+              Simplify task management by creating tasks for yourself and
+              others. Assign, track, and manage tasks effortlessly, ensuring
+              everyone stays organized and on track.
             </p>
           </div>
         </div>
@@ -55,23 +55,24 @@ export default function LandingPage() {
 
       <div className="w-screen bg-slate-200 px-8">
         <section className="max-w-4xl h-[600px] flex justify-center items-center mx-auto">
-          <div className="flex flex-col items-center gap-y-4 md:flex-row md:gap-x-12 md:gap-y-0">
-            <div className="flex flex-col gap-y-8">
-              <h2 className="text-2xl font-bold">
-                Share your note with productivity
-              </h2>
-              <p className="text-lg text-slate-500">
-                dsfs gdfnhgjgjgjgj gjkjkjkj kkhkhhkhj hkklklj lljlkj
-                lhkkjkjkkgkg kjhkjhk jhkjhkj hkhjk hklhlhklklk lhlhlhkh llhlhhj
-                lhkl hllhkl hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
-              </p>
-            </div>
+          <div className="flex flex-col items-center gap-y-4 md:flex-row-reverse md:gap-x-12 md:gap-y-0">
             <Image
               src="/images/landing_2.svg"
               height={400}
               width={400}
               alt="note"
             />
+            <div className="flex flex-col gap-y-8">
+              <h2 className="text-2xl font-bold">
+                Share your note with productivity
+              </h2>
+              <p className="text-lg text-slate-500">
+                Enhance collaboration and efficiency by sharing your notes
+                seamlessly. Empower your team with easy access to vital
+                information, fostering productivity and streamlined workflows.
+                Make knowledge sharing a key to success.
+              </p>
+            </div>
           </div>
         </section>
       </div>
@@ -89,9 +90,10 @@ export default function LandingPage() {
               Explore and connect with people
             </h2>
             <p className="text-lg text-slate-500">
-              dsfs gdfnhgjgjgjgj gjkjkjkj kkhkhhkhj hkklklj lljlkj lhkkjkjkkgkg
-              kjhkjhk jhkjhkj hkhjk hklhlhklklk lhlhlhkh llhlhhj lhkl hllhkl
-              hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
+              Discover new opportunities and build meaningful connections.
+              Engage with like-minded individuals, expand your network, and
+              explore a world of possibilities through vibrant social
+              interactions.
             </p>
           </div>
         </div>
@@ -99,7 +101,7 @@ export default function LandingPage() {
 
       <section className="w-screen flex justify-center bg-slate-200 py-8">
         <div className="max-w-4xl flex flex-col items-center gap-y-8">
-          <div className="relative max-w-4xl w-[620px] h-[420px]">
+          <div className="relative max-w-4xl w-full h-[280px] md:w-[620px] md:h-[420px]">
             <Image
               src="/images/landing_4.svg"
               fill
@@ -112,9 +114,10 @@ export default function LandingPage() {
               Start your amazing trip today!
             </h2>
             <p className="text-lg text-slate-500">
-              dsfs gdfnhgjgjgjgj gjkjkjkj kkhkhhkhj hkklklj lljlkj lhkkjkjkkgkg
-              kjhkjhk jhkjhkj hkhjk hklhlhklklk lhlhlhkh llhlhhj lhkl hllhkl
-              hlhklhlh lhlh hlhlhlhk hlhklhlh lhlh hlhlhlhk!
+              Embark on an unforgettable journey with us. Discover new
+              destinations, create lasting memories, and experience the thrill
+              of adventure. Don't wait—begin your amazing trip today and explore
+              the world like never before.
             </p>
           </div>
           <Button size="lg" asChild>
