@@ -20,10 +20,10 @@ export function FilterSelect({
   setSelectedCollaborator,
 }: FilterSelectProps) {
   return (
-    <div className="w-1/2 grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4">
       <Select onValueChange={(val) => setSelectedType(val as LOG_TYPE)}>
         <SelectTrigger>
-          <SelectValue placeholder="Select Type" />
+          <SelectValue placeholder="Type" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -38,7 +38,7 @@ export function FilterSelect({
       </Select>
       <Select onValueChange={(val) => setSelectedCollaborator(val)}>
         <SelectTrigger>
-          <SelectValue placeholder="Select Collaborator" />
+          <SelectValue placeholder="Collaborator" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

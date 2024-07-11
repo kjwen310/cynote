@@ -4,6 +4,7 @@ import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 
 import { WorkspaceSidebar } from './_components/workspace-sidebar';
+import { MobileSidebarTrigger } from '../../_components/nav-sidebar/mobile-sidebar-trigger';
 
 interface WorkspaceIdLayout {
   children: React.ReactNode;
@@ -46,22 +47,64 @@ export default async function WorkspaceIdLayout({
     redirect('/');
   }
 
+  const workspaces = await db.workspace.findMany({
+    where: {
+      id: {
+        in: workspaceIds,
+      },
+    },
+  });
+
+  const collaborator = await db.collaborator.findUnique({
+    where: {
+      userId_workspaceId: {
+        userId: user?.id,
+        workspaceId,
+      },
+    },
+  });
+
   const workspace = await db.workspace.findUnique({
     where: {
       id: workspaceId,
     },
+    include: {
+      collaborators: {
+        orderBy: {
+          role: 'asc',
+        },
+      },
+      taskBoards: true,
+      notes: true,
+      historyLogs: true,
+    },
   });
 
-  if (!workspace) {
+  if (!workspace || !collaborator) {
     redirect('/');
   }
 
+  const isOwner = collaborator.role === 'OWNER';
+
   return (
     <div className="h-full">
-      <div className="fixed z-20 hidden w-60 h-full flex-col inset-y-0 md:flex">
-        <WorkspaceSidebar workspaceId={workspaceId} />
+      <div className="md:hidden">
+        <MobileSidebarTrigger
+          workspaces={workspaces}
+          user={user}
+          workspace={workspace}
+          collaborator={collaborator}
+          isOwner={isOwner}
+        />
       </div>
-      <main className="h-full md:pl-60">{children}</main>
+      <div className="fixed z-20 hidden w-[240px] h-full flex-col inset-y-0 md:flex">
+        <WorkspaceSidebar
+          workspace={workspace}
+          collaborator={collaborator}
+          isOwner={isOwner}
+        />
+      </div>
+      <main className="h-full md:pl-[240px]">{children}</main>
     </div>
   );
 }

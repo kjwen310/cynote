@@ -1,9 +1,12 @@
 import { redirect } from 'next/navigation';
+
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
-import { NavSidebar } from './_components/nav-sidebar';
 
-export default async function PlatformLayout({
+import { NavSidebar } from '../_components/nav-sidebar';
+import { MobileSidebarTrigger } from '../_components/nav-sidebar/mobile-sidebar-trigger';
+
+export default async function WorkspaceLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -55,10 +58,13 @@ export default async function PlatformLayout({
 
   return (
     <div className="h-full">
-      <div className="fixed z-20 flex flex-col h-full w-[72px] inset-y-0">
+      <div className='md:hidden'>
+        <MobileSidebarTrigger workspaces={workspaces} user={user} />
+      </div>
+      <div className="hidden fixed z-20 h-full w-[72px] inset-y-0 md:block">
         <NavSidebar workspaces={workspaces} user={user} />
       </div>
-      <main className="pl-[72px] h-full">{children}</main>
+      <main className="h-full md:pl-[72px]">{children}</main>
     </div>
   );
 }
