@@ -76,6 +76,11 @@ body,
 button.right-4.top-4 {
   display: none;
 }
+
+/* Remove Editor Background */
+.bn-editor {
+  background-color: transparent !important;
+}
  
 @layer base {
   * {

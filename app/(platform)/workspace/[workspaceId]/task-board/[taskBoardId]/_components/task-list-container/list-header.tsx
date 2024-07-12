@@ -67,31 +67,30 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className="flex justify-between items-start gap-x-2 text-sm font-semibold pt-2 px-2">
-      {isEditing ? (
-        <form action={onSubmit} className="w-full bg-transparent">
-          <Input
-            ref={inputRef}
-            name="title"
-            onBlur={onBlur}
-            defaultValue={title}
-            className="text-sm text-[#3F3F3F] bg-transparent font-medium break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
-          />
-        </form>
-      ) : (
-        <div
-          className="w-full h-7 font-medium border-transparent text-sm px-2 py-1"
-          onClick={enableEditing}
-        >
-          {title}
-        </div>
-      )}
-      <ListOption list={list} />
-    </div>
+    <>
+      {isLoading && <Loading />}
+      <div className="flex justify-between items-start gap-x-2 text-sm font-semibold pt-2 px-2">
+        {isEditing ? (
+          <form action={onSubmit} className="w-full bg-transparent">
+            <Input
+              ref={inputRef}
+              name="title"
+              onBlur={onBlur}
+              defaultValue={title}
+              className="text-sm text-[#3F3F3F] bg-transparent font-medium break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
+            />
+          </form>
+        ) : (
+          <div
+            className="w-full h-7 font-medium border-transparent text-sm px-2 py-1"
+            onClick={enableEditing}
+          >
+            {title}
+          </div>
+        )}
+        <ListOption list={list} />
+      </div>
+    </>
   );
 };

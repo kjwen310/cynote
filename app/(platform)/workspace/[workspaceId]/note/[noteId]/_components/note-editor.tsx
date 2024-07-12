@@ -63,30 +63,29 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
     setEditorContent(blockContent);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className='w-full'>
-      <Editor
-        initialContent={initialContent}
-        onChange={onChange}
-        editable={isAuthor && !isLoading}
-      />
-      {isAuthor && (
-        <div className="fixed bottom-4 right-4 flex justify-end">
-          <Button
-            variant="outline"
-            size="lg"
-            disabled={isLoading}
-            onClick={onUpdateContent}
-            className="shadow-md"
-          >
-            Save
-          </Button>
-        </div>
-      )}
-    </div>
+    <>
+      {isLoading && <Loading />}
+      <div className="w-full">
+        <Editor
+          initialContent={initialContent}
+          onChange={onChange}
+          editable={isAuthor && !isLoading}
+        />
+        {isAuthor && (
+          <div className="fixed bottom-4 right-4 flex justify-end">
+            <Button
+              variant="outline"
+              size="lg"
+              disabled={isLoading}
+              onClick={onUpdateContent}
+              className="shadow-md"
+            >
+              Save
+            </Button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

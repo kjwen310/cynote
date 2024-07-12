@@ -49,20 +49,19 @@ export const TaskBoardHeader = ({ taskBoard }: TaskBoardHeaderProps) => {
     });
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <form action={onSubmit} className="w-full bg-transparent my-8">
-      <Input
-        ref={inputRef}
-        name="title"
-        onBlur={onBlur}
-        defaultValue={title}
-        className="text-5xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
-      />
-    </form>
+    <>
+      {isLoading && <Loading />}
+      <form action={onSubmit} className="w-full bg-transparent my-8">
+        <Input
+          ref={inputRef}
+          name="title"
+          onBlur={onBlur}
+          defaultValue={title}
+          className="text-5xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
+        />
+      </form>
+    </>
   );
 };
 

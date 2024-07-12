@@ -51,28 +51,27 @@ export const Header = ({ card }: HeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className="flex items-start gap-x-3 w-full mb-6">
-      <Layout className="w-5 h-5 text-neutral-700 mt-2.5" />
-      <div className="w-full">
-        <form action={onSubmit}>
-          <Input
-            ref={inputRef}
-            name="title"
-            onBlur={onBlur}
-            defaultValue={title}
-            className="text-xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 pl-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
-          />
-        </form>
-        <p className="text-sm text-muted-foreground">
-          in list <span className="underline">{card.taskList.title}</span>
-        </p>
+    <>
+      {isLoading && <Loading />}
+      <div className="flex items-start gap-x-3 w-full mb-6">
+        <Layout className="w-5 h-5 text-neutral-700 mt-2.5" />
+        <div className="w-full">
+          <form action={onSubmit}>
+            <Input
+              ref={inputRef}
+              name="title"
+              onBlur={onBlur}
+              defaultValue={title}
+              className="text-xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 pl-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
+            />
+          </form>
+          <p className="text-sm text-muted-foreground">
+            in list <span className="underline">{card.taskList.title}</span>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

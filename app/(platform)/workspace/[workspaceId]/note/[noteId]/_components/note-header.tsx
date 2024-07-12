@@ -50,12 +50,9 @@ export const NoteHeader = ({ note, isAuthor }: NoteHeaderProps) => {
     });
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isLoading && <Loading />}
       {isAuthor ? (
         <form action={onSubmit} className="w-full bg-transparent my-8">
           <Input
