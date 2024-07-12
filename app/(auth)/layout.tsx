@@ -1,6 +1,12 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 
+export async function generateMetadata() {
+  return {
+    title: "Sign In",
+  };
+}
+
 export default async function AuthLayout({
   children,
 }: {

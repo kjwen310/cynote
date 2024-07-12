@@ -11,6 +11,22 @@ interface WorkspaceIdLayout {
   params: { workspaceId: string };
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { workspaceId: string };
+}) {
+  const { workspaceId } = params;
+  const workspace = await db.workspace.findUnique({
+    where: { id: workspaceId },
+    select: { title: true },
+  });
+
+  return {
+    title: workspace?.title || 'workspace',
+  };
+}
+
 export default async function WorkspaceIdLayout({
   children,
   params,
