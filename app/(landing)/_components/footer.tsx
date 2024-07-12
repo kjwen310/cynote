@@ -10,7 +10,7 @@ export const Footer = () => {
             <Logo />
           </div>
           <span className="text-sm text-slate-500 md:text-center dark:text-slate-400">
-            © 2023 Cynote. All Rights Reserved.
+            © 2024 Cynote. All Rights Reserved.
           </span>
         </div>
         <ul className="flex flex-wrap items-center gap-x-2 text-slate-500 dark:text-slate-400 md:gap-x-4">
