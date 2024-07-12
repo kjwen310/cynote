@@ -23,7 +23,7 @@ export default function WorkspacePage() {
           <CardDescription>Create your own one and explore!</CardDescription>
         </CardHeader>
         <CardContent>
-          <ul className="flex flex-col gap-y-2 font-semibold text-sm text-left text-indigo-400 p-4">
+          <ul className="flex flex-col gap-y-2 font-semibold text-sm text-left text-[#87c0cd] p-4">
             <li className="flex justify-center items-center gap-x-2">
               <Check className="w-4 h-4" />
               <p>Share ideas with flexible notes</p>

@@ -1,25 +1,21 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useRef, ElementRef } from 'react';
+import { useParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { X, Plus } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-import { Button } from '@/components/ui/button';
+
+import { useAction } from '@/hooks/use-action';
 import { createTaskCard } from '@/actions/task/create-task-card';
 import { CreateTaskCardSchema } from '@/actions/task/create-task-card/schema';
 import { InputType } from '@/actions/task/create-task-card/types';
+
+import Loading from '@/components/shared-ui/loading';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { useAction } from '@/hooks/use-action';
-
-interface CreateTaskCardProps {
-  listId: string;
-  isEditing: boolean;
-  disableEditing: () => void;
-  enableEditing: () => void;
-}
-
 import {
   Form,
   FormControl,
@@ -27,8 +23,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { useParams } from 'next/navigation';
-import Loading from '@/components/shared-ui/loading';
+
+interface CreateTaskCardProps {
+  listId: string;
+  isEditing: boolean;
+  disableEditing: () => void;
+  enableEditing: () => void;
+}
 
 export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditing }: CreateTaskCardProps) => {
   const formRef = useRef<ElementRef<'form'>>(null);
@@ -97,7 +98,7 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
                   <Textarea
                     id="title"
                     placeholder="Enter card title..."
-                    className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-500"
                     {...field}
                   />
                 </FormControl>
@@ -121,10 +122,10 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
       <Button
         size="sm"
         variant="ghost"
-        className="w-full h-auto justify-start text-sm text-muted-foreground px-2 py-1"
+        className="w-full h-auto justify-start text-sm text-muted-foreground px-2 py-1 hover:bg-zinc-700"
         onClick={enableEditing}
       >
-        <Plus className="w-4 h-4 mr-2" />
+        <Plus className="w-4 h-4 mr-2 text-[#87c0cd]" />
         Add a card
       </Button>
     </div>

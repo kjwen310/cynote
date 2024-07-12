@@ -9,8 +9,8 @@ interface CollaboratorItemProps {
 }
 
 const roleMap = {
-  [ROLE.OWNER]: <ShieldCheck className="w-full h-full  text-indigo-500" />,
-  [ROLE.MEMBER]: <ShieldAlert className="w-full h-full text-indigo-500" />,
+  [ROLE.OWNER]: <ShieldCheck className="w-full h-full text-[#87c0cd]" />,
+  [ROLE.MEMBER]: <ShieldAlert className="w-full h-full text-[#87c0cd]" />,
 };
 
 export const CollaboratorItem = ({
@@ -24,7 +24,7 @@ export const CollaboratorItem = ({
         <AvatarImage src={collaborator.displayImage || ''} />
         <AvatarFallback>{collaborator.displayName}</AvatarFallback>
       </Avatar>
-      <div className="absolute z-10 bottom-0 right-0 w-4 h-4 flex justify-center items-center rounded-full bg-white p-0.5">
+      <div className="absolute z-10 bottom-0 right-0 w-4 h-4 flex justify-center items-center rounded-full bg-white p-0.5 dark:bg-zinc-100">
         {icon}
       </div>
     </div>

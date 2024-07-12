@@ -1,19 +1,21 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { useState, useRef, ElementRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'next/navigation';
 import { Plus, X } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useAction } from '@/hooks/use-action';
 import { createTaskList } from '@/actions/task/create-task-list';
 import { CreateTaskListSchema } from '@/actions/task/create-task-list/schema';
 import { InputType } from '@/actions/task/create-task-list/types';
+
+import Loading from '@/components/shared-ui/loading';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useAction } from '@/hooks/use-action';
-
+import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
   FormControl,
@@ -21,7 +23,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import Loading from '@/components/shared-ui/loading';
 
 export const CreateTaskList = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -92,7 +93,7 @@ export const CreateTaskList = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             ref={formRef}
-            className="w-full rounded-md bg-white space-y-4 shadow-md p-3"
+            className="w-full rounded-md bg-white space-y-4 shadow-md p-3 dark:bg-zinc-700"
           >
             <FormField
               control={form.control}
@@ -100,10 +101,11 @@ export const CreateTaskList = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <Textarea
+                      id="title"
+                      placeholder="Enter list title..."
+                      className="shadow-sm resize-none outline-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-500"
                       {...field}
-                      className="h-7 font-medium text-sm border-transparent transition px-2 py-1 hover:border-input focus:border-input"
-                      placeholder="Please fill title"
                     />
                   </FormControl>
                   <FormMessage />
@@ -122,9 +124,9 @@ export const CreateTaskList = () => {
         <button
           type="button"
           onClick={enableEditing}
-          className="flex items-center font-medium text-sm w-full rounded-md bg-slate-200/80 hover:bg-slate-200/50 transition p-3"
+          className="flex items-center font-medium text-sm w-full rounded-md bg-slate-200/80 transition p-3 hover:bg-slate-200/50 dark:bg-zinc-700"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-4 h-4 mr-2 text-[#87c0cd]" />
           Add a list
         </button>
       )}

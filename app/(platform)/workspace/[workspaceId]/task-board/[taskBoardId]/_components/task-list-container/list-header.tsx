@@ -2,27 +2,14 @@
 
 import { useState, useRef, ElementRef } from 'react';
 import { useParams } from 'next/navigation';
-import { useEventListener } from 'usehooks-ts';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { TaskList } from '@prisma/client';
 
 import { useAction } from '@/hooks/use-action';
 import { updateTaskList } from '@/actions/task/update-task-list';
-import { UpdateTaskListSchema } from '@/actions/task/update-task-list/schema';
-import { InputType } from '@/actions/task/update-task-list/types';
 
 import Loading from '@/components/shared-ui/loading';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
-
 import { ListOption } from './list-option';
 
 interface ListHeaderProps {
@@ -35,7 +22,6 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
 
   const params = useParams();
   const { toast } = useToast();
-  const formRef = useRef<ElementRef<'form'>>(null);
   const inputRef = useRef<ElementRef<'input'>>(null);
 
   const { workspaceId, taskBoardId } = params;
@@ -44,36 +30,27 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
     onSuccess: (data) => {
       toast({
         title: 'SUCCESS',
-        description: 'Successfully Create card',
+        description: 'Successfully Renamed list',
       });
       setTitle(data.title);
       disableEditing();
     },
   });
 
-  const onSubmit = (data: InputType) => {
-    if (title === data.title) {
+  const onSubmit = (data: FormData) => {
+    const formTitle = data.get('title') as string;
+    if (title === formTitle) {
       disableEditing();
       return;
     }
 
     execute({
-      title: data.title,
+      title: formTitle,
       taskListId: list.id,
       workspaceId: workspaceId as string,
       taskBoardId: taskBoardId as string,
     });
   };
-
-  const form = useForm({
-    resolver: zodResolver(UpdateTaskListSchema),
-    defaultValues: {
-      title: '',
-      taskListId: '',
-      workspaceId: '',
-      taskBoardId: '',
-    },
-  });
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -86,13 +63,9 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
     setIsEditing(false);
   };
 
-  const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      formRef.current?.requestSubmit();
-    }
+  const onBlur = () => {
+    inputRef.current?.form?.requestSubmit();
   };
-
-  useEventListener('keydown', onKeyDown);
 
   if (isLoading) {
     return <Loading />;
@@ -101,30 +74,15 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
   return (
     <div className="flex justify-between items-start gap-x-2 text-sm font-semibold pt-2 px-2">
       {isEditing ? (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            ref={formRef}
-            className="w-full rounded-md bg-white space-y-4 shadow-md p-3"
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      className="h-7 font-medium text-sm border-transparent transition px-2 py-1 hover:border-input focus:border-input"
-                      placeholder="Please fill title"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
+        <form action={onSubmit} className="w-full bg-transparent">
+          <Input
+            ref={inputRef}
+            name="title"
+            onBlur={onBlur}
+            defaultValue={title}
+            className="text-sm text-[#3F3F3F] bg-transparent font-medium break-words outline-none border-none ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
+          />
+        </form>
       ) : (
         <div
           className="w-full h-7 font-medium border-transparent text-sm px-2 py-1"

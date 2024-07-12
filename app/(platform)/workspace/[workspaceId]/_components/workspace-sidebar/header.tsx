@@ -48,7 +48,7 @@ export const Header = ({
           <>
             <DropdownMenuItem
               onClick={() => onOpen('workspaceInvite', { workspace })}
-              className="text-sm px-3 py-2 cursor-pointer text-indigo-600 dark:text-indigo-400"
+              className="text-sm px-3 py-2 cursor-pointer text-[#87c0cd]"
             >
               Invite People
               <UserPlus className="w-4 h-4 ml-auto" />
@@ -60,7 +60,7 @@ export const Header = ({
                   currentCollaboratorId,
                 })
               }
-              className="text-sm px-3 py-2 cursor-pointer text-indigo-600 dark:text-indigo-400"
+              className="text-sm px-3 py-2 cursor-pointer text-[#87c0cd]"
             >
               Manage Collaborators
               <Users className="w-4 h-4 ml-auto" />

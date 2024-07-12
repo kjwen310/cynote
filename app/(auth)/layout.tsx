@@ -13,12 +13,12 @@ export default async function AuthLayout({
   }
 
   return (
-    <main
+    <div
       className="w-full h-screen flex justify-center items-center bg-no-repeat bg-cover bg-center"
       style={{ backgroundImage: 'url(/images/landing_1.svg)' }}
     >
-      <div className='fixed w-full h-screen bg-slate-700/70' />
-      {children}
-    </main>
+      <div className="fixed w-full h-screen bg-slate-700/70" />
+      <main className="relative z-50 w-full">{children}</main>
+    </div>
   );
 }

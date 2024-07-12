@@ -13,7 +13,7 @@ export const WorkspaceCreate = () => {
     >
       <div className="flex justify-center items-center w-[48px] h-[48px] rounded-[24px] bg-background overflow-hidden transition-all group-hover:rounded-[16px] dark:bg-neutral-700">
         <Plus
-          className="text-indigo-500 transition group-hover:text-indigo-200 dark:group-hover:text-white"
+          className="text-[#87c0cd] transition group-hover:text-[#87c0cd] dark:group-hover:text-white"
           size={25}
         />
       </div>

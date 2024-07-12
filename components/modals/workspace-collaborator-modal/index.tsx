@@ -17,8 +17,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { RoleOption } from './role-option';
 
 const roleMap = {
-  [ROLE.OWNER]: <ShieldCheck className="w-full h-full  text-indigo-500" />,
-  [ROLE.MEMBER]: <ShieldAlert className="w-full h-full text-indigo-500" />,
+  [ROLE.OWNER]: <ShieldCheck className="w-full h-full text-[#87c0cd]" />,
+  [ROLE.MEMBER]: <ShieldAlert className="w-full h-full text-[#87c0cd]" />,
 };
 
 export const WorkspaceCollaboratorModal = () => {

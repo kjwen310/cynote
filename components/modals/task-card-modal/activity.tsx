@@ -17,7 +17,7 @@ export const Activity = ({ historyLogs }: ActivityProps) => {
       <div className="flex items-start gap-x-3 w-full">
         <ActivityIcon className="w-5 h-5 mt-0.5" />
         <div className="w-full">
-          <p className="font-semibold text-neutral-700 mb-2">Activity</p>
+          <p className="font-semibold text-neutral-700 mb-2 dark:text-zinc-300">Activity</p>
           <ol className="space-y-4 mt-2">
             {historyLogs.map((log) => (
               <ActivityItem key={log.id} log={log} />

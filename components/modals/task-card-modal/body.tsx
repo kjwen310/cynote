@@ -83,7 +83,9 @@ export const Body = ({
       <AlignLeft className="w-5 h-5 text-neutral-700" />
       <div className="flex flex-col gap-3 w-full md:flex-row">
         <div className="w-full flex-auto">
-          <p className="font-semibold text-neutral-700 mb-2">Description</p>
+          <p className="font-semibold text-neutral-700 mb-2 dark:text-zinc-300">
+            Description
+          </p>
           {isEditing ? (
             <form ref={formRef} action={onSubmit} className="space-y-2">
               <Textarea
@@ -91,7 +93,7 @@ export const Body = ({
                 name="description"
                 placeholder="Add more description..."
                 defaultValue={taskCard.description || undefined}
-                className="w-full resize-none mt-2 "
+                className="w-full resize-none mt-2 dark:text-zinc-300 dark:bg-zinc-700"
               />
               <div className="flex items-center space-x-2">
                 <Button type="submit" size="sm">
@@ -110,7 +112,7 @@ export const Body = ({
           ) : (
             <div
               role="button"
-              className="font-medium text-sm bg-neutral-200 rounded-md min-h-[80px] py-3 px-3.5"
+              className="font-medium text-sm bg-neutral-200 rounded-md min-h-[80px] py-3 px-3.5 dark:text-zinc-300 dark:bg-zinc-700"
               onClick={enableEditing}
             >
               {taskCard.description || 'Add more description...'}

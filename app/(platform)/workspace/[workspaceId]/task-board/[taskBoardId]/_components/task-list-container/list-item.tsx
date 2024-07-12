@@ -38,7 +38,7 @@ export const ListItem = ({ index, item, collaborators }: ListItemProps) => {
         >
           <div
             {...provided.dragHandleProps}
-            className="w-full rounded-md shadow-md bg-[#f1f2f4] pb-4"
+            className="w-full rounded-md shadow-md bg-[#f1f2f4] pb-4 dark:bg-zinc-700"
           >
             <ListHeader list={item} />
             <Droppable droppableId={item.id} type="task-card">
