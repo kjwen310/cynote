@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { MoreHorizontal } from 'lucide-react';
+import { Copy, MoreHorizontal, Trash } from 'lucide-react';
 import { TaskList } from '@prisma/client';
 
 import { useAction } from '@/hooks/use-action';
@@ -75,12 +75,13 @@ export const ListOption = ({ list }: ListOptionProps) => {
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="start" className="px-0 py-3">
+      <PopoverContent side="bottom" align="start" className="max-w-[160px] px-0 py-2">
         <Button
           variant="ghost"
           className="w-full h-auto justify-start text-sm p-2 px-5 rounded-none"
           onClick={onCopy}
         >
+          <Copy className="w-4 h-4 mr-2" />
           Copy List
         </Button>
         <Button
@@ -88,6 +89,7 @@ export const ListOption = ({ list }: ListOptionProps) => {
           className="w-full h-auto justify-start text-sm p-2 px-5 rounded-none"
           onClick={onDelete}
         >
+          <Trash className="w-4 h-4 mr-2" />
           Delete List
         </Button>
       </PopoverContent>

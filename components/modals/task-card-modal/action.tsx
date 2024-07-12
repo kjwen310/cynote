@@ -81,7 +81,7 @@ export const Action = ({ card }: ActionProps) => {
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="start" className="px-0 py-3">
+      <PopoverContent side="bottom" align="start" className="max-w-[160px] px-0 py-3">
         <Button
           variant="ghost"
           size="sm"

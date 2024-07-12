@@ -65,7 +65,7 @@ export const Header = ({ card }: HeaderProps) => {
             name="title"
             onBlur={onBlur}
             defaultValue={title}
-            className="relative -left-1.5 w-[95%] border-transparent bg-transparent font-semibold text-xl text-neutral-700 focus-visible:bg-white focus-visible:border-input truncate px-1 mb-0.5"
+            className="text-xl text-[#3F3F3F] bg-transparent font-bold break-words outline-none border-none ring-0 pl-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-none dark:text-[#CFCFCF]"
           />
         </form>
         <p className="text-sm text-muted-foreground">

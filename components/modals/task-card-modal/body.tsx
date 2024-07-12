@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, ElementRef } from 'react';
-import { useParams } from 'next/navigation';
+import { Collaborator } from '@prisma/client';
 import { AlignLeft } from 'lucide-react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
 
@@ -13,23 +13,31 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import Loading from '@/components/shared-ui/loading';
+import { CreateAssignBlock } from './create-assign-block';
 
 interface BodyProps {
-  card: TaskCardWithTaskList;
+  taskCard: TaskCardWithTaskList;
+  createdByInfo: Collaborator | undefined;
+  assignedToInfo: Collaborator | undefined;
+  collaborators: Collaborator[];
+  workspaceId: string;
+  taskBoardId: string;
 }
 
-export const Body = ({ card }: BodyProps) => {
+export const Body = ({
+  taskCard,
+  createdByInfo,
+  assignedToInfo,
+  collaborators,
+  workspaceId,
+  taskBoardId,
+}: BodyProps) => {
   const [isEditing, setIsEditing] = useState(false);
-
-  const params = useParams();
   const { toast } = useToast();
-  const { workspaceId, taskBoardId } = params;
-
   const formRef = useRef<ElementRef<'form'>>(null);
   const textareaRef = useRef<ElementRef<'textarea'>>(null);
 
-  const { execute, isLoading } = useAction(updateTaskCard, {
+  const { execute } = useAction(updateTaskCard, {
     onSuccess: () => {
       toast({
         title: 'SUCCESS',
@@ -44,9 +52,9 @@ export const Body = ({ card }: BodyProps) => {
 
     execute({
       description,
-      workspaceId: workspaceId as string,
-      taskBoardId: taskBoardId as string,
-      taskCardId: card.id,
+      workspaceId,
+      taskBoardId,
+      taskCardId: taskCard.id,
     });
   };
 
@@ -70,47 +78,53 @@ export const Body = ({ card }: BodyProps) => {
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <div className="flex items-start gap-x-3 w-full">
-      <AlignLeft className="w-5 h-5text-neutral-700" />
-      <div className="w-full">
-        <p className="font-semibold text-neutral-700 mb-2">Description</p>
-        {isEditing ? (
-          <form ref={formRef} action={onSubmit} className="space-y-2">
-            <Textarea
-              ref={textareaRef}
-              name="description"
-              placeholder="Add more description..."
-              defaultValue={card.description || undefined}
-              className="w-full resize-none mt-2 "
-            />
-            <div className="flex items-center space-x-2">
-              <Button type="submit" size="sm">
-                Save
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant="ghost"
-                onClick={disableEditing}
-              >
-                Cancel
-              </Button>
+      <AlignLeft className="w-5 h-5 text-neutral-700" />
+      <div className="flex flex-col gap-3 w-full md:flex-row">
+        <div className="w-full flex-auto">
+          <p className="font-semibold text-neutral-700 mb-2">Description</p>
+          {isEditing ? (
+            <form ref={formRef} action={onSubmit} className="space-y-2">
+              <Textarea
+                ref={textareaRef}
+                name="description"
+                placeholder="Add more description..."
+                defaultValue={taskCard.description || undefined}
+                className="w-full resize-none mt-2 "
+              />
+              <div className="flex items-center space-x-2">
+                <Button type="submit" size="sm">
+                  Save
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  onClick={disableEditing}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <div
+              role="button"
+              className="font-medium text-sm bg-neutral-200 rounded-md min-h-[80px] py-3 px-3.5"
+              onClick={enableEditing}
+            >
+              {taskCard.description || 'Add more description...'}
             </div>
-          </form>
-        ) : (
-          <div
-            role="button"
-            className="font-medium text-sm bg-neutral-200 rounded-md min-h-[80px] py-3 px-3.5"
-            onClick={enableEditing}
-          >
-            {card.description || 'Add more description...'}
-          </div>
-        )}
+          )}
+        </div>
+        <CreateAssignBlock
+          createdByInfo={createdByInfo}
+          assignedToInfo={assignedToInfo}
+          taskCard={taskCard}
+          collaborators={collaborators}
+          workspaceId={workspaceId}
+          taskBoardId={taskBoardId}
+        />
       </div>
     </div>
   );
