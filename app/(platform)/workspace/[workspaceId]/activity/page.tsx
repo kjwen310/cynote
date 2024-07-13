@@ -22,7 +22,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 
   return (
     <div className="space-y-4 pb-8">
-      <CoverImage image={workspace?.imageLgUrl || ''} />
+      <CoverImage imageUrl={workspace?.imageLgUrl || ''} />
       <div className="space-y-8 px-8">
         <div className="flex items-center gap-x-4">
           <ActivityIcon className="w-5 h-5 flex-shrink-0 text-zinc-500 dark:text-zinc-300" />
