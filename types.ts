@@ -27,3 +27,5 @@ export type ActionState<TInput, TOutput> = {
   error?: string | null;
   data?: TOutput;
 };
+
+export type SectionItemType = 'taskBoard' | 'note';

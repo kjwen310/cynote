@@ -24,11 +24,11 @@ interface ActionProps {
 }
 
 export const Action = ({ card }: ActionProps) => {
+  const { onOpen, onClose } = useModal();
   const { toast } = useToast();
+
   const params = useParams();
   const { workspaceId, taskBoardId } = params;
-
-  const { onClose } = useModal();
 
   const { execute: executeCopy, isLoading: isCopyLoading } = useAction(
     copyTaskCard,
@@ -56,19 +56,30 @@ export const Action = ({ card }: ActionProps) => {
     }
   );
 
-  const onCopy = () =>
+  const onCopy = () => {
     executeCopy({
       taskCardId: card.id,
       workspaceId: workspaceId as string,
       taskBoardId: taskBoardId as string,
     });
+  };
 
-  const onDelete = () =>
-    executeDelete({
-      taskCardId: card.id,
-      workspaceId: workspaceId as string,
-      taskBoardId: taskBoardId as string,
+  const onDelete = () => {
+    onOpen('confirm', {
+      confirm: {
+        title: 'Delete Task Card',
+        description: 'Are you sure you want to delete this card?',
+        onConfirm: () => {
+          executeDelete({
+            taskCardId: card.id,
+            workspaceId: workspaceId as string,
+            taskBoardId: taskBoardId as string,
+          });
+        },
+        isLoading: isDeleteLoading,
+      },
     });
+  };
 
   if (isCopyLoading || isDeleteLoading) {
     return <Loading />;
@@ -81,7 +92,11 @@ export const Action = ({ card }: ActionProps) => {
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="start" className="max-w-[160px] px-0 py-3">
+      <PopoverContent
+        side="bottom"
+        align="start"
+        className="max-w-[160px] px-0 py-3"
+      >
         <Button
           variant="ghost"
           size="sm"

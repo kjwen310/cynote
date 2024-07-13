@@ -10,19 +10,17 @@ export type ModalType =
   | 'workspaceCollaborator'
   | 'workspaceInvite'
   | 'workspaceSetting'
-  | 'workspaceLeave'
-  | 'workspaceDelete'
   | 'taskBoardCreate'
   | 'taskBoardUpdateCover'
-  | 'taskBoardDelete'
   | 'taskCard'
   | 'noteCreate'
-  | 'noteUpdateCover'
-  | 'noteDelete';
+  | 'noteUpdateCover';
 
 type ConfirmData = {
   title: string;
   description?: string;
+  onConfirm: () => void;
+  isLoading: boolean;
 };
 
 interface ModalData {

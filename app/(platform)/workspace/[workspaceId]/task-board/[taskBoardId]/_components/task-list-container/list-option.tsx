@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { Copy, MoreHorizontal, Trash } from 'lucide-react';
 import { TaskList } from '@prisma/client';
 
+import { useModal } from '@/hooks/use-modal';
 import { useAction } from '@/hooks/use-action';
 import { deleteTaskList } from '@/actions/task/delete-task-list';
 import { copyTaskList } from '@/actions/task/copy-task-list';
@@ -22,21 +23,11 @@ interface ListOptionProps {
 }
 
 export const ListOption = ({ list }: ListOptionProps) => {
-  const params = useParams();
+  const { onOpen, onClose } = useModal();
   const { toast } = useToast();
-  const { workspaceId, taskBoardId } = params;
 
-  const { execute: executeDelete, isLoading: isDeleteLoading } = useAction(
-    deleteTaskList,
-    {
-      onSuccess: (data) => {
-        toast({
-          title: 'SUCCESS',
-          description: `Successfully delete list ${data.title}`,
-        });
-      },
-    }
-  );
+  const params = useParams();
+  const { workspaceId, taskBoardId } = params;
 
   const { execute: executeCopy, isLoading: isCopyLoading } = useAction(
     copyTaskList,
@@ -50,19 +41,43 @@ export const ListOption = ({ list }: ListOptionProps) => {
     }
   );
 
-  const onDelete = () =>
-    executeDelete({
-      taskListId: list.id,
-      workspaceId: workspaceId as string,
-      taskBoardId: taskBoardId as string,
-    });
+  const { execute: executeDelete, isLoading: isDeleteLoading } = useAction(
+    deleteTaskList,
+    {
+      onSuccess: (data) => {
+        toast({
+          title: 'SUCCESS',
+          description: `Successfully delete list ${data.title}`,
+        });
+      },
+      onFinally: onClose,
+    }
+  );
 
-  const onCopy = () =>
+  const onCopy = () => {
     executeCopy({
       taskListId: list.id,
       workspaceId: workspaceId as string,
       taskBoardId: taskBoardId as string,
     });
+  };
+
+  const onDelete = () => {
+    onOpen('confirm', {
+      confirm: {
+        title: 'Delete Task List',
+        description: 'Are you sure you want to delete this list?',
+        onConfirm: () => {
+          executeDelete({
+            taskListId: list.id,
+            workspaceId: workspaceId as string,
+            taskBoardId: taskBoardId as string,
+          });
+        },
+        isLoading: isDeleteLoading,
+      },
+    });
+  };
 
   if (isDeleteLoading || isCopyLoading) {
     return <Loading />;
@@ -75,7 +90,11 @@ export const ListOption = ({ list }: ListOptionProps) => {
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" align="start" className="max-w-[160px] px-0 py-2">
+      <PopoverContent
+        side="bottom"
+        align="start"
+        className="max-w-[160px] px-0 py-2"
+      >
         <Button
           variant="ghost"
           className="w-full h-auto justify-start text-sm p-2 px-5 rounded-none"

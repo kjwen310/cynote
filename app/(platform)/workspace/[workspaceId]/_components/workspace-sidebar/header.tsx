@@ -1,15 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  ChevronDown,
-  Settings,
-  UserPlus,
-  Users,
-  Trash,
-  LogOut,
-  Activity,
-} from 'lucide-react';
+import { ChevronDown, Settings, UserPlus, Users, Activity } from 'lucide-react';
 
 import { WorkspaceWithDetail } from '@/types';
 import { useModal } from '@/hooks/use-modal';
@@ -21,6 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { HeaderWorkspaceDelete } from './header-workspace-delete';
+import { HeaderWorkspaceLeave } from './header-workspace-leave';
 
 interface HeaderProps {
   workspace: WorkspaceWithDetail;
@@ -85,21 +79,9 @@ export const Header = ({
         <DropdownMenuSeparator />
 
         {isOwner ? (
-          <DropdownMenuItem
-            onClick={() => onOpen('workspaceDelete', { workspace })}
-            className="text-sm px-3 py-2 cursor-pointer text-rose-500"
-          >
-            Delete Workspace
-            <Trash className="w-4 h-4 ml-auto" />
-          </DropdownMenuItem>
+          <HeaderWorkspaceDelete workspace={workspace} />
         ) : (
-          <DropdownMenuItem
-            onClick={() => onOpen('workspaceLeave', { workspace })}
-            className="text-sm px-3 py-2 cursor-pointer text-rose-500"
-          >
-            Leave Workspace
-            <LogOut className="w-4 h-4 ml-auto" />
-          </DropdownMenuItem>
+          <HeaderWorkspaceLeave workspace={workspace} />
         )}
       </DropdownMenuContent>
     </DropdownMenu>

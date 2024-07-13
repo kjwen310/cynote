@@ -122,7 +122,7 @@ export const CreateTaskCard = ({ listId, isEditing, disableEditing, enableEditin
       <Button
         size="sm"
         variant="ghost"
-        className="w-full h-auto justify-start text-sm text-muted-foreground px-2 py-1 hover:bg-zinc-700"
+        className="w-full h-auto justify-start text-sm text-muted-foreground px-2 py-1 dark:hover:bg-zinc-700"
         onClick={enableEditing}
       >
         <Plus className="w-4 h-4 mr-2 text-[#87c0cd]" />
