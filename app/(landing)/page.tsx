@@ -14,14 +14,16 @@ export default function LandingPage() {
   return (
     <div
       className={cn(
-        'flex flex-col justify-center items-center',
+        'flex flex-col justify-center items-center space-y-8',
         textFont.className
       )}
     >
-      <section className="w-screen h-[600px] flex justify-center items-center bg-slate-200 pt-16">
+      <section className="w-screen h-[600px] flex justify-center items-center bg-slate-200 pt-16 px-4">
         <div className="flex flex-col justify-center items-center gap-y-4 text-center max-w-4xl">
-          <h1 className="text-6xl">Best Tool For Teamwork</h1>
-          <p className="text-lg">
+          <h1 className="text-5xl font-semibold leading-tight md:text-7xl">
+            Best Tool For Teamwork
+          </h1>
+          <p className="text-md text-zinc-600">
             Enhance your team's productivity and collaboration with the ultimate
             tool designed for seamless teamwork. Boost efficiency, streamline
             communication, and achieve your goals together with ease.
@@ -32,7 +34,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="max-w-4xl h-[600px] flex justify-center items-center mx-auto px-8">
+      <section className="max-w-5xl h-[600px] flex justify-center items-center mx-auto px-8">
         <div className="flex flex-col items-center gap-y-4 md:flex-row md:gap-x-12 md:gap-y-0">
           <Image
             src="/images/landing_1.svg"
@@ -41,10 +43,10 @@ export default function LandingPage() {
             alt="task"
           />
           <div className="flex flex-col gap-y-8">
-            <h2 className="text-2xl font-bold">
-              Create a task for you and anyone
+            <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+              Create Tasks for Anyone
             </h2>
-            <p className="text-lg text-slate-500">
+            <p className="text-md text-zinc-600">
               Simplify task management by creating tasks for yourself and
               others. Assign, track, and manage tasks effortlessly, ensuring
               everyone stays organized and on track.
@@ -53,8 +55,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="w-screen bg-slate-200 px-8">
-        <section className="max-w-4xl h-[600px] flex justify-center items-center mx-auto">
+      <div className="w-screen h-[600px] bg-slate-200 px-8">
+        <section className="max-w-4xl h-full flex justify-center items-center mx-auto">
           <div className="flex flex-col items-center gap-y-4 md:flex-row-reverse md:gap-x-12 md:gap-y-0">
             <Image
               src="/images/landing_2.svg"
@@ -63,14 +65,13 @@ export default function LandingPage() {
               alt="note"
             />
             <div className="flex flex-col gap-y-8">
-              <h2 className="text-2xl font-bold">
-                Share your note with productivity
+              <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+                Share Notes Seamlessly
               </h2>
-              <p className="text-lg text-slate-500">
+              <p className="text-md text-zinc-600">
                 Enhance collaboration and efficiency by sharing your notes
                 seamlessly. Empower your team with easy access to vital
-                information, fostering productivity and streamlined workflows.
-                Make knowledge sharing a key to success.
+                information and streamlined workflows.
               </p>
             </div>
           </div>
@@ -86,10 +87,10 @@ export default function LandingPage() {
             alt="workspace"
           />
           <div className="flex flex-col gap-y-8">
-            <h2 className="text-2xl font-bold">
-              Explore and connect with people
+            <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+              Explore and Connect
             </h2>
-            <p className="text-lg text-slate-500">
+            <p className="text-md text-zinc-600">
               Discover new opportunities and build meaningful connections.
               Engage with like-minded individuals, expand your network, and
               explore a world of possibilities through vibrant social
@@ -99,7 +100,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="w-screen flex justify-center bg-slate-200 py-8">
+      <section className="w-screen flex justify-center bg-slate-200 py-8 px-4">
         <div className="max-w-4xl flex flex-col items-center gap-y-8">
           <div className="relative max-w-4xl w-full h-[280px] md:w-[620px] md:h-[420px]">
             <Image
@@ -110,18 +111,16 @@ export default function LandingPage() {
             />
           </div>
           <div className="flex flex-col gap-y-8 text-center">
-            <h2 className="text-2xl font-bold">
-              Start your amazing trip today!
+            <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+              Start Your Amazing Trip Today!
             </h2>
-            <p className="text-lg text-slate-500">
-              Embark on an unforgettable journey with us. Discover new
-              destinations, create lasting memories, and experience the thrill
-              of adventure. Don't wait—begin your amazing trip today and explore
-              the world like never before.
+            <p className="text-md text-zinc-600">
+              Embark on an unforgettable journey with us. Don't wait—begin your
+              amazing trip today and explore the world like never before.
             </p>
           </div>
           <Button size="lg" asChild>
-            <Link href="/sign-in">Get Start</Link>
+            <Link href="/sign-in">Get Start For Free</Link>
           </Button>
         </div>
       </section>

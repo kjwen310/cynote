@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { UserRound } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/ui/mode-toggle';
+import { ModeToggle } from '@/components/shared-ui/mode-toggle';
 import { Logo } from '@/components/shared-ui/logo';
 
 export const Navbar = () => {
