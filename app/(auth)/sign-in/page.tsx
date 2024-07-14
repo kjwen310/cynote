@@ -76,7 +76,7 @@ export default function SignInPage() {
   return (
     <div className="flex-1 space-y-4 mx-auto max-w-lg rounded-md bg-slate-200 p-8">
       <div className="text-center">
-        <h2 className="text-2xl font-bold">Welcome Back!</h2>
+        <h2 className="text-2xl font-bold dark:text-slate-700">Welcome Back!</h2>
         <p className="text-sm text-slate-700">
           We're so excited to see you again!
         </p>
@@ -88,9 +88,13 @@ export default function SignInPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="dark:text-slate-700">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please enter email" {...field} />
+                  <Input
+                    placeholder="Please enter email"
+                    className="dark:bg-slate-100"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,9 +105,13 @@ export default function SignInPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="dark:text-slate-700">Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please enter password" {...field} />
+                  <Input
+                    placeholder="Please enter password"
+                    className="dark:bg-slate-100"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,15 +123,8 @@ export default function SignInPage() {
         </form>
       </Form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="px-2 text-muted-foreground">
-            or sign-in with third party
-          </span>
-        </div>
+      <div className="flex justify-center text-xs dark:text-slate-700">
+        or sign-in with third party
       </div>
 
       <div className="flex flex-col gap-4 mt-2">

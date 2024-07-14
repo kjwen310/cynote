@@ -83,9 +83,9 @@ export default function SignUpPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="dark:text-slate-700">Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please enter email" {...field} />
+                  <Input placeholder="Please enter email" className="dark:bg-slate-100" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,9 +96,13 @@ export default function SignUpPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="dark:text-slate-700">Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please enter password" {...field} />
+                  <Input
+                    placeholder="Please enter password"
+                    className="dark:bg-slate-100"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,9 +113,13 @@ export default function SignUpPage() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className="dark:text-slate-700">Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Please enter name" {...field} />
+                  <Input
+                    placeholder="Please enter name"
+                    className="dark:bg-slate-100"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,15 +134,8 @@ export default function SignUpPage() {
         </form>
       </Form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="px-2 text-muted-foreground">
-            or sign up with third party
-          </span>
-        </div>
+      <div className="flex justify-center text-xs dark:text-slate-700">
+        or sign up with third party
       </div>
 
       <div className="flex flex-col gap-4 mt-2">
