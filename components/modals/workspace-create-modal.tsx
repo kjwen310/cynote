@@ -98,10 +98,7 @@ export const WorkspaceCreateModal = () => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
-        >
+        <Button type="submit" className="w-full">
           Create
         </Button>
       </form>

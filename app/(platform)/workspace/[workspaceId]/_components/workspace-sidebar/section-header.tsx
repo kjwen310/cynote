@@ -14,6 +14,7 @@ interface SectionHeaderProps {
   modalType: ModalType;
   label: string;
   isOwner: boolean;
+  isReachLimit?: boolean;
 }
 
 const iconMap = {
@@ -28,8 +29,17 @@ export const SectionHeader = ({
   modalType,
   label,
   isOwner,
+  isReachLimit,
 }: SectionHeaderProps) => {
   const { onOpen } = useModal();
+
+  const onClick = () => {
+    if (isReachLimit && ['taskBoardCreate', 'noteCreate'].includes(modalType)) {
+      onOpen('subscription');
+    } else {
+      onOpen(modalType, { workspace, currentCollaboratorId });
+    }
+  };
 
   return (
     <div className="flex justify-between items-center py-2">
@@ -39,9 +49,7 @@ export const SectionHeader = ({
       {isOwner && (
         <button
           className="transition text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300"
-          onClick={() =>
-            onOpen(modalType, { workspace, currentCollaboratorId })
-          }
+          onClick={onClick}
         >
           {iconMap[actionType]}
         </button>

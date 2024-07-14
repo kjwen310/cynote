@@ -4,9 +4,12 @@ import { ClipboardCheck, FilePenLine } from 'lucide-react';
 import { Note, TaskBoard } from '@prisma/client';
 
 import { db } from '@/lib/prisma/db';
+import { checkSubscription } from '@/lib/stripe/subscription';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { noteLimit, taskBoardLimit } from '@/constant/none-subscription-limit';
 
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { CoverImage } from './_components/cover-image';
 import { CreateBtn } from './_components/create-btn';
 
@@ -61,7 +64,12 @@ export default async function WorkspaceIdPage({
     redirect('/');
   }
 
+  const isValid = await checkSubscription(workspaceId);
   const isOwner = collaborator.role === 'OWNER';
+
+  const isReachTaskBoardLimit =
+    !isValid && workspace.taskBoards.length >= taskBoardLimit;
+  const isReachNoteLimit = !isValid && workspace.notes.length >= noteLimit;
 
   return (
     <div className="space-y-8 pb-8">
@@ -69,7 +77,10 @@ export default async function WorkspaceIdPage({
 
       <div className="space-y-8 px-8">
         <section className="space-y-4">
-          <h1 className="text-5xl font-bold">{workspace.title}</h1>
+          <div className="flex items-center gap-x-4">
+            <h1 className="text-5xl font-bold">{workspace.title}</h1>
+            <Badge variant="outline">{isValid ? 'Advance' : 'Basic'}</Badge>
+          </div>
           <p className="text-md text-zinc-500 dark:text-zinc-300">
             {workspace.description}
           </p>
@@ -97,7 +108,7 @@ export default async function WorkspaceIdPage({
                 </div>
               </Link>
             ))}
-            <CreateBtn type="taskBoard" />
+            <CreateBtn type="taskBoard" isReachLimit={isReachTaskBoardLimit} />
           </div>
         </section>
 
@@ -124,7 +135,7 @@ export default async function WorkspaceIdPage({
                 </div>
               </a>
             ))}
-            <CreateBtn type="note" />
+            <CreateBtn type="note" isReachLimit={isReachNoteLimit} />
           </div>
         </section>
       </div>

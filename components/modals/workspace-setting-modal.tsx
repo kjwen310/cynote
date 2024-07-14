@@ -166,10 +166,7 @@ export const WorkspaceSettingModal = () => {
           )}
         />
         {isOwner && (
-          <Button
-            type="submit"
-            className="w-auto h-8 rounded-sm px-2 py-1.5 md:block"
-          >
+          <Button type="submit" className="w-full">
             Edit
           </Button>
         )}

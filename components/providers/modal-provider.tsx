@@ -13,6 +13,7 @@ import { TaskCardModal } from '@/components/modals/task-card-modal';
 import { NoteCreateModal } from '@/components/modals/note-create-modal';
 import { NoteUpdateCoverModal } from '@/components/modals/note-update-cover-modal';
 import { TaskBoardUpdateCoverModal } from '@/components/modals/task-board-update-cover-modal';
+import { SubscriptionModal } from '@/components/modals/subscription-modal';
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -38,6 +39,7 @@ export const ModalProvider = () => {
       <NoteCreateModal />
       <NoteUpdateCoverModal />
       <TaskBoardUpdateCoverModal />
+      <SubscriptionModal />
     </>
   );
 };

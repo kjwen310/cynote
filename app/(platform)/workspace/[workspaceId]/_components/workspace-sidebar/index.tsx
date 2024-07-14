@@ -11,18 +11,25 @@ interface WorkspaceSidebarProps {
   workspace: WorkspaceWithDetail;
   collaborator: Collaborator;
   isOwner: boolean;
+  isValid: boolean;
+  isReachTaskBoardLimit?: boolean;
+  isReachNoteLimit?: boolean;
 }
 
 export const WorkspaceSidebar = ({
   workspace,
   collaborator,
   isOwner,
+  isValid,
+  isReachTaskBoardLimit = false,
+  isReachNoteLimit = false,
 }: WorkspaceSidebarProps) => {
   return (
     <div className="flex flex-col w-full h-full text-primary bg-[#f2f3f5] dark:bg-[#2b2d31]">
       <Header
         currentCollaboratorId={collaborator.id}
         isOwner={isOwner}
+        isValid={isValid}
         workspace={workspace}
       />
       <ScrollArea className="flex-1 space-y-2 px-4">
@@ -51,6 +58,7 @@ export const WorkspaceSidebar = ({
             modalType="taskBoardCreate"
             label="Task Boards"
             isOwner={isOwner}
+            isReachLimit={isReachTaskBoardLimit}
           />
           <div className="space-y-[2px]">
             {workspace.taskBoards.length ? (
@@ -76,6 +84,7 @@ export const WorkspaceSidebar = ({
             modalType="noteCreate"
             label="Notes"
             isOwner={isOwner}
+            isReachLimit={isReachNoteLimit}
           />
           <div className="space-y-[2px]">
             {workspace.notes.length ? (

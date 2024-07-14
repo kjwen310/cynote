@@ -1,7 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronDown, Settings, UserPlus, Users, Activity } from 'lucide-react';
+import {
+  ChevronDown,
+  Settings,
+  UserPlus,
+  Users,
+  Activity,
+  CornerRightUp,
+} from 'lucide-react';
 
 import { WorkspaceWithDetail } from '@/types';
 import { useModal } from '@/hooks/use-modal';
@@ -13,18 +20,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 import { HeaderWorkspaceDelete } from './header-workspace-delete';
 import { HeaderWorkspaceLeave } from './header-workspace-leave';
 
 interface HeaderProps {
   workspace: WorkspaceWithDetail;
   isOwner: boolean;
+  isValid: boolean;
   currentCollaboratorId: string;
 }
 
 export const Header = ({
   workspace,
   isOwner,
+  isValid,
   currentCollaboratorId,
 }: HeaderProps) => {
   const { onOpen } = useModal();
@@ -33,7 +43,12 @@ export const Header = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none px-4" asChild>
         <button className="w-full h-12 flex items-center text-md font-semibold border-b-2 border-neutral-200 transition dark:border-neutral-800 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50">
-          {workspace.title}
+          <div className="flex items-center gap-x-2">
+            {workspace.title}
+            <Badge variant="outline" className="text-[10px]">
+              {isValid ? 'Advance' : 'Basic'}
+            </Badge>
+          </div>
           <ChevronDown className="w-6 h-6 ml-auto" />
         </button>
       </DropdownMenuTrigger>
@@ -69,6 +84,15 @@ export const Header = ({
           Workspace Settings
           <Settings className="w-4 h-4 ml-auto" />
         </DropdownMenuItem>
+        {!isValid && (
+          <DropdownMenuItem
+            onClick={() => onOpen('subscription')}
+            className="text-sm px-3 py-2 cursor-pointer"
+          >
+            Workspace Upgrade
+            <CornerRightUp className="w-4 h-4 ml-auto" />
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem className="text-sm px-3 py-2 cursor-pointer">
           <Link href={`/workspace/${workspace.id}/activity`}>
             Workspace Activities

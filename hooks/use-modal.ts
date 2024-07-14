@@ -14,7 +14,8 @@ export type ModalType =
   | 'taskBoardUpdateCover'
   | 'taskCard'
   | 'noteCreate'
-  | 'noteUpdateCover';
+  | 'noteUpdateCover'
+  | 'subscription';
 
 type ConfirmData = {
   title: string;

@@ -2,7 +2,9 @@ import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 
 import { db } from '@/lib/prisma/db';
+import { checkSubscription } from '@/lib/stripe/subscription';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
+import { noteLimit, taskBoardLimit } from '@/constant/none-subscription-limit';
 
 import Loading from '@/components/shared-ui/loading';
 import { WorkspaceSidebar } from './_components/workspace-sidebar';
@@ -102,7 +104,12 @@ export default async function WorkspaceIdLayout({
     redirect('/');
   }
 
+  const isValid = await checkSubscription(workspaceId);
   const isOwner = collaborator.role === 'OWNER';
+
+  const isReachTaskBoardLimit =
+    !isValid && workspace.taskBoards.length >= taskBoardLimit;
+  const isReachNoteLimit = !isValid && workspace.notes.length >= noteLimit;
 
   return (
     <div className="h-full">
@@ -113,6 +120,9 @@ export default async function WorkspaceIdLayout({
           workspace={workspace}
           collaborator={collaborator}
           isOwner={isOwner}
+          isValid={isValid}
+          isReachTaskBoardLimit={isReachTaskBoardLimit}
+          isReachNoteLimit={isReachNoteLimit}
         />
       </div>
       <div className="fixed z-20 hidden w-[240px] h-full flex-col inset-y-0 md:flex">
@@ -120,6 +130,9 @@ export default async function WorkspaceIdLayout({
           workspace={workspace}
           collaborator={collaborator}
           isOwner={isOwner}
+          isValid={isValid}
+          isReachTaskBoardLimit={isReachTaskBoardLimit}
+          isReachNoteLimit={isReachNoteLimit}
         />
       </div>
       <main className="h-full md:pl-[240px]">
