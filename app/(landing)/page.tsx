@@ -20,7 +20,7 @@ export default function LandingPage() {
     >
       <section className="w-screen h-[600px] flex justify-center items-center bg-slate-200 pt-16 px-4">
         <div className="flex flex-col justify-center items-center gap-y-4 text-center max-w-4xl">
-          <h1 className="text-5xl font-semibold leading-tight md:text-7xl">
+          <h1 className="text-5xl font-semibold leading-tight md:text-7xl dark:text-zinc-700">
             Best Tool For Teamwork
           </h1>
           <p className="text-md text-zinc-600">
@@ -65,7 +65,7 @@ export default function LandingPage() {
               alt="note"
             />
             <div className="flex flex-col gap-y-8">
-              <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+              <h2 className="text-5xl font-semibold leading-tight md:text-7xl dark:text-zinc-700">
                 Share Notes Seamlessly
               </h2>
               <p className="text-md text-zinc-600">
@@ -111,7 +111,7 @@ export default function LandingPage() {
             />
           </div>
           <div className="flex flex-col gap-y-8 text-center">
-            <h2 className="text-5xl font-semibold leading-tight md:text-7xl">
+            <h2 className="text-5xl font-semibold leading-tight md:text-7xl dark:text-zinc-700">
               Start Your Amazing Trip Today!
             </h2>
             <p className="text-md text-zinc-600">

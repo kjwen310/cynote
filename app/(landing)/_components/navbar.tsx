@@ -12,7 +12,7 @@ export const Navbar = () => {
       <div className="flex items-center space-x-2">
         <Button size="sm" variant="ghost" asChild>
           <Link href="/sign-in">
-            <UserRound className="w-4 h-4" />
+            <UserRound className="h-[1.2rem] w-[1.2rem]" />
           </Link>
         </Button>
         <ModeToggle />
