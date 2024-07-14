@@ -35,7 +35,7 @@ export const WorkspaceSidebar = ({
             label="Collaborators"
             isOwner={isOwner}
           />
-          <div className="space-x-2">
+          <div className="flex flex-wrap items-center gap-1">
             {!!workspace.collaborators.length &&
               workspace.collaborators.map((collaborator) => (
                 <CollaboratorItem
