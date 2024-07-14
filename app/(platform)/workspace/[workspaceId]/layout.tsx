@@ -1,8 +1,10 @@
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 
 import { db } from '@/lib/prisma/db';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 
+import Loading from '@/components/shared-ui/loading';
 import { WorkspaceSidebar } from './_components/workspace-sidebar';
 import { MobileSidebarTrigger } from '../../_components/nav-sidebar/mobile-sidebar-trigger';
 
@@ -120,7 +122,9 @@ export default async function WorkspaceIdLayout({
           isOwner={isOwner}
         />
       </div>
-      <main className="h-full md:pl-[240px]">{children}</main>
+      <main className="h-full md:pl-[240px]">
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+      </main>
     </div>
   );
 }

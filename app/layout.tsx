@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -5,6 +6,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/constant/site-config';
 
+import Loading from '@/components/shared-ui/loading';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
@@ -43,7 +45,9 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="cynote-theme"
           >
-            <main>{children}</main>
+            <main>
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </main>
             <ModalProvider />
             <Toaster />
           </ThemeProvider>
