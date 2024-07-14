@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { PartialBlock } from '@blocknote/core';
 
 import { useAction } from '@/hooks/use-action';
+import { useUnsaved } from '@/hooks/use-unsaved';
 import { updateNoteContent } from '@/actions/note/update-note-content';
 
 import { useToast } from '@/components/ui/use-toast';
@@ -22,12 +23,15 @@ interface NoteEditorProps {
 }
 
 export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
+  const [isDirty, setIsDirty] = useState(false);
   const [editorContent, setEditorContent] = useState<PartialBlock[]>([]);
   const [initialContent, setInitialContent] = useState<
     PartialBlock[] | undefined
   >([]);
 
   const { toast } = useToast();
+  useUnsaved(isDirty);
+
   const params = useParams();
   const { workspaceId, noteId } = params;
 
@@ -45,6 +49,7 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
         description: `Successfully Updated content`,
       });
     },
+    onFinally: () => setIsDirty(false),
   });
 
   const onUpdateContent = () => {
@@ -61,6 +66,7 @@ export default function NoteEditor({ dataContent, isAuthor }: NoteEditorProps) {
   const onChange = (blockContent: PartialBlock[]) => {
     if (!blockContent) return;
     setEditorContent(blockContent);
+    setIsDirty(true);
   };
 
   return (
