@@ -20,7 +20,7 @@ interface MobileSidebarTriggerProps {
   workspace?: WorkspaceWithDetail;
   collaborator?: Collaborator;
   isOwner?: boolean;
-  isValid?: boolean;
+  isAdvance?: boolean;
   isReachTaskBoardLimit?: boolean;
   isReachNoteLimit?: boolean;
 }
@@ -31,7 +31,7 @@ export const MobileSidebarTrigger = ({
   workspace,
   collaborator,
   isOwner = false,
-  isValid = false,
+  isAdvance = false,
   isReachTaskBoardLimit,
   isReachNoteLimit,
 }: MobileSidebarTriggerProps) => {
@@ -77,7 +77,7 @@ export const MobileSidebarTrigger = ({
                   workspace={workspace}
                   collaborator={collaborator}
                   isOwner={isOwner}
-                  isValid={isValid}
+                  isAdvance={isAdvance}
                   isReachTaskBoardLimit={isReachTaskBoardLimit}
                   isReachNoteLimit={isReachNoteLimit}
                 />

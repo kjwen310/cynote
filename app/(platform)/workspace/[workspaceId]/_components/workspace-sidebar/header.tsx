@@ -27,14 +27,14 @@ import { HeaderWorkspaceLeave } from './header-workspace-leave';
 interface HeaderProps {
   workspace: WorkspaceWithDetail;
   isOwner: boolean;
-  isValid: boolean;
+  isAdvance: boolean;
   currentCollaboratorId: string;
 }
 
 export const Header = ({
   workspace,
   isOwner,
-  isValid,
+  isAdvance,
   currentCollaboratorId,
 }: HeaderProps) => {
   const { onOpen } = useModal();
@@ -46,7 +46,7 @@ export const Header = ({
           <div className="flex items-center gap-x-2">
             {workspace.title}
             <Badge variant="outline" className="text-[10px]">
-              {isValid ? 'Advance' : 'Basic'}
+              {isAdvance ? 'Advance' : 'Basic'}
             </Badge>
           </div>
           <ChevronDown className="w-6 h-6 ml-auto" />
@@ -84,7 +84,7 @@ export const Header = ({
           Workspace Settings
           <Settings className="w-4 h-4 ml-auto" />
         </DropdownMenuItem>
-        {!isValid && (
+        {!isAdvance && (
           <DropdownMenuItem
             onClick={() => onOpen('subscription')}
             className="text-sm px-3 py-2 cursor-pointer"

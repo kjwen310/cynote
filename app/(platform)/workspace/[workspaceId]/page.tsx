@@ -64,12 +64,12 @@ export default async function WorkspaceIdPage({
     redirect('/');
   }
 
-  const isValid = await checkSubscription(workspaceId);
+  const isAdvance = await checkSubscription(workspaceId);
   const isOwner = collaborator.role === 'OWNER';
 
   const isReachTaskBoardLimit =
-    !isValid && workspace.taskBoards.length >= taskBoardLimit;
-  const isReachNoteLimit = !isValid && workspace.notes.length >= noteLimit;
+    !isAdvance && workspace.taskBoards.length >= taskBoardLimit;
+  const isReachNoteLimit = !isAdvance && workspace.notes.length >= noteLimit;
 
   return (
     <div className="space-y-8 pb-8">
@@ -79,7 +79,7 @@ export default async function WorkspaceIdPage({
         <section className="space-y-4">
           <div className="flex items-center gap-x-4">
             <h1 className="text-5xl font-bold">{workspace.title}</h1>
-            <Badge variant="outline">{isValid ? 'Advance' : 'Basic'}</Badge>
+            <Badge variant="outline">{isAdvance ? 'Advance' : 'Basic'}</Badge>
           </div>
           <p className="text-md text-zinc-500 dark:text-zinc-300">
             {workspace.description}

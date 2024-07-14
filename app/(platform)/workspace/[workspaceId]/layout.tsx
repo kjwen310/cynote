@@ -104,12 +104,12 @@ export default async function WorkspaceIdLayout({
     redirect('/');
   }
 
-  const isValid = await checkSubscription(workspaceId);
+  const isAdvance = await checkSubscription(workspaceId);
   const isOwner = collaborator.role === 'OWNER';
 
   const isReachTaskBoardLimit =
-    !isValid && workspace.taskBoards.length >= taskBoardLimit;
-  const isReachNoteLimit = !isValid && workspace.notes.length >= noteLimit;
+    !isAdvance && workspace.taskBoards.length >= taskBoardLimit;
+  const isReachNoteLimit = !isAdvance && workspace.notes.length >= noteLimit;
 
   return (
     <div className="h-full">
@@ -120,7 +120,7 @@ export default async function WorkspaceIdLayout({
           workspace={workspace}
           collaborator={collaborator}
           isOwner={isOwner}
-          isValid={isValid}
+          isAdvance={isAdvance}
           isReachTaskBoardLimit={isReachTaskBoardLimit}
           isReachNoteLimit={isReachNoteLimit}
         />
@@ -130,7 +130,7 @@ export default async function WorkspaceIdLayout({
           workspace={workspace}
           collaborator={collaborator}
           isOwner={isOwner}
-          isValid={isValid}
+          isAdvance={isAdvance}
           isReachTaskBoardLimit={isReachTaskBoardLimit}
           isReachNoteLimit={isReachNoteLimit}
         />

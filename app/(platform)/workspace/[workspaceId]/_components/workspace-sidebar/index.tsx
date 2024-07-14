@@ -11,7 +11,7 @@ interface WorkspaceSidebarProps {
   workspace: WorkspaceWithDetail;
   collaborator: Collaborator;
   isOwner: boolean;
-  isValid: boolean;
+  isAdvance: boolean;
   isReachTaskBoardLimit?: boolean;
   isReachNoteLimit?: boolean;
 }
@@ -20,7 +20,7 @@ export const WorkspaceSidebar = ({
   workspace,
   collaborator,
   isOwner,
-  isValid,
+  isAdvance,
   isReachTaskBoardLimit = false,
   isReachNoteLimit = false,
 }: WorkspaceSidebarProps) => {
@@ -29,7 +29,7 @@ export const WorkspaceSidebar = ({
       <Header
         currentCollaboratorId={collaborator.id}
         isOwner={isOwner}
-        isValid={isValid}
+        isAdvance={isAdvance}
         workspace={workspace}
       />
       <ScrollArea className="flex-1 space-y-2 px-4">
