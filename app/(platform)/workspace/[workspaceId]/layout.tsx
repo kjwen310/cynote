@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 
 import { db } from '@/lib/prisma/db';
@@ -6,7 +5,6 @@ import { checkSubscription } from '@/lib/stripe/subscription';
 import { getCurrentUser } from '@/actions/auth/get-current-user';
 import { noteLimit, taskBoardLimit } from '@/constant/none-subscription-limit';
 
-import Loading from '@/components/shared-ui/loading';
 import { WorkspaceSidebar } from './_components/workspace-sidebar';
 import { MobileSidebarTrigger } from '../../_components/nav-sidebar/mobile-sidebar-trigger';
 
@@ -135,9 +133,7 @@ export default async function WorkspaceIdLayout({
           isReachNoteLimit={isReachNoteLimit}
         />
       </div>
-      <main className="h-full md:pl-[240px]">
-        <Suspense fallback={<Loading />}>{children}</Suspense>
-      </main>
+      <main className="h-full md:pl-[240px]">{children}</main>
     </div>
   );
 }
