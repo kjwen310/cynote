@@ -106,8 +106,8 @@ export default async function WorkspaceIdLayout({
   const isOwner = collaborator.role === 'OWNER';
 
   const isReachTaskBoardLimit =
-    !isAdvance && workspace.taskBoards.length >= taskBoardLimit;
-  const isReachNoteLimit = !isAdvance && workspace.notes.length >= noteLimit;
+    !isAdvance && workspace.taskBoards?.length >= taskBoardLimit;
+  const isReachNoteLimit = !isAdvance && workspace.notes?.length >= noteLimit;
 
   return (
     <div className="h-full">

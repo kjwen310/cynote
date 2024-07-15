@@ -32,8 +32,8 @@ export const MobileSidebarTrigger = ({
   collaborator,
   isOwner = false,
   isAdvance = false,
-  isReachTaskBoardLimit,
-  isReachNoteLimit,
+  isReachTaskBoardLimit = false,
+  isReachNoteLimit = false,
 }: MobileSidebarTriggerProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const { isOpen, onOpen, onClose } = useMobileSidebar();
