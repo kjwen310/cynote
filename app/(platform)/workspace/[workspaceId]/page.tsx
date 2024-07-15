@@ -68,8 +68,8 @@ export default async function WorkspaceIdPage({
   const isOwner = collaborator.role === 'OWNER';
 
   const isReachTaskBoardLimit =
-    !isAdvance && workspace.taskBoards.length >= taskBoardLimit;
-  const isReachNoteLimit = !isAdvance && workspace.notes.length >= noteLimit;
+    !isAdvance && workspace.taskBoards?.length >= taskBoardLimit;
+  const isReachNoteLimit = !isAdvance && workspace.notes?.length >= noteLimit;
 
   return (
     <div className="space-y-8 pb-8">
@@ -94,7 +94,7 @@ export default async function WorkspaceIdPage({
             <h2 className="text-xl font-semibold">Task Boards</h2>
           </div>
           <div className="w-full grid gap-4 grid-cols-2 sm:grid-cols-3">
-            {workspace.taskBoards.map((board: TaskBoard) => (
+            {workspace.taskBoards?.map((board: TaskBoard) => (
               <Link
                 key={board.id}
                 href={`/workspace/${workspaceId}/task-board/${board.id}`}
@@ -120,7 +120,7 @@ export default async function WorkspaceIdPage({
             <h2 className="text-xl font-semibold">Notes</h2>
           </div>
           <div className="w-full grid gap-4 grid-cols-2 sm:grid-cols-3">
-            {workspace.notes.map((note: Note) => (
+            {workspace.notes?.map((note: Note) => (
               // Need to find other solutions
               <a
                 key={note.id}
